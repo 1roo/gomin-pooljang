@@ -1,0 +1,251 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+/>
+
+<link rel="stylesheet" href="../static/css/header.css" />
+<div class="header">
+  <div class="container">
+    <img class="logo" src="../static/images/logo.png" alt="logo" class="logo" />
+  </div>
+  <div class="container">
+    <div class="container2 container2-2">
+      <!-- <div style="height: 120px" class="menuWrap">
+        <button class="header-menu-1 header-menu" onclick="menu1">
+          <h1 style="font-size: 41px; height: 25px; margin-top: auto">메뉴1</h1>
+          <div class="bar"></div>
+        </button>
+      </div> -->
+
+      <div class="div-wrap first_hover_menu_QuerySelect">
+        <div class="div-menu-wrap">
+          <button
+            class="header-hover-menu header-hover-menu-1"
+            onclick="menu1_1()"
+          >
+            <h1 class="menu">메뉴1-1</h1>
+            <div class="bar"></div>
+          </button>
+        </div>
+        <div class="div-menu-wrap">
+          <button
+            class="header-hover-menu header-hover-menu-1"
+            onclick="menu1_2()"
+          >
+            <h1 class="menu">메뉴1-2</h1>
+            <div class="bar"></div>
+          </button>
+        </div>
+        <div class="div-menu-wrap">
+          <button
+            class="header-hover-menu header-hover-menu-1"
+            onclick="menu1_3()"
+          >
+            <h1 class="menu">메뉴1-3</h1>
+            <div class="bar"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container2 container2-3">
+      <div style="height: 120px" class="menuWrap">
+        <button class="header-menu-2 header-menu" onclick="menu1()">
+          <img src="../static/images/myinfo.png" alt="login" />
+          <!-- <h1 style="font-size: 38px; height: 25px; margin-top: auto">
+            로그인
+          </h1> -->
+          <div class="bar"></div>
+        </button>
+        <button class="sidebar-button" onclick="side_menubar()">
+          <i class="fa-solid fa-bars fa-5x"></i>
+        </button>
+      </div>
+
+      <div class="div-wrap second_hover_menu_QuerySelect">
+        <div class="div-menu-wrap">
+          <button
+            class="header-hover-menu header-hover-menu-2"
+            onclick="menu2_1()()"
+          >
+            <h1 class="menu" style="font-size: 25px">받은쪽지</h1>
+            <div class="bar"></div>
+          </button>
+        </div>
+        <div class="div-menu-wrap">
+          <button
+            class="header-hover-menu header-hover-menu-2"
+            onclick="menu2_2()()"
+          >
+            <h1 class="menu" style="font-size: 25px">보낸쪽지</h1>
+            <div class="bar"></div>
+          </button>
+        </div>
+        <div class="div-menu-wrap">
+          <button
+            class="header-hover-menu header-hover-menu-2"
+            onclick="menu2_3()()"
+          >
+            <h1 class="menu" style="font-size: 25px">비번변경</h1>
+            <div class="bar"></div>
+          </button>
+        </div>
+        <div class="div-menu-wrap">
+          <button
+            class="header-hover-menu header-hover-menu-2"
+            onclick="menu2_4()()"
+          >
+            <h1 class="menu" style="font-size: 25px">로그아웃</h1>
+            <div class="bar"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btn_header_menu_1 = document.querySelectorAll(".header-menu-1");
+    const btn_header_menu_2 = document.querySelectorAll(".header-menu-2");
+    const btn_header_hover_menu_1 = document.querySelectorAll(
+      ".header-hover-menu-1"
+    );
+    const btn_header_hover_menu_2 = document.querySelectorAll(
+      ".header-hover-menu-2"
+    );
+    const bar = document.querySelectorAll(".bar");
+    const fir_hover_menu = document.querySelector(
+      ".first_hover_menu_QuerySelect"
+    );
+    const sec_hover_menu = document.querySelector(
+      ".second_hover_menu_QuerySelect"
+    );
+
+    fir_hover_menu.addEventListener("mouseleave", function () {
+      const hover_btn = document.querySelectorAll(
+        ".first_hover_menu_QuerySelect button"
+      );
+
+      this.classList.add("shrinkHeight");
+      for (const a of hover_btn) {
+        a.style.visibility = "hidden";
+      }
+    });
+
+    sec_hover_menu.addEventListener("mouseleave", function () {
+      const hover_btn = document.querySelectorAll(
+        ".second_hover_menu_QuerySelect button"
+      );
+      this.classList.add("shrinkHeight");
+
+      for (const a of hover_btn) {
+        a.style.visibility = "hidden";
+      }
+    });
+
+    for (const a of btn_header_menu_1) {
+      a.addEventListener("mouseenter", function () {
+        console.log("header menu mouseenter");
+        const hover_btn = document.querySelectorAll(
+          ".first_hover_menu_QuerySelect button"
+        );
+        for (const a of hover_btn) {
+          a.style.visibility = "visible";
+        }
+        a.children[1].classList.add("expandWidth");
+        a.children[1].classList.remove("shrinkWidth");
+        console.log(a.parentElement.parentElement.innerHTML);
+        console.log(a.parentElement.parentElement.children[1].innerHTML);
+        a.parentElement.parentElement.children[1].classList.add("expandHeight");
+        a.parentElement.parentElement.children[1].style.visibility = "visible";
+        a.parentElement.parentElement.children[1].classList.remove(
+          "shrinkHeight"
+        );
+        a.addEventListener("mouseleave", function () {
+          a.children[1].classList.add("shrinkWidth");
+          a.children[1].classList.remove("expandWidth");
+        });
+      });
+    }
+    for (const a of btn_header_menu_2) {
+      a.addEventListener("mouseenter", function () {
+        console.log("header menu mouseenter");
+        const hover_btn = document.querySelectorAll(
+          ".second_hover_menu_QuerySelect button"
+        );
+        for (const a of hover_btn) {
+          a.style.visibility = "visible";
+        }
+        a.children[1].classList.add("expandWidth");
+        a.children[1].classList.remove("shrinkWidth");
+        console.log(a.parentElement.parentElement.innerHTML);
+        console.log(a.parentElement.parentElement.children[1].innerHTML);
+        a.parentElement.parentElement.children[1].classList.add("expandHeight");
+        a.parentElement.parentElement.children[1].style.visibility = "visible";
+        a.parentElement.parentElement.children[1].classList.remove(
+          "shrinkHeight"
+        );
+        a.addEventListener("mouseleave", function () {
+          console.log("header menu mouseleave");
+          a.children[1].classList.add("shrinkWidth");
+          a.children[1].classList.remove("expandWidth");
+        });
+      });
+    }
+
+    for (const a of btn_header_hover_menu_1) {
+      a.addEventListener("mouseenter", function () {
+        a.children[1].classList.add("expandWidth");
+        a.children[1].classList.remove("shrinkWidth");
+        console.log("밑에 메뉴 입니다 mouseenter .^^");
+      });
+      a.addEventListener("mouseleave", function () {
+        a.children[1].classList.add("shrinkWidth");
+        a.children[1].classList.remove("expandWidth");
+        console.log("밑에 메뉴 입니다 mouseleave.^^");
+      });
+    }
+
+    for (const a of btn_header_hover_menu_2) {
+      a.addEventListener("mouseenter", function () {
+        a.children[1].classList.add("expandWidth");
+        a.children[1].classList.remove("shrinkWidth");
+        console.log("밑에 메뉴 입니다 mouseenter.^^");
+      });
+      a.addEventListener("mouseleave", function () {
+        a.children[1].classList.add("shrinkWidth");
+        console.log("밑에 메뉴 입니다 mouseleave.^^");
+      });
+    }
+
+    function menu1() {
+      alert("메뉴1입니다");
+    }
+    function login() {
+      alert("로그인입니다");
+    }
+    function menu1_1() {
+      alert("메뉴1-1입니다");
+    }
+    function menu1_2() {
+      alert("메뉴1-2입니다");
+    }
+    function menu1_3() {
+      alert("메뉴1-3입니다");
+    }
+    function menu2_1() {
+      alert("받은쪽지 입니다.");
+    }
+    function menu2_2() {
+      alert("보낸쪽지 입니다");
+    }
+    function menu2_3() {
+      alert("비번변경 입니다다");
+    }
+    function menu2_4() {
+      alert("로그아웃 입니다");
+    }
+    function side_menubar() {
+      alert("사이드 메뉴바 입니다");
+    }
+  </script>
+</div>

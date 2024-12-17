@@ -1,6 +1,6 @@
-const models = require("../models/index");
+// const models = require("../models/index");
 
-/* '/' GET */
-exports.main = (req, res) => {
-  res.render("index");
-};
+// /* '/' GET */
+// exports.main = (req, res) => {
+//   res.render("index");
+// };
