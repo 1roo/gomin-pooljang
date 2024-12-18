@@ -144,7 +144,7 @@
 
     for (const a of btn_header_menu_1) {
       a.addEventListener("mouseenter", function () {
-        console.log("header menu mouseenter");
+        // console.log("header menu mouseenter");
         const hover_btn = document.querySelectorAll(
           ".first_hover_menu_QuerySelect button"
         );
@@ -153,8 +153,8 @@
         }
         a.children[1].classList.add("expandWidth");
         a.children[1].classList.remove("shrinkWidth");
-        console.log(a.parentElement.parentElement.innerHTML);
-        console.log(a.parentElement.parentElement.children[1].innerHTML);
+        // console.log(a.parentElement.parentElement.innerHTML);
+        // console.log(a.parentElement.parentElement.children[1].innerHTML);
         a.parentElement.parentElement.children[1].classList.add("expandHeight");
         a.parentElement.parentElement.children[1].style.visibility = "visible";
         a.parentElement.parentElement.children[1].classList.remove(
@@ -168,7 +168,7 @@
     }
     for (const a of btn_header_menu_2) {
       a.addEventListener("mouseenter", function () {
-        console.log("header menu mouseenter");
+        // console.log("header menu mouseenter");
         const hover_btn = document.querySelectorAll(
           ".second_hover_menu_QuerySelect button"
         );
@@ -177,15 +177,15 @@
         }
         a.children[1].classList.add("expandWidth");
         a.children[1].classList.remove("shrinkWidth");
-        console.log(a.parentElement.parentElement.innerHTML);
-        console.log(a.parentElement.parentElement.children[1].innerHTML);
+        // console.log(a.parentElement.parentElement.innerHTML);
+        // console.log(a.parentElement.parentElement.children[1].innerHTML);
         a.parentElement.parentElement.children[1].classList.add("expandHeight");
         a.parentElement.parentElement.children[1].style.visibility = "visible";
         a.parentElement.parentElement.children[1].classList.remove(
           "shrinkHeight"
         );
         a.addEventListener("mouseleave", function () {
-          console.log("header menu mouseleave");
+          // console.log("header menu mouseleave");
           a.children[1].classList.add("shrinkWidth");
           a.children[1].classList.remove("expandWidth");
         });
@@ -196,12 +196,12 @@
       a.addEventListener("mouseenter", function () {
         a.children[1].classList.add("expandWidth");
         a.children[1].classList.remove("shrinkWidth");
-        console.log("밑에 메뉴 입니다 mouseenter .^^");
+        // console.log("밑에 메뉴 입니다 mouseenter .^^");
       });
       a.addEventListener("mouseleave", function () {
         a.children[1].classList.add("shrinkWidth");
         a.children[1].classList.remove("expandWidth");
-        console.log("밑에 메뉴 입니다 mouseleave.^^");
+        // console.log("밑에 메뉴 입니다 mouseleave.^^");
       });
     }
 
@@ -209,11 +209,11 @@
       a.addEventListener("mouseenter", function () {
         a.children[1].classList.add("expandWidth");
         a.children[1].classList.remove("shrinkWidth");
-        console.log("밑에 메뉴 입니다 mouseenter.^^");
+        // console.log("밑에 메뉴 입니다 mouseenter.^^");
       });
       a.addEventListener("mouseleave", function () {
         a.children[1].classList.add("shrinkWidth");
-        console.log("밑에 메뉴 입니다 mouseleave.^^");
+        // console.log("밑에 메뉴 입니다 mouseleave.^^");
       });
     }
 

@@ -4,17 +4,171 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GOMIN Pooljang</title>
-    <link rel="stylesheet" href="../static/css/index.css" />
+    <link rel="stylesheet" href="../static/css/mypage.css" />
   </head>
   <body>
     <div class="index-container-wrap">
       <div class="index-container">
-        <%-include('./header') %>
-        <h1>
-          asdklaskdla kdasld kalsd kaasdasdasasdasdadsdasdasdadsls kdlaskd asld
-          kalskd lak laskdaslk dlas
-        </h1>
+        <%-include('./include/header') %>
+        <div class="main-body">
+          <div class="temp"></div>
+          <div class="board">
+            <div class="notice">
+              <h1>공지사항: asdㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇasdasdasdasdadadsad</h1>
+            </div>
+            <div class="main-table">
+              <div class="main-table-col">
+                <button class="tab_send_btn tab-btn" onclick="tab_btn()">
+                  <h1>내가 보낸 고민민</h1>
+                </button>
+              </div>
+              <div class="main-table-col">
+                <button class="tab_res_btn tab-btn" onclick="tab_btn2()">
+                  <h1>내가 받은 고민민</h1>
+                </button>
+              </div>
+            </div>
+
+            <!-- 내가 보낸 고민 탭 클릭시 보여줌 -->
+            <div class="tab">
+              <div class="main-table-th">
+                <div style="width: 80%; height: 100%" class="main-table-th-col">
+                  <h1>고민제목</h1>
+                </div>
+                <div style="width: 20%; height: 100%" class="main-table-th-col">
+                  <h1>날짜</h1>
+                </div>
+              </div>
+
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 엄마랑 싸웠어요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 엄마랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 엄마랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 엄마랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 엄마랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+
+              <div style="text-align: center">
+                <h1>1, 2, 3, 4, 5</h1>
+              </div>
+            </div>
+            <!-- 여기까지 보여줌-->
+
+            <!-- 내가 받은 고민 탭 클릭시 보여줌 -->
+            <div class="tab-2">
+              <div class="main-table-th">
+                <div style="width: 80%; height: 100%" class="main-table-th-col">
+                  <h1>고민제목</h1>
+                </div>
+                <div style="width: 20%; height: 100%" class="main-table-th-col">
+                  <h1>날짜</h1>
+                </div>
+              </div>
+
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 아빠랑 싸웠어요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 아빠랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 아빠랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 아빠랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+              <div class="main-table-th">
+                <div style="width: 80%" class="main-table-th-col">
+                  <h1>오늘 아빠랑 싸웠어요요</h1>
+                </div>
+                <div style="width: 20%" class="main-table-th-col">
+                  <h1>2024/12/18</h1>
+                </div>
+              </div>
+
+              <div style="text-align: center">
+                <h1>1, 2, 3, 4, 5</h1>
+              </div>
+            </div>
+            <!-- 여기까지 보여줌-->
+          </div>
+
+          <div class="ad"></div>
+        </div>
       </div>
     </div>
+
+    <script>
+      function tab_btn() {
+        const tab = document.querySelector(".tab");
+        const tab2 = document.querySelector(".tab-2");
+        console.log("탭1 클릭했습니다.");
+        tab.style.display = "block";
+        tab2.style.display = "none";
+      }
+
+      function tab_btn2() {
+        const tab = document.querySelector(".tab");
+        const tab2 = document.querySelector(".tab-2");
+        console.log("탭2 클릭했습니다.");
+        tab2.style.display = "block";
+        tab.style.display = "none";
+      }
+    </script>
   </body>
 </html>
