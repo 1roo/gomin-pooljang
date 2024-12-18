@@ -9,7 +9,8 @@
   <body>
     <div class="index-container-wrap">
       <div class="index-container">
-        <%-include('./include/header') %>
+        <%-include('./include/header') %> <%-include('./include/notification')
+        %>
         <div class="letter">
           <div class="announcement">
             <img src="/static/images/pool_anno.png" alt="pool" />
@@ -57,7 +58,6 @@
           </form>
         </div>
       </div>
-      <div class="index-container"><%-include('./include/header') %></div>
     </div>
   </body>
 </html>
