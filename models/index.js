@@ -22,6 +22,7 @@ UserModel.hasMany(MessageModel, {
   foreignKey: "userId",
   sourceKey: "userId",
 });
+
 MessageModel.belongsTo(UserModel, {
   foreignKey: "userId",
   targetKey: "userId",
