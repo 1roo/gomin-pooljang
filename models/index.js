@@ -15,6 +15,18 @@ let sequelize = new Sequelize(
   config
 );
 
+const UserModel = require("./User")(sequelize, Sequelize);
+const MessageModel = require("./Message")(sequelize, Sequelize);
+
+UserModel.hasMany(MessageModel, {
+  foreignKey: "userId",
+  sourceKey: "userId",
+});
+MessageModel.belongsTo(UserModel, {
+  foreignKey: "userId",
+  targetKey: "userId",
+});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
