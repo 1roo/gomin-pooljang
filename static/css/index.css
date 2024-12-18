@@ -1,7 +1,6 @@
 .index-container-wrap {
   max-width: 100%;
   min-width: 1200px;
-
   display: flex;
   justify-content: center;
   border: 1px solid black;
@@ -13,8 +12,145 @@
   height: 2000px;
   overflow-wrap: break-word;
   border: 1px solid red;
+  position: relative;
 }
 
 .logo {
   width: 100%;
+}
+
+.letter {
+  padding-top: 50px;
+  margin-top: 50px;
+  width: 670px;
+  height: 800px;
+  border-radius: 15px;
+  background-color: rgb(210, 238, 229);
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block; /* 유지 */
+  justify-content: center;
+  /* align-items: flex-start; */
+  text-align: center; /* 중앙 정렬을 위해 추가 */
+}
+
+.letter img {
+  width: 50px;
+  display: block; /* 이미지를 block으로 설정해주어 아래로 배치되도록 함 */
+  margin-top: 20px; /* 이미지와 .announcement div 사이에 여백을 추가 */
+}
+
+.announcement {
+  width: 600px;
+  border-radius: 25px;
+  background-color: rgb(184, 237, 250);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+span {
+  color: rgb(66, 176, 240);
+  font-family: "Single Day", serif;
+  font-style: normal;
+}
+
+.announcement > img {
+  width: 100px;
+  padding-right: 20px;
+}
+
+b {
+  color: red;
+}
+
+form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 50px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center; /* 버튼을 가운데로 정렬 */
+  align-items: flex-start; /* 이미지를 위로 배치 */
+  width: 100%;
+}
+
+.image-container {
+  margin-right: 30px;
+}
+
+.image-container img {
+  width: 50px;
+  height: auto;
+  border-radius: 50%;
+  margin-top: 0;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  align-items: center; /* span과 label을 가로로 배치 */
+  width: 100%;
+  margin-bottom: 20px;
+  flex-direction: column;
+}
+
+label {
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 10px; /* span과 입력 필드 사이의 간격 */
+}
+
+span {
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 10px; /* span과 label 사이의 간격 */
+}
+
+input,
+textarea {
+  width: 400px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #33dada;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+button.submit-btn {
+  padding: 12px 30px;
+  font-size: 16px;
+  background-color: #66b3ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: center;
+}
+
+button.submit-btn:hover {
+  background-color: #3399ff;
 }
