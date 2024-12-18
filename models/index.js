@@ -18,6 +18,9 @@ let sequelize = new Sequelize(
 const UserModel = require("./User")(sequelize, Sequelize);
 const MessageModel = require("./Message")(sequelize, Sequelize);
 
+db.User = require("./User")(sequelize, Sequelize);
+db.Message = require("./Message")(sequelize, Sequelize);
+
 UserModel.hasMany(MessageModel, {
   foreignKey: "userId",
   sourceKey: "userId",
@@ -28,10 +31,9 @@ MessageModel.belongsTo(UserModel, {
   targetKey: "userId",
 });
 
+db.User = UserModel;
+db.Message = MessageModel;
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-db.User = require("./User")(sequelize, Sequelize);
-db.Message = require("./Message")(sequelize, Sequelize);
 
 module.exports = db;
