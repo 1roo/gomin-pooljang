@@ -1,0 +1,156 @@
+.index-container-wrap {
+  max-width: 100%;
+  height: 2500px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  background-color: #34612b;
+  background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+.index-container {
+  width: 1200px;
+  height: 100%;
+  overflow-wrap: break-word;
+  border: 1px solid red;
+}
+
+.main-body {
+  margin-top: 20px;
+  border: 2px solid blue;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.temp {
+  border: 2px solid green;
+  width: 15%;
+  height: 30%;
+}
+.board {
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid red;
+  width: 70%;
+  height: 30%;
+}
+
+.ad {
+  border: 2px solid blue;
+  width: 15%;
+  height: 30%;
+}
+
+.notice {
+  border: 2px solid pink;
+
+  width: 100%;
+  height: 14%;
+}
+
+.content-wrap {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid black;
+  width: 100%;
+  height: 50%;
+}
+
+.btn-gomin {
+  background-color: transparent; /* 배경색 제거 */
+  border: 1px solid red;
+  color: #000; /* 텍스트 색상 설정 */
+}
+
+.content-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 50%;
+  border: 2px solid black;
+}
+
+.content-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 15%;
+  border: 2px solid black;
+}
+.content-row-4 {
+  width: 100%;
+  height: 45%;
+
+  border: 2px solid black;
+}
+
+.content-row-3 {
+  width: 100%;
+  height: 12%;
+  justify-content: center;
+  border: 2px solid black;
+}
+
+.content-row-2 {
+  width: 100%;
+  height: 12%;
+  justify-content: center;
+  border: 2px solid black;
+}
+
+.content-row-1 {
+  width: 20%;
+  height: 12%;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+}
+
+.container-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title-box {
+  border: 2px solid red;
+
+  height: 45%;
+  width: 10%;
+}
+
+.gomin-box {
+  border: 2px solid red;
+  height: 50%;
+  width: 84%;
+}
+
+.date-box {
+  border: 2px solid red;
+
+  height: 45%;
+  width: 10%;
+}
+
+.date-box2 {
+  border: 2px solid red;
+  height: 50%;
+  width: 84%;
+}
+.content-box1 {
+  border: 2px solid red;
+
+  height: 100%;
+  width: 10%;
+}
+
+.content-box2 {
+  border: 2px solid red;
+  max-height: 140px;
+  overflow: auto;
+  width: 84%;
+}

@@ -6,7 +6,13 @@
 <link rel="stylesheet" href="../static/css/header.css" />
 <div class="header">
   <div class="container">
-    <img class="logo" src="../static/images/logo.png" alt="logo" class="logo" />
+    <img
+      class="logo"
+      src="../static/images/logo.png"
+      alt="logo"
+      class="logo"
+      onclick="home()"
+    />
   </div>
   <div class="container">
     <div class="container2 container2-2">
@@ -49,7 +55,7 @@
     </div>
 
     <div class="container2 container2-3">
-      <div style="height: 120px" class="menuWrap">
+      <div style="height: 100px" class="menuWrap">
         <button class="header-menu-2 header-menu" onclick="menu1()">
           <img src="../static/images/myinfo.png" alt="login" />
           <!-- <h1 style="font-size: 38px; height: 25px; margin-top: auto">
@@ -215,6 +221,10 @@
         a.children[1].classList.add("shrinkWidth");
         // console.log("밑에 메뉴 입니다 mouseleave.^^");
       });
+    }
+
+    function home() {
+      document.location.href = "/";
     }
 
     function menu1() {

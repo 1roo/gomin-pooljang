@@ -16,6 +16,11 @@ app.get("/mypage", (req, res) => {
   res.render("mypage");
 });
 
+//고민봉 목록클릭시 화면
+app.get("/mypage/content", (req, res) => {
+  res.render("content");
+});
+
 const indexRouter = require("./routes");
 
 app.use("/", indexRouter);
