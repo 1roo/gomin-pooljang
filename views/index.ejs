@@ -8,7 +8,56 @@
   </head>
   <body>
     <div class="index-container-wrap">
-      <div class="index-container"><%-include('./include/header') %></div>
+      <div class="index-container">
+        <%-include('./include/header') %> <%-include('./include/notification')
+        %>
+        <div class="letter">
+          <div class="announcement">
+            <img src="/static/images/pool_anno.png" alt="pool" />
+            <span>
+              잠깐!! <br />
+              보내시기 전 개인 정보가 포함되어 있는 지 확인하셨나요?! <br />
+              개인 정보 발설 시 고민풀장에서 일체의
+              <b>책임을 지지 않습니다!!</b>
+            </span>
+          </div>
+          <form name="login">
+            <div class="form-container">
+              <!-- 왼쪽에 person 이미지 -->
+              <div class="image-container">
+                <img src="/static/images/person.png" alt="person" />
+              </div>
+
+              <!-- 오른쪽에 입력 폼 -->
+              <div class="form-content">
+                <div class="form-group">
+                  <label for="title"><span>제목</span></label>
+                  <input type="text" id="title" name="title" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="date"><span>일시</span></label>
+                  <input type="text" id="date" name="date" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="comment"><span>내용</span></label>
+                  <textarea
+                    id="comment"
+                    name="comment"
+                    maxlength="200"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="submit-btn">제출</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>
