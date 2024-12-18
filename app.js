@@ -10,6 +10,11 @@ app.use("/static", express.static(__dirname + "/static"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+//고민봉 마이페이지
+app.get("/mypage", (req, res) => {
+  res.render("mypage");
+});
+
 const indexRouter = require("./routes");
 app.use("/", indexRouter);
 
