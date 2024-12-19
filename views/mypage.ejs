@@ -271,9 +271,19 @@
           </div>
 
           <div class="ad">
-            <h1>광고자리</h1>
-            <h1>광고자리</h1>
-            <h1>광고자리</h1>
+            <div class="ad-container-1">
+              <img
+                class="img-class"
+                src="../static/images/book/통찰 평범에서 비범으로 1.png"
+              />
+            </div>
+
+            <div class="ad-container-1">
+              <img
+                class="img-class"
+                src="../static/images/book/모두의git허브 1.png"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -286,6 +296,8 @@
       function res_gomin_list() {
         document.location.href = "/mypage/content-res";
       }
+
+      const images = ["../static/images/book/모두의git허브 1.png"];
 
       function tab_btn() {
         const tab = document.querySelector(".tab");
