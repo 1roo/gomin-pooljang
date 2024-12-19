@@ -16,9 +16,14 @@ app.get("/mypage", (req, res) => {
   res.render("mypage");
 });
 
-//고민봉 목록클릭시 화면
-app.get("/mypage/content", (req, res) => {
-  res.render("content");
+//고민봉 내가보낸 고민탭
+app.get("/mypage/content-send", (req, res) => {
+  res.render("content_send");
+});
+
+//고민봉 내가받은은 고민탭
+app.get("/mypage/content-res", (req, res) => {
+  res.render("content_res");
 });
 
 const indexRouter = require("./routes");
