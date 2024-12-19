@@ -23,26 +23,97 @@
             </span>
           </div>
 
+          <!-- 로그인 / 회원가입 모달 -->
           <div class="modal">
             <div class="modal_body">
-              <div><img src="/static/images/pool.gif" /></div>
-              <div class="login">
+              <div>
+                <img src="/static/images/pool.gif" />
+                <img src="/static/images/pool2.gif" />
+              </div>
+              <div class="closeX">X</div>
+              <div class="login" id="login-screen" style="display: none">
                 <h2>WELCOME</h2>
                 <label>
                   <span>Email</span>
-                  <input type="email" />
+                  <input type="email" placeholder="이메일을 입력하세요" />
                 </label>
                 <br />
                 <label>
                   <span>Password</span>
-                  <input type="password" />
+                  <input type="password" placeholder="비밀번호를 입력하세요" />
                 </label>
-                <p class="forgot-pass">Forgot password?</p>
-                <button type="button" class="submit">Sign In</button>
+                <label>
+                  <span>비밀번호 찾기 질문</span>
+                  <select class="form-select" id="combo" name="combo">
+                    <option>애완동물 이름은?</option>
+                    <option>학창시절 별명은?</option>
+                    <option>조부모님의 성함은?</option>
+                    <option>직접 입력</option>
+                  </select> </label
+                ><br />
+                <br />
+                <div>
+                  <label>
+                    <span>비밀번호 찾기 답</span>
+                    <input
+                      type="text"
+                      placeholder="위의 질문에 대한 답을 기입하세요"
+                    />
+                  </label>
+                </div>
+                <div class="block">
+                  <label>
+                    <input type="checkbox" class="checkbox" />
+                    <span id="checkbox">자동 로그인</span>
+                  </label>
+                  <button class="join forget" id="forget-btn">
+                    Forget Password?
+                  </button>
+                </div>
+                <button type="button" class="loginBtn">Sign In</button>
+
+                <p class="user">아직 회원이 아니신가요?</p>
+                <button class="join joinBtn" id="join-btn">회원가입</button>
               </div>
+
+              <div class="join" id="join-screen">
+                <h2>JOIN US?</h2>
+                <label>
+                  <span>Email</span>
+                  <input type="email" class="email-join" placeholder="" />@
+                  <select class="form-select" id="combo" name="combo">
+                    <option>gmail.com</option>
+                    <option>naver.com</option>
+                    <option>daum.net</option>
+                    <option>직접 입력</option>
+                  </select> </label
+                ><br /><br />
+                <button type="button" class="duplication">중복 검사</button>
+                <br /><br /><br />
+                <label>
+                  <span>Password</span>
+                  <input
+                    type="password"
+                    placeholder="비밀번호를 입력하세요"
+                  /> </label
+                ><br /><br />
+                <label>
+                  <span>Password (confirm)</span>
+                  <input
+                    type="password"
+                    placeholder="한 번 더 입력하세요"
+                  /> </label
+                ><br /><br />
+
+                <button type="button" class="joinBtn">회원 가입</button
+                ><br /><br />
+                <button type="button" id="backToLogin">로그인 이동</button>
+              </div>
+              <button class="closeBtn" onclick="closeBtn">닫기</button>
             </div>
           </div>
-          <form name="login">
+
+          <form name="form-letter">
             <div class="form-container">
               <!-- 왼쪽에 person 이미지 -->
               <div class="image-container">
