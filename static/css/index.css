@@ -1,3 +1,5 @@
+/* 메인 페이지 */
+
 .index-container-wrap {
   max-width: 100%;
   min-width: 1200px;
@@ -19,6 +21,8 @@
   width: 100%;
 }
 
+/* 본문 */
+
 .letter {
   display: flex;
   flex-wrap: wrap;
@@ -39,6 +43,8 @@
   display: block;
   margin-top: 20px;
 }
+
+/* 컨텐츠 */
 
 .announcement {
   width: 700px;
@@ -66,6 +72,8 @@
 b {
   color: red;
 }
+
+/* 모달 */
 
 .modal {
   position: absolute;
@@ -96,37 +104,163 @@ b {
 
 .modal_body img {
   justify-content: center;
-  width: 250px;
+  width: 150px;
   border-radius: 25px;
+  padding-left: 50px;
 }
 
-.login {
+.closeX {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-weight: 700;
+  color: rgb(18, 214, 228);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closeBtn {
+  width: 50px;
+  height: 30px;
+  border-radius: 25px;
+  border: none;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background-color: #d9f3f3;
+  color: rgb(18, 214, 228);
+  cursor: pointer;
+}
+
+/* 로그인 모달 안 로그인 기능 */
+
+.login,
+.join {
   width: 55%;
   height: 590px;
   border-radius: 25px;
-  background-color: rgb(244, 241, 241);
+  background-color: rgb(253, 251, 251);
   padding: 20px;
   box-sizing: border-box;
   margin-left: auto;
 }
 
-.login span {
+.login h2,
+.join h2 {
+  font-size: 24px;
+  color: #33dada;
+}
+
+/* .join .forget {
+  width: 100px;
+  height: 20px;
+  display: inline-block;
+  padding: 0px;
+} */
+
+#forget-btn {
+  width: 100px;
+  height: 20px;
+  display: inline-block;
+  padding: 0px;
+}
+
+.joinBtn {
+  width: 50px;
+  height: 20px;
+  padding: 0px;
+}
+
+.login span,
+.join span {
+  font-size: 15px;
+  color: gray;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.join .email-join {
+  width: 100px;
+}
+
+.login p {
   font-size: 10px;
   color: gray;
 }
 
-.login input {
-  width: 300px;
+.login input,
+.join input {
+  width: 200px;
   border: none;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgb(199, 196, 196);
   background: none;
   margin-bottom: 20px;
-  color: #33dada;
+  color: #3888e4;
+  font-weight: 500;
 }
 
-.login input:focus {
+#text {
+  color: gray;
+}
+
+.login .checkbox {
+  width: 10px;
+}
+
+.login #checkbox {
+  display: inline-block;
+  font-size: 15px;
+  color: gray;
+  font-weight: 500;
+}
+
+.login input:focus,
+.join input:focus {
   outline: none;
 }
+
+.login button,
+.join button {
+  width: 250px;
+  height: 40px;
+  border-radius: 25px;
+  border: none;
+  background-color: #d9f3f3;
+  color: rgb(18, 214, 228);
+  font-size: 30px;
+}
+
+.user {
+  display: inline-block;
+  font-size: 5px;
+}
+
+.login .join {
+  color: gray;
+  background: none;
+  border: none;
+  border-radius: 0px;
+  border-bottom: 1px solid gray;
+  padding: 2px 0px;
+  box-sizing: border-box;
+  width: 50px;
+  height: auto;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.login .join:hover {
+  font-size: 11px;
+}
+
+#backToLogin {
+  width: 100px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+/* 편지 내용 */
 
 .form {
   position: relative;
@@ -194,6 +328,7 @@ label {
   display: inline-block;
   font-size: 24px;
   margin-right: 10px;
+  color: #33dada;
 }
 
 .form-container input,
@@ -216,7 +351,7 @@ textarea {
   resize: vertical;
 }
 
-button.submit-btn {
+.form-container button.submit-btn {
   padding: 12px 30px;
   font-size: 24px;
   background-image: linear-gradient(to right, #66b3ff, #3399ff);
@@ -231,7 +366,7 @@ button.submit-btn {
   font-style: normal;
 }
 
-button.submit-btn:hover {
+.form-container button.submit-btn:hover {
   background-image: linear-gradient(to right, #3399ff, #66b3ff);
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
 }
