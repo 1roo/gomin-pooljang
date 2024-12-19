@@ -27,32 +27,24 @@
   padding-top: 50px;
   height: 800px;
   border-radius: 15px;
-  background-image: linear-gradient(
-    to right,
-    #e4fafa,
-    #bae4f3
-  ); /* 부드러운 그라데이션 */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  background-image: linear-gradient(to right, #e4fafa, #bae4f3);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   justify-content: center;
   /* align-items: flex-start; */
-  text-align: center; /* 중앙 정렬을 위해 추가 */
+  text-align: center;
 }
 
 .letter img {
   width: 50px;
-  display: block; /* 이미지를 block으로 설정해주어 아래로 배치되도록 함 */
-  margin-top: 20px; /* 이미지와 .announcement div 사이에 여백을 추가 */
+  display: block;
+  margin-top: 20px;
 }
 
 .announcement {
   width: 700px;
   border-radius: 25px;
-  background-image: linear-gradient(
-    to right,
-    #b8edfa,
-    #c3e4f2
-  ); /* 부드러운 그라데이션 */
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  background-image: linear-gradient(to right, #b8edfa, #c3e4f2);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +52,7 @@
   margin: 10px;
 }
 
-span {
+.announcement span {
   color: rgb(66, 176, 240);
   font-family: "Single Day", serif;
   font-style: normal;
@@ -73,6 +65,74 @@ span {
 
 b {
   color: red;
+}
+
+.modal {
+  position: absolute;
+  display: none;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_body {
+  position: absolute;
+  top: 40%;
+  width: 600px;
+  height: 600px;
+  padding: 40px;
+  text-align: center;
+  background-color: rgb(189, 240, 249);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.modal_body img {
+  justify-content: center;
+  width: 250px;
+  border-radius: 25px;
+}
+
+.login {
+  width: 55%;
+  height: 590px;
+  border-radius: 25px;
+  background-color: rgb(244, 241, 241);
+  padding: 20px;
+  box-sizing: border-box;
+  margin-left: auto;
+}
+
+.login span {
+  font-size: 10px;
+  color: gray;
+}
+
+.login input {
+  width: 300px;
+  border: none;
+  border-bottom: 1px solid gray;
+  background: none;
+  margin-bottom: 20px;
+  color: #33dada;
+}
+
+.login input:focus {
+  outline: none;
+}
+
+.form {
+  position: relative;
+  width: 50px;
+  height: 100%;
+  padding: 50px 30px 0;
 }
 
 form {
@@ -88,8 +148,8 @@ form {
 
 .form-container {
   display: flex;
-  justify-content: center; /* 버튼을 가운데로 정렬 */
-  align-items: flex-start; /* 이미지를 위로 배치 */
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -127,16 +187,16 @@ form {
 label {
   font-size: 24px;
   font-weight: 700;
-  margin-right: 10px; /* span과 입력 필드 사이의 간격 */
+  margin-right: 10px;
 }
 
-span {
+.form-container span {
   display: inline-block;
   font-size: 24px;
-  margin-right: 10px; /* span과 label 사이의 간격 */
+  margin-right: 10px;
 }
 
-input,
+.form-container input,
 textarea {
   width: 400px;
   padding: 12px;
@@ -145,14 +205,10 @@ textarea {
   border-radius: 8px;
   box-sizing: border-box;
   margin-bottom: 10px;
-  background-image: linear-gradient(
-    to top,
-    #ffffff,
-    #f9fbfb
-  ); /* 입력 필드에 부드러운 그라데이션 */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  border-color: #66b3ff; /* 포커스 시 파란색 테두리 */
-  box-shadow: 0px 0px 8px rgba(102, 179, 255, 0.5); /* 포커스 시 그림자 효과 */
+  background-image: linear-gradient(to top, #ffffff, #f9fbfb);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-color: #66b3ff;
+  box-shadow: 0px 0px 8px rgba(102, 179, 255, 0.5);
 }
 
 textarea {
@@ -163,12 +219,8 @@ textarea {
 button.submit-btn {
   padding: 12px 30px;
   font-size: 24px;
-  background-image: linear-gradient(
-    to right,
-    #66b3ff,
-    #3399ff
-  ); /* 그라데이션 배경 */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  background-image: linear-gradient(to right, #66b3ff, #3399ff);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   color: white;
   border: none;
   border-radius: 8px;
@@ -180,10 +232,6 @@ button.submit-btn {
 }
 
 button.submit-btn:hover {
-  background-image: linear-gradient(
-    to right,
-    #3399ff,
-    #66b3ff
-  ); /* 마우스 오버 시 색상 반전 */
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* 그림자 강도 증가 */
+  background-image: linear-gradient(to right, #3399ff, #66b3ff);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
 }
