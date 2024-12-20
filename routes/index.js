@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get("/", UserController.main);
 
-
 // 새 고민 받아오기
 router.get("/user/get-message", MessageController.getMessage);
 
@@ -17,5 +16,7 @@ router.post("/user/login", UserController.loginUser);
 router.post("/user/token", UserController.validation);
 router.patch("/user/change-pw", UserController.changePw);
 router.get("/user/logout", UserController.logout);
+router.post("/user/sendedMsg", UserController.sendedMsg);
+router.get("/user/receivedMsg", UserController.receivedMsg);
 
 module.exports = router;
