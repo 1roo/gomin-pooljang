@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { User, Message } = require("../models");
 const bcrypt = require("bcrypt");
 const SALT = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -48,7 +48,7 @@ exports.checkEmail = async (req, res) => {
  */
 exports.registUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, question, answer } = req.body;
     const salt = await bcrypt.genSalt(SALT);
     const hashedPw = await bcrypt.hash(password, salt);
 
@@ -56,6 +56,8 @@ exports.registUser = async (req, res) => {
     const newUser = await User.create({
       email: email,
       password: hashedPw,
+      question,
+      answer,
     });
     res.send({
       result: true,
@@ -165,25 +167,75 @@ exports.changePw = async (req, res) => {
  */
 exports.logout = async (req, res) => {
   try {
-    if (req.session) {
-      req.session.destroy((err) => {
-        if (err) {
-          console.error("세션 종료 오류:", err);
-          return res
-            .status(500)
-            .send({ result: false, message: "로그아웃 실패" });
-        }
-
-        // 쿠키 제거
-        res.clearCookie("connect.sid");
-        return res.send({ result: true, message: "로그아웃 성공" });
-      });
-    } else {
-      res.clearCookie("token");
-      return res.send({ result: true, message: "로그아웃 성공" });
-    }
+    const token = req.headers.authorization?.split(" ")[1];
+    invalidateToken(token);
+    res.status(200).send("로그아웃 성공");
   } catch (error) {
     console.error("logout error:", error.message);
+    res.status(500).send({ result: false, message: "서버 에러" });
+  }
+};
+
+/**
+ * 내가 보낸 고민, 답장 가져오기
+ * 작성자: 하나래
+ */
+exports.sendedMsg = async (req, res) => {
+  try {
+    const user = await exports.validation(req);
+    if (user) {
+      const isReplied = await Message.findOne({
+        attributes: ["repliedOrNot"],
+        where: { userId: user.userId },
+      });
+      let msg = null;
+      if (isReplied?.repliedOrNot) {
+        msg = await Message.findOne({
+          attributes: ["content", "createdAt", "repliedContent", "repliedDate"],
+          where: { userId: user.userId },
+        });
+      } else {
+        msg = await Message.findOne({
+          attributes: ["content", "createdAt"],
+          where: { userId: user.userId },
+        });
+      }
+      res.status(200).send({ result: msg });
+    }
+  } catch (error) {
+    console.error("sended-msg error:", error.message);
+    res.status(500).send({ result: false, message: "서버 에러" });
+  }
+};
+
+/**
+ * 내가 받은 고민, 답장 가져오기
+ * 작성자: 하나래
+ */
+exports.sendedMsg = async (req, res) => {
+  try {
+    const user = await exports.validation(req);
+    if (user) {
+      const isReplied = await Message.findOne({
+        attributes: ["repliedOrNot"],
+        where: { receivedUserId: user.userId },
+      });
+      let msg = null;
+      if (isReplied?.repliedOrNot) {
+        msg = await Message.findOne({
+          attributes: ["content", "createdAt", "repliedContent", "repliedDate"],
+          where: { receivedUserId: user.userId },
+        });
+      } else {
+        msg = await Message.findOne({
+          attributes: ["content", "createdAt"],
+          where: { receivedUserId: user.userId },
+        });
+      }
+      res.status(200).send({ result: msg });
+    }
+  } catch (error) {
+    console.error("received-msg error:", error.message);
     res.status(500).send({ result: false, message: "서버 에러" });
   }
 };
