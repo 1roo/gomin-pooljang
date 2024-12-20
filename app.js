@@ -60,6 +60,30 @@ app.patch("/changePw", UserController.changePw);
  */
 app.post("/logout", UserController.logout);
 
+/**
+ * 새 메세지 생성
+ * 작성자: 유혜리
+ */
+
+app.get("/user/get-message", (req, res) => {
+  CMessage.getMessage(req, res);
+});
+
+/**
+ * 욕설 필터링
+ * 작성자: 유혜리
+ */ // .then (promise사용)
+
+// 비속어 목록 로드 함수
+async function loadBadwordsList() {
+  try {
+    await db.Message.loadBadwordsList();
+    console.log("비속어 목록이 로드되었습니다.");
+  } catch (error) {
+    console.error("비속어 목록 로드 중 오류 발생:", error);
+  }
+}
+
 app.get("*", (req, res) => {
   res.render("404");
 });
