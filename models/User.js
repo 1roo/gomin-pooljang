@@ -13,7 +13,6 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
         unique: true,
       },
-<<<<<<< HEAD
       password: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -33,12 +32,6 @@ module.exports = (sequelize, Sequelize) => {
       msgId: {
         type: Sequelize.INTEGER,
       },
-=======
-      pw: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
->>>>>>> 260e4672ec79317e76f8170f8dfed33643067769
     },
     {
       freezeTableName: true,
