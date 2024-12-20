@@ -147,3 +147,84 @@ li {
   width: 100%;
   height: 100%;
 }
+
+.tab-2-wrap {
+  border: 3px solid black;
+  height: 400px;
+  width: 99%;
+}
+
+.tab-1-wrap-row-1 {
+  padding: 4px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  line-height: 10px;
+  border: 3px solid black;
+  height: 50px;
+  width: 99%;
+}
+
+.tab-1-wrap-row-1-col-1 {
+  border: 3px solid black;
+  width: 80%;
+  height: 50px;
+}
+.tab-1-wrap-row-1-col-2 {
+  border: 3px solid black;
+  width: 20%;
+  height: 50px;
+}
+
+.tab-1-wrap {
+  border: 3px solid black;
+  height: 450px;
+  width: 99%;
+}
+.send-gomin-list {
+  border: 3px solid black;
+  height: 50px;
+}
+.send-gomin-list-row {
+  border: 3px solid black;
+  line-height: 10px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+.send-gomin-list-col-1 {
+  border: 3px solid black;
+  width: 80%;
+  height: 50px;
+}
+
+.send-gomin-list-col-2 {
+  border: 3px solid black;
+  width: 20%;
+  height: 50px;
+}
+
+.res-gomin-list {
+  border: 3px solid black;
+  height: 50px;
+}
+.res-gomin-list-row {
+  border: 3px solid black;
+  line-height: 10px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+.res-gomin-list-col-1 {
+  border: 3px solid black;
+  width: 80%;
+  height: 50px;
+}
+
+.res-gomin-list-col-2 {
+  border: 3px solid black;
+  width: 20%;
+  height: 50px;
+}
