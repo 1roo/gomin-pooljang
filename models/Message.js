@@ -8,10 +8,6 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
       title: {
         type: Sequelize.TEXT,
         allowNull: false,
@@ -22,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       receivedUserId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         // references: {
         //   model: 'Users',
         //   key: 'id',
@@ -54,7 +50,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       repliedTitle: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       repliedContent: {
         type: Sequelize.TEXT,
@@ -63,59 +59,61 @@ module.exports = (sequelize, Sequelize) => {
     },
     {
       freezeTableName: true,
+      tableName: "message",
+      timestamps: false,
     }
   );
   return Message;
 };
 
 // 욕설 필터링
-const fs = require("fs").promises;
+// const fs = require("fs").promises;
 
-class Message {
-  constructor() {
-    this.badwordsList = [];
-  }
+// class Message {
+//   constructor() {
+//     this.badwordsList = [];
+//   }
 
-  async loadBadwordsList() {
-    try {
-      const data = await fs.readFile("badwords.txt", "utf8");
-      this.badwordsList = data.split("\n").map((word) => word.trim());
-    } catch (err) {
-      console.error("비속어 목록 로딩 오류: ", err);
-    }
-  }
+//   async loadBadwordsList() {
+//     try {
+//       const data = await fs.readFile("badwords.txt", "utf8");
+//       this.badwordsList = data.split("\n").map((word) => word.trim());
+//     } catch (err) {
+//       console.error("비속어 목록 로딩 오류: ", err);
+//     }
+//   }
 
-  hasBadwords(content) {
-    return this.badwordsList.some((word) =>
-      content.toLowerCase().includes(word.toLowerCase())
-    );
-  }
+//   hasBadwords(content) {
+//     return this.badwordsList.some((word) =>
+//       content.toLowerCase().includes(word.toLowerCase())
+//     );
+//   }
 
-  filterMessage(message) {
-    let filteredMessage = message;
-    this.badwordsList.forEach((word) => {
-      const regex = new RegExp(word, "gi");
-      filteredMessage = filteredMessage.replace(regex, "*".repeat(word.length));
-    });
-    return filteredMessage;
-  }
-}
+//   filterMessage(message) {
+//     let filteredMessage = message;
+//     this.badwordsList.forEach((word) => {
+//       const regex = new RegExp(word, "gi");
+//       filteredMessage = filteredMessage.replace(regex, "*".repeat(word.length));
+//     });
+//     return filteredMessage;
+//   }
+// }
 
-module.exports = (sequelize, Sequelize) => {
-  // Sequelize 모델 정의
-  const MessageModel = sequelize.define("Message", {
-    // 모델 필드 정의
-  });
+// exports.Message = (sequelize, Sequelize) => {
+//   // Sequelize 모델 정의
+//   const MessageModel = sequelize.define("Message", {
+//     // 모델 필드 정의
+//   });
 
-  // Message 클래스의 메서드를 MessageModel에 추가
-  MessageModel.loadBadwordsList = async () => {
-    const message = new Message();
-    await message.loadBadwordsList();
-    MessageModel.badwordsList = message.badwordsList;
-  };
+//   // Message 클래스의 메서드를 MessageModel에 추가
+//   MessageModel.loadBadwordsList = async () => {
+//     const message = new Message();
+//     await message.loadBadwordsList();
+//     MessageModel.badwordsList = message.badwordsList;
+//   };
 
-  MessageModel.hasBadwords = Message.prototype.hasBadwords;
-  MessageModel.filterMessage = Message.prototype.filterMessage;
+//   MessageModel.hasBadwords = Message.prototype.hasBadwords;
+//   MessageModel.filterMessage = Message.prototype.filterMessage;
 
-  return MessageModel;
-};
+//   return MessageModel;
+// };

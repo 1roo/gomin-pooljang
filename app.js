@@ -61,6 +61,12 @@ app.patch("/changePw", UserController.changePw);
 app.post("/logout", UserController.logout);
 
 /**
+ * 내가 작성한 메시지, 답장 조회회
+ * 작성자: 하나래
+ */
+app.post("/sendedMsg", UserController.sendedMsg);
+
+/**
  * 새 메세지 생성
  * 작성자: 유혜리
  */
