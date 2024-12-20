@@ -17,6 +17,14 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      question: {
+        type: Sequelize.ENUM("value1", "value2", "value3"),
+        allowNull: false,
+      },
+      answer: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

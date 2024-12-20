@@ -12,7 +12,15 @@ let sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  config
+  config,
+  {
+    timezone: "Asia/Seoul",
+    dialectOptions: {
+      charset: "utf8mb4",
+      dateStrings: true,
+      typeCast: true,
+    },
+  }
 );
 
 const UserModel = require("./User")(sequelize, Sequelize);
