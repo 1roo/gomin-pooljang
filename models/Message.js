@@ -12,6 +12,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      title: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       content: {
         type: Sequelize.TEXT, // 긴 메세지 저장을을 위해 STRING 대신 TEXT 사용
         allowNull: false,
@@ -47,6 +51,10 @@ module.exports = (sequelize, Sequelize) => {
       repliedDate: {
         type: Sequelize.DATE, // Sequelize.DATE로 날짜와 시간을 저장
         allowNull: true, // null 값 허용
+      },
+      repliedTitle: {
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
       repliedContent: {
         type: Sequelize.TEXT,
