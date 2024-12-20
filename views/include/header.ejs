@@ -10,86 +10,32 @@
       class="logo"
       src="../static/images/logo.png"
       alt="logo"
-      class="logo"
       onclick="home()"
     />
   </div>
   <div class="container">
-    <div class="container2 container2-2">
-      <div class="div-wrap first_hover_menu_QuerySelect">
-        <div class="div-menu-wrap">
-          <button
-            class="header-hover-menu header-hover-menu-1"
-            onclick="menu1_1()"
-          >
-            <h1 class="menu">메뉴1-1</h1>
-            <div class="bar"></div>
-          </button>
-        </div>
-        <div class="div-menu-wrap">
-          <button
-            class="header-hover-menu header-hover-menu-1"
-            onclick="menu1_2()"
-          >
-            <h1 class="menu">메뉴1-2</h1>
-            <div class="bar"></div>
-          </button>
-        </div>
-        <div class="div-menu-wrap">
-          <button
-            class="header-hover-menu header-hover-menu-1"
-            onclick="menu1_3()"
-          >
-            <h1 class="menu">메뉴1-3</h1>
-            <div class="bar"></div>
-          </button>
-        </div>
-      </div>
+    <div class="menuWrap" style="height: 100px">
+      <button class="header-menu" onclick="menu1()">
+        <img src="../static/images/myinfo.png" alt="login" />
+        <div class="bar"></div>
+      </button>
+      <button class="sidebar-button" onclick="side_menubar()">
+        <i class="fa-solid fa-bars fa-5x"></i>
+      </button>
     </div>
-
-    <div class="container2 container2-3">
-      <div style="height: 100px" class="menuWrap">
-        <button class="header-menu-2 header-menu" onclick="menu1()">
-          <img src="../static/images/myinfo.png" alt="login" />
-          <!-- <h1 style="font-size: 38px; height: 25px; margin-top: auto">
-            로그인
-          </h1> -->
-          <div class="bar"></div>
-        </button>
-        <button class="sidebar-button" onclick="side_menubar()">
-          <i class="fa-solid fa-bars fa-5x"></i>
-        </button>
-      </div>
-
-      <div class="div-wrap second_hover_menu_QuerySelect">
-        <div class="div-menu-wrap">
-          <button
-            class="header-hover-menu header-hover-menu-2"
-            onclick="menu2_1()()"
-          >
-            <h1 class="menu" style="font-size: 25px">마이페이지</h1>
-            <div class="bar"></div>
-          </button>
-        </div>
-        <div class="div-menu-wrap">
-          <button
-            class="header-hover-menu header-hover-menu-2"
-            onclick="menu2_2()()"
-          >
-            <h1 class="menu" style="font-size: 25px">내정보수정</h1>
-            <div class="bar"></div>
-          </button>
-        </div>
-        <div class="div-menu-wrap">
-          <button
-            class="header-hover-menu header-hover-menu-2"
-            onclick="menu2_3()()"
-          >
-            <h1 class="menu" style="font-size: 25px">로그아웃</h1>
-            <div class="bar"></div>
-          </button>
-        </div>
-      </div>
+    <div class="second_hover_menu_QuerySelect">
+      <button class="header-hover-menu" onclick="menu2_1()">
+        <h1 class="menu" style="font-size: 25px">마이페이지</h1>
+        <div class="bar"></div>
+      </button>
+      <button class="header-hover-menu" onclick="menu2_2()">
+        <h1 class="menu" style="font-size: 25px">내정보수정</h1>
+        <div class="bar"></div>
+      </button>
+      <button class="header-hover-menu" onclick="menu2_3()">
+        <h1 class="menu" style="font-size: 25px">로그아웃</h1>
+        <div class="bar"></div>
+      </button>
     </div>
   </div>
 
