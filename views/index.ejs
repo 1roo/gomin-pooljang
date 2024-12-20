@@ -5,10 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GOMIN Pooljang</title>
     <link rel="stylesheet" href="../static/css/index.css" />
+    <script defer src="/static/index.js"></script>
   </head>
   <body>
     <div class="index-container-wrap">
-      <div class="index-container"><%-include('./header') %></div>
+      <div class="index-container">
+        <%-include('./include/header') %> <%-include('./include/notification')
+        %>
+        <div class="letter">
+          <div class="announcement">
+            <img src="/static/images/pool_anno.png" alt="pool" />
+            <span>
+              잠깐!! <br />
+              보내시기 전 개인 정보가 포함되어 있는 지 확인하셨나요?! <br />
+              개인 정보 발설 시 고민풀장에서 일체의
+              <b>책임을 지지 않습니다!!</b>
+            </span>
+          </div>
+
+          <!-- 로그인 / 회원가입 모달 -->
+          <div class="modal">
+            <div class="modal_body">
+              <div>
+                <img src="/static/images/pool.gif" />
+                <img src="/static/images/pool2.gif" />
+              </div>
+              <div class="closeX">X</div>
+              <div class="login" id="login-screen" style="display: none">
+                <h2>WELCOME</h2>
+                <label>
+                  <span>Email</span>
+                  <input type="email" placeholder="이메일을 입력하세요" />
+                </label>
+                <br />
+                <label>
+                  <span>Password</span>
+                  <input type="password" placeholder="비밀번호를 입력하세요" />
+                </label>
+                <label>
+                  <span>비밀번호 찾기 질문</span>
+                  <select class="form-select" id="combo" name="combo">
+                    <option>애완동물 이름은?</option>
+                    <option>학창시절 별명은?</option>
+                    <option>조부모님의 성함은?</option>
+                    <option>직접 입력</option>
+                  </select> </label
+                ><br />
+                <br />
+                <div>
+                  <label>
+                    <span>비밀번호 찾기 답</span>
+                    <input
+                      type="text"
+                      placeholder="위의 질문에 대한 답을 기입하세요"
+                    />
+                  </label>
+                </div>
+                <div class="block">
+                  <label>
+                    <input type="checkbox" class="checkbox" />
+                    <span id="checkbox">자동 로그인</span>
+                  </label>
+                  <button class="join forget" id="forget-btn">
+                    Forget Password?
+                  </button>
+                </div>
+                <button type="button" class="loginBtn">Sign In</button>
+
+                <p class="user">아직 회원이 아니신가요?</p>
+                <button class="join joinBtn" id="join-btn">회원가입</button>
+              </div>
+
+              <div class="join" id="join-screen">
+                <h2>JOIN US?</h2>
+                <label>
+                  <span>Email</span>
+                  <input type="email" class="email-join" placeholder="" />@
+                  <select class="form-select" id="combo" name="combo">
+                    <option>gmail.com</option>
+                    <option>naver.com</option>
+                    <option>daum.net</option>
+                    <option>직접 입력</option>
+                  </select> </label
+                ><br /><br />
+                <button type="button" class="duplication">중복 검사</button>
+                <br /><br /><br />
+                <label>
+                  <span>Password</span>
+                  <input
+                    type="password"
+                    placeholder="비밀번호를 입력하세요"
+                  /> </label
+                ><br /><br />
+                <label>
+                  <span>Password (confirm)</span>
+                  <input
+                    type="password"
+                    placeholder="한 번 더 입력하세요"
+                  /> </label
+                ><br /><br />
+
+                <button type="button" class="joinBtn">회원 가입</button
+                ><br /><br />
+                <button type="button" id="backToLogin">로그인 이동</button>
+              </div>
+              <button class="closeBtn" onclick="closeBtn">닫기</button>
+            </div>
+          </div>
+
+          <form name="form-letter">
+            <div class="form-container">
+              <!-- 왼쪽에 person 이미지 -->
+              <div class="image-container">
+                <img src="/static/images/person.png" alt="person" />
+              </div>
+
+              <!-- 오른쪽에 입력 폼 -->
+              <div class="form-content">
+                <div class="form-group">
+                  <label for="title"><span>제목</span></label>
+                  <input type="text" id="title" name="title" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="date"><span>일시</span></label>
+                  <input type="text" id="date" name="date" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="comment"><span>내용</span></label>
+                  <textarea
+                    id="comment"
+                    name="comment"
+                    maxlength="200"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="submit-btn">제출</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>

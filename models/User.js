@@ -25,6 +25,7 @@ module.exports = (sequelize, Sequelize) => {
       temp: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
       },
       receicedUserId: {
         type: Sequelize.INTEGER,
