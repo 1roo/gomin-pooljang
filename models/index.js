@@ -24,23 +24,32 @@ let sequelize = new Sequelize(
 );
 
 const UserModel = require("./User")(sequelize, Sequelize);
-const MessageModel = require("./Message")(sequelize, Sequelize);
+const WorryListModel = require("./WorryList")(sequelize, Sequelize);
+const ReadListModel = require("./ReadList")(sequelize, Sequelize);
 
-db.User = require("./User")(sequelize, Sequelize);
-db.Message = require("./Message")(sequelize, Sequelize);
-
-UserModel.hasMany(MessageModel, {
-  foreignKey: "userId",
-  sourceKey: "userId",
-});
-
-MessageModel.belongsTo(UserModel, {
-  foreignKey: "userId",
+WorryListModel.belongsTo(UserModel, {
+  foreignKey: "sender_Id",
   targetKey: "userId",
 });
 
+WorryListModel.belongsTo(UserModel, {
+  foreignKey: "responder_Id",
+  targetKey: "userId",
+});
+
+ReadListModel.belongsTo(UserModel, {
+  foreignKey: "user_Id",
+  targetKey: "userId",
+});
+
+ReadListModel.belongsTo(WorryListModel, {
+  foreignKey: "worryList_Id",
+  targetKey: "Id",
+});
+
 db.User = UserModel;
-db.Message = MessageModel;
+db.WorryList = WorryListModel;
+db.ReadList = ReadListModel;
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 console.log(db.Message);
