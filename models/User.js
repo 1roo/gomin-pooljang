@@ -35,15 +35,10 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
-      receicedUserId: {
-        type: Sequelize.INTEGER,
-      },
-      msgId: {
-        type: Sequelize.INTEGER,
-      },
     },
     {
       freezeTableName: true,
+      timestamps: false,
     }
   );
   return User;
