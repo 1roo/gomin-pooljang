@@ -77,8 +77,6 @@ exports.registUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("body: ", req.body);
-
     const user = await User.findOne({ where: { email: email } });
     console.log("user: ", user);
     console.log("Request Body:", req.body);
@@ -140,6 +138,7 @@ exports.changePw = async (req, res) => {
   try {
     const user = await exports.validation(req);
     console.log("레큐바디: ", req.body);
+    console.log("유저: ", user);
 
     const newPw = req.body.password;
     console.log("New Password:", newPw);
@@ -182,7 +181,11 @@ exports.logout = async (req, res) => {
  */
 exports.sendedMsg = async (req, res) => {
   try {
+    console.log("sendedMsg 호출됨");
+
     const user = await exports.validation(req);
+    console.log("user: ", user);
+
     if (user) {
       const isReplied = await Message.findOne({
         attributes: ["repliedOrNot"],
@@ -191,7 +194,14 @@ exports.sendedMsg = async (req, res) => {
       let msg = null;
       if (isReplied?.repliedOrNot) {
         msg = await Message.findOne({
-          attributes: ["content", "createdAt", "repliedContent", "repliedDate"],
+          attributes: [
+            "title",
+            "content",
+            "createdAt",
+            "repliedTitle",
+            "repliedContent",
+            "repliedDate",
+          ],
           where: { userId: user.userId },
         });
       } else {
@@ -200,6 +210,7 @@ exports.sendedMsg = async (req, res) => {
           where: { userId: user.userId },
         });
       }
+
       res.status(200).send({ result: msg });
     }
   } catch (error) {
@@ -212,7 +223,7 @@ exports.sendedMsg = async (req, res) => {
  * 내가 받은 고민, 답장 가져오기
  * 작성자: 하나래
  */
-exports.sendedMsg = async (req, res) => {
+exports.receivedMsg = async (req, res) => {
   try {
     const user = await exports.validation(req);
     if (user) {
@@ -223,7 +234,14 @@ exports.sendedMsg = async (req, res) => {
       let msg = null;
       if (isReplied?.repliedOrNot) {
         msg = await Message.findOne({
-          attributes: ["content", "createdAt", "repliedContent", "repliedDate"],
+          attributes: [
+            "title",
+            "content",
+            "createdAt",
+            "repliedTitle",
+            "repliedContent",
+            "repliedDate",
+          ],
           where: { receivedUserId: user.userId },
         });
       } else {

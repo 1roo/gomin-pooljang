@@ -11,7 +11,7 @@
 
 .index-container {
   width: 1200px;
-  height: 1700px;
+  height: 1200px;
   overflow-wrap: break-word;
   border: 1px solid red;
   position: relative;
@@ -19,6 +19,35 @@
 
 .logo {
   width: 100%;
+}
+
+/* 고민 받기 버튼 */
+
+.letter-container {
+  display: flex;
+  width: 1200px;
+  height: 800px;
+}
+
+.receive-letter {
+  display: flex;
+  margin-left: 60px;
+  margin-top: 150px;
+  width: 250px;
+  height: 80px;
+}
+
+.receive-letter-btn {
+  background-image: linear-gradient(to right, #92f8f8, #bae4f3);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 25px;
+  width: 150px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 /* 본문 */
@@ -29,6 +58,7 @@
   margin: 50px auto 0;
   width: 70%;
   padding-top: 50px;
+  margin-right: 100px;
   height: 800px;
   border-radius: 15px;
   background-image: linear-gradient(to right, #e4fafa, #bae4f3);
@@ -38,16 +68,10 @@
   text-align: center;
 }
 
-.letter img {
-  width: 50px;
-  display: block;
-  margin-top: 20px;
-}
-
 /* 컨텐츠 */
 
 .announcement {
-  width: 700px;
+  width: 710px;
   border-radius: 25px;
   background-image: linear-gradient(to right, #b8edfa, #c3e4f2);
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -55,17 +79,19 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  margin: 10px;
+  margin-bottom: 100px;
+  margin-left: 30px;
 }
 
 .announcement span {
   color: rgb(66, 176, 240);
   font-family: "Single Day", serif;
   font-style: normal;
+  font-size: 24px;
 }
 
 .announcement > img {
-  width: 100px;
+  width: 120px;
   padding-right: 20px;
 }
 
@@ -88,7 +114,7 @@ b {
 
 .modal_body {
   position: absolute;
-  top: 40%;
+  top: 55%;
   width: 600px;
   height: 600px;
   padding: 40px;
@@ -102,14 +128,7 @@ b {
   align-items: center;
 }
 
-.modal_body img {
-  justify-content: center;
-  width: 150px;
-  border-radius: 25px;
-  padding-left: 50px;
-}
-
-.closeX {
+.modal_body .closeX {
   position: absolute;
   right: 20px;
   top: 10px;
@@ -145,18 +164,23 @@ b {
   margin-left: auto;
 }
 
+.join .duplication {
+  width: 40px;
+  height: 40px;
+  border-radius: 15px;
+  border: none;
+  background-color: #d9f3f3;
+  color: rgb(18, 214, 228);
+  font-size: 10px;
+  margin-top: 15px;
+}
+
 .login h2,
-.join h2 {
+.join h2,
+.forgot-pw-modal h2 {
   font-size: 24px;
   color: #33dada;
 }
-
-/* .join .forget {
-  width: 100px;
-  height: 20px;
-  display: inline-block;
-  padding: 0px;
-} */
 
 #forget-btn {
   width: 100px;
@@ -172,7 +196,8 @@ b {
 }
 
 .login span,
-.join span {
+.join span,
+.forgot-pw-modal span {
   font-size: 15px;
   color: gray;
   font-weight: 500;
@@ -181,7 +206,7 @@ b {
 }
 
 .join .email-join {
-  width: 100px;
+  width: 70px;
 }
 
 .login p {
@@ -190,7 +215,8 @@ b {
 }
 
 .login input,
-.join input {
+.join input,
+.forgot-pw-modal input {
   width: 200px;
   border: none;
   border-bottom: 1px solid rgb(199, 196, 196);
@@ -198,6 +224,11 @@ b {
   margin-bottom: 20px;
   color: #3888e4;
   font-weight: 500;
+}
+
+.flex {
+  display: flex;
+  margin-left: 30px;
 }
 
 #text {
@@ -208,6 +239,26 @@ b {
   width: 10px;
 }
 
+.login .left,
+.join .left,
+.forgot-pw-modal .left {
+  text-align: left;
+  padding-left: 30px;
+  font-weight: 700;
+}
+
+.join .left-re {
+  padding-left: 5px;
+}
+
+.join .bold {
+  font-weight: 700;
+}
+
+.join .letdown {
+  width: 100px;
+}
+
 .login #checkbox {
   display: inline-block;
   font-size: 15px;
@@ -216,12 +267,14 @@ b {
 }
 
 .login input:focus,
-.join input:focus {
+.join input:focus,
+.forgot-pw-modal input:focus {
   outline: none;
 }
 
 .login button,
-.join button {
+.join button,
+.forgot-pw-modal button {
   width: 250px;
   height: 40px;
   border-radius: 25px;
@@ -287,17 +340,6 @@ form {
   width: 100%;
 }
 
-.image-container {
-  margin-left: 50px;
-}
-
-.image-container img {
-  width: 100px;
-  height: auto;
-  border-radius: 50%;
-  margin-top: 0;
-}
-
 .form-content {
   width: 70%;
   display: flex;
@@ -318,6 +360,14 @@ form {
 .form-group > .title {
   width: calc(100% - 53px);
 }
+
+.bottom {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: center;
+}
+
 label {
   font-size: 24px;
   font-weight: 700;
@@ -331,9 +381,13 @@ label {
   color: #33dada;
 }
 
+.form-container .right {
+  padding-right: 84px;
+}
+
 .form-container input,
 textarea {
-  width: 400px;
+  width: 600px;
   padding: 12px;
   font-size: 16px;
   border: 1px solid #33dada;
@@ -347,7 +401,7 @@ textarea {
 }
 
 textarea {
-  height: 150px;
+  height: 300px;
   resize: vertical;
 }
 
@@ -369,4 +423,105 @@ textarea {
 .form-container button.submit-btn:hover {
   background-image: linear-gradient(to right, #3399ff, #66b3ff);
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.forgot-pw-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.forgot-pw-modal-body {
+  position: absolute;
+  background-color: rgb(205, 239, 245);
+  padding: 10px;
+  margin-top: 100px;
+  border-radius: 30px;
+  width: 500px;
+  height: 550px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pw_container {
+  width: 70%;
+  height: 570px;
+  border-radius: 25px;
+  background-color: rgb(253, 251, 251);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.forgot-pw-modal .closeX {
+  position: absolute;
+  top: 10px;
+  left: 480px;
+  cursor: pointer;
+  font-weight: 700;
+  color: rgb(18, 214, 228);
+  font-size: 20px;
+}
+
+.forgot-pw-modal .check,
+.forgot-pw-modal .closeBtn-pw {
+  width: 70px;
+  height: 30px;
+  border-radius: 25px;
+  border: none;
+  background-color: #d9f3f3;
+  color: rgb(18, 214, 228);
+  font-size: 15px;
+}
+
+.flexable {
+  display: flex;
+  margin-left: 50px;
+}
+
+.check {
+  margin-top: 30px;
+}
+
+.closeBtn-pw {
+  cursor: pointer;
+  margin-left: 400px;
+  margin-bottom: 30px;
+}
+
+.forgot-pw-modal .pw_btn {
+  width: 120px;
+  height: 30px;
+  border-radius: 25px;
+  border: none;
+  background-color: #d9f3f3;
+  color: rgb(18, 214, 228);
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.forgot-pw-modal .letdown {
+  width: 120px;
+}
+
+form[name="form-reply"] {
+  display: none;
+}
+
+.andLeft {
+  margin-right: 60px;
+  width: 600px;
+}
+
+.andRight {
+  margin-left: 60px;
+  width: 600px;
 }
