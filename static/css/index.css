@@ -88,6 +88,7 @@
   font-family: "Single Day", serif;
   font-style: normal;
   font-size: 24px;
+  font-weight: 700;
 }
 
 .announcement > img {
@@ -155,7 +156,7 @@ b {
 
 .login,
 .join {
-  width: 55%;
+  width: 70%;
   height: 590px;
   border-radius: 25px;
   background-color: rgb(253, 251, 251);
@@ -236,7 +237,7 @@ b {
 }
 
 .login .checkbox {
-  width: 10px;
+  width: 20px;
 }
 
 .login .left,
@@ -282,6 +283,7 @@ b {
   background-color: #d9f3f3;
   color: rgb(18, 214, 228);
   font-size: 30px;
+  cursor: pointer;
 }
 
 .user {
@@ -315,22 +317,21 @@ b {
 
 /* 편지 내용 */
 
-.form {
+/* .form {
   position: relative;
   width: 50px;
   height: 100%;
   padding: 50px 30px 0;
-}
+} */
 
 form {
-  display: flex;
+  /* display: flex; */
   justify-content: space-around;
   align-items: center;
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
-  padding-top: 50px;
+  padding-top: 5px;
 }
 
 .form-container {
@@ -454,10 +455,11 @@ textarea {
 
 .pw_container {
   width: 70%;
-  height: 570px;
+  height: 550px;
   border-radius: 25px;
   background-color: rgb(253, 251, 251);
   padding: 20px;
+  margin-top: 40px;
   box-sizing: border-box;
 }
 
@@ -493,8 +495,8 @@ textarea {
 
 .closeBtn-pw {
   cursor: pointer;
-  margin-left: 400px;
-  margin-bottom: 30px;
+  margin-left: 420px;
+  margin-bottom: 60px;
 }
 
 .forgot-pw-modal .pw_btn {
