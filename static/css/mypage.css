@@ -1,244 +1,199 @@
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: "Pretendard-Regular", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
 .index-container-wrap {
   max-width: 100%;
   min-width: 1200px;
-  height: 1000px;
+  height: 100vh;
   display: flex;
   justify-content: center;
-  border: 1px solid black;
-  background-color: #34612b;
-  background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png");
-  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  position: relative;
+}
+
+.temp-container {
+  position: absolute;
+  top: 71%;
+  left: 10%;
+}
+
+.temp-icon {
+  width: auto;
+  height: 80px;
+  margin-bottom: 20px;
 }
 
 .index-container {
   width: 1200px;
-  overflow-wrap: break-word;
-  border: 1px solid red;
   height: 100%;
 }
 
 .main-body {
   margin-top: 20px;
-  border: solid blue;
   display: flex;
   width: 100%;
-  height: 800px;
+  height: calc(100vh - 120px);
 }
 
-.temp {
-  border: 2px solid green;
-  width: 15%;
-}
 .board {
   display: flex;
   flex-direction: column;
-
-  border: 2px solid red;
-  width: 70%;
-}
-
-.ad {
-  border: 2px solid blue;
-  width: 15%;
-  padding-left: 5px;
-}
-
-.notice {
-  border: 2px solid pink;
-
-  height: 6%;
-  line-height: 7px;
+  width: 100%;
 }
 
 .main-table {
   display: flex;
   align-items: center;
-  border: 2px solid pink;
   width: 100%;
-  height: 8%;
+  height: 60px;
+  background-color: transparent;
 }
+
 .main-table-col {
-  border: 2px solid blue;
   text-align: center;
-  line-height: 14px;
   width: 50%;
   height: 100%;
 }
 
-.main-table-th {
-  display: flex;
-
-  border: 2px solid red;
-  height: 11%;
-}
-
-.main-table-th-col {
-  border: 2px solid green;
-  text-align: center;
-  line-height: 14px;
-  height: 100%;
-}
-
-.tab {
-  border: 2px solid pink;
-  width: 100%;
-  display: block;
-}
-
-.tab-2 {
-  border: 2px solid pink;
-  width: 100%;
-  display: none;
-}
-
 .tab-btn {
-  background-color: transparent; /* 배경색 제거 */
-  border: none; /* 테두리 제거 */
-  color: #000; /* 텍스트 색상 설정 */
   width: 100%;
   height: 100%;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: "Pretendard-Regular", sans-serif;
   font-size: 16px;
-  line-height: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
 }
 
 .tab-btn:hover {
-  cursor: pointer;
-  color: red;
-}
-.title-hover:hover {
-  cursor: pointer;
-  color: red;
+  border-color: #f0f0f0;
 }
 
-.pageing-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.page-btn {
-  width: 35px;
-  height: 45px;
-  font-size: 30px;
-  font-weight: bold;
-  /* background: none;
-  border: none; */
-  font-family: "Single Day", serif;
-  font-style: normal;
-}
-
-.page-btn:hover {
-  cursor: pointer;
-}
-
-li {
-  list-style-type: none;
-  padding: 0; /* 패딩 제거 (선택 사항) */
-  margin: 0; /* 마진 제거 (선택 사항) */
-}
-
-.ad-container-1 {
-  height: 250px;
-  padding-top: 50px;
-  border: 2px solid red;
-}
-
-.img-class {
+.tab-btn::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
   width: 100%;
-  height: 100%;
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(189, 240, 249, 0) 0%,
+    rgba(189, 240, 249, 1) 50%,
+    rgba(189, 240, 249, 0) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
+.tab-btn.active::after {
+  opacity: 1;
+  animation: wave 3s ease-in-out forwards;
+}
+
+.tab-btn.active {
+  background-color: transparent;
+  border: 1px solid #e0e0e0;
+}
+
+.tab-1-wrap,
 .tab-2-wrap {
-  border: 3px solid black;
-  height: 400px;
-  width: 99%;
+  width: 100%;
 }
 
-.tab-1-wrap-row-1 {
+.tab-1-wrap-row-1,
+.tab-2-wrap-row-1 {
   padding: 4px;
   display: flex;
-  text-align: center;
   align-items: center;
-  line-height: 10px;
-  border: 3px solid black;
   height: 50px;
-  width: 99%;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.tab-1-wrap-row-1-col-1 {
-  border: 3px solid black;
-  width: 80%;
+.tab-1-wrap-row-1-col-1,
+.tab-1-wrap-row-1-col-2,
+.tab-2-wrap-row-1-col-1,
+.tab-2-wrap-row-1-col-2 {
+  width: 50%;
   height: 50px;
-}
-.tab-1-wrap-row-1-col-2 {
-  border: 3px solid black;
-  width: 20%;
-  height: 50px;
-}
-
-.tab-1-wrap {
-  border: 3px solid black;
-  height: 450px;
-  width: 99%;
-}
-.send-gomin-list {
-  border: 3px solid black;
-  height: 50px;
-}
-.send-gomin-list-row {
-  border: 3px solid black;
-  line-height: 10px;
   display: flex;
-  text-align: center;
   align-items: center;
+  justify-content: center;
 }
 
-.send-gomin-list-col-1 {
-  border: 3px solid black;
-  width: 80%;
+.send-gomin-list,
+.receive-gomin-list {
   height: 50px;
 }
 
-.send-gomin-list-col-2 {
-  border: 3px solid black;
-  width: 20%;
-  height: 50px;
-}
-
-.res-gomin-list {
-  border: 3px solid black;
-  height: 50px;
-}
-.res-gomin-list-row {
-  border: 3px solid black;
-  line-height: 10px;
+.send-gomin-list-row,
+.receive-gomin-list-row {
   display: flex;
-  text-align: center;
   align-items: center;
+  font-size: 14px;
 }
 
-.res-gomin-list-col-1 {
-  border: 3px solid black;
-  width: 80%;
+.send-gomin-list-col-1,
+.send-gomin-list-col-2,
+.receive-gomin-list-col-1,
+.receive-gomin-list-col-2 {
+  width: 50%;
   height: 50px;
-}
-.res-gomin-list-col-1:hover {
-  color: red;
-  cursor: pointer;
-}
-
-.res-gomin-list-col-2 {
-  border: 3px solid black;
-  width: 20%;
-  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.send-gomin-list-col-1:hover {
-  color: red;
-  cursor: pointer;
+.pagination-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.pagination {
+  margin: 0;
+}
+
+.page-link {
+  color: #000;
+  background-color: transparent;
+  border: none;
+}
+
+.page-item.active .page-link {
+  background-color: #f0f0f0;
+  border-color: transparent;
+  color: #000;
+}
+
+.page-link:hover {
+  background-color: #f8f9fa;
+  color: #000;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
