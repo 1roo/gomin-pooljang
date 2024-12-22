@@ -92,11 +92,11 @@ exports.findAllWorryList = async (req, res) => {
 
   try {
     const { user_Id } = req.query;
-    // 최근 100개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외)
+    // 최근 100개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
     const findAllWorryList = await sequelize.query(
-      `SELECT worrylist.*, readlist.user_Id, readlist.worryList_Id, readlist.create_DateTime FROM worrylist LEFT JOIN
-       readlist ON worrylist.Id = readlist.worryList_Id WHERE
-        readlist.user_Id IS NULL OR readlist.user_Id != :userId ORDER BY worrylist.Id DESC LIMIT 100`,
+      `select worrylist.*, readlist.user_Id, readlist.worryList_Id from worrylist 
+      left join readlist on worrylist.Id = readlist.worryList_Id where(user_Id is null or user_Id != :userId)
+      and sender_Id != :userId and responder_Id is null order by worrylist_Id desc limit 100`,
       { replacements: { userId: user_Id }, type: Sequelize.QueryTypes.SELECT }
     );
     res.send({ result: true, findAllWorryList });
