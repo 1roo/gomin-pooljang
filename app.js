@@ -94,7 +94,7 @@ app.get("*", (req, res) => {
   res.render("404");
 });
 
-db.sequelize.sync({ force: false }).then((result) => {
+db.sequelize.sync({ force: false, alter: true }).then((result) => {
   console.log("DB연결 성공");
   console.log("------------------------------");
   app.listen(PORT, () => {
