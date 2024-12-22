@@ -17,13 +17,13 @@ app.get("/mypage", (req, res) => {
 });
 
 //고민봉 내가보낸 고민탭
-app.get("/mypage/content-send", (req, res) => {
-  res.render("content_send");
+app.get("/mypage/user_sended_msg", (req, res) => {
+  res.render("user_sended_msg");
 });
 
-//고민봉 내가받은은 고민탭
-app.get("/mypage/content-res", (req, res) => {
-  res.render("content_res");
+//고민봉 내가받은 고민탭
+app.get("/mypage/user_received_msg", (req, res) => {
+  res.render("user_received_msg");
 });
 
 const indexRouter = require("./routes");
