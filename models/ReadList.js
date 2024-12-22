@@ -1,5 +1,6 @@
 const UserModel = require("./User");
 const WorryListModel = require("./WorryList");
+const moment = require("moment-timezone");
 const WorryList = WorryListModel.WorryList;
 const User = UserModel.User;
 
@@ -28,6 +29,10 @@ const ReadListModel = (sequelize, Sequelize) => {
           model: WorryList,
           key: "Id",
         },
+      },
+      create_DateTime: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("now"),
       },
     },
     {

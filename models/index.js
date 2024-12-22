@@ -14,7 +14,6 @@ let sequelize = new Sequelize(
   config.password,
   config,
   {
-    timezone: "Asia/Seoul",
     dialectOptions: {
       charset: "utf8mb4",
       dateStrings: true,

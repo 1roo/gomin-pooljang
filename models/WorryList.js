@@ -10,6 +10,10 @@ const WorryListModel = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
+      Title: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      },
       Sender_Content: {
         type: Sequelize.TEXT,
         allowNull: false,
@@ -28,6 +32,7 @@ const WorryListModel = (sequelize, Sequelize) => {
       },
       Sender_Post_DateTime: {
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("now"),
       },
       Responder_Post_DateTime: {
         type: Sequelize.DATE,
