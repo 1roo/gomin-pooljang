@@ -12,6 +12,13 @@
   </head>
   <body>
     <div class="index-container-wrap">
+      <div class="temp-container">
+        <img
+          src="../static/images/thermometer.png"
+          alt="온도계"
+          class="temp-icon"
+        />
+      </div>
       <div class="index-container">
         <%- include('./include/header') %>
         <div class="main-body">
@@ -35,6 +42,7 @@
               </div>
             </div>
 
+
             <!-- 내가 보낸 고민 탭 -->
             <div class="tab">
               <div class="tab-1-wrap">
@@ -47,12 +55,16 @@
                   <!-- 내가 보낸 고민 -->
                   <div class="send-gomin-list-row">
                     <div class="send-gomin-list-col-1">
+
                       <a
                         href="#"
                         class="gomin-link send"
                         data-gomin-id="<%= i %>"
                         >내가 보낸 고민입니다.</a
                       >
+
+                      내가 보낸 고민입니다.
+
                     </div>
                     <div class="send-gomin-list-col-2">
                       <%= new Date().toLocaleString('ko-KR', { timeZone:
@@ -64,6 +76,7 @@
                   </div>
                 </div>
                 <% } %>
+
 
                 <!-- 페이지 네비게이션 -->
                 <nav aria-label="Page navigation" class="pagination-container">
@@ -100,12 +113,16 @@
                   <!-- 내가 받은 고민 -->
                   <div class="receive-gomin-list-row">
                     <div class="receive-gomin-list-col-1">
+
                       <a
                         href="#"
                         class="gomin-link receive"
                         data-gomin-id="<%= i %>"
                         >내가 받은 고민입니다.</a
                       >
+
+                      내가 받은 고민입니다.
+
                     </div>
                     <div class="receive-gomin-list-col-2">
                       <%= new Date().toLocaleString('ko-KR', { timeZone:
@@ -139,7 +156,11 @@
                   </ul>
                 </nav>
               </div>
+              <!-- tab-1-wrap end -->
             </div>
+
+
+            <!-- tab-2 end -->
           </div>
           <!-- board end -->
         </div>
@@ -153,14 +174,21 @@
     <script>
       function toggleTab(button, tabSelector) {
         // 모든 탭 숨기기
+
         document.querySelectorAll(".tab, .tab-2").forEach((tab) => {
           tab.style.display = "none";
         });
+
+        document
+          .querySelectorAll(".tab, .tab-2")
+          .forEach((tab) => (tab.style.display = "none"));
+
 
         // 선택된 탭 보이기
         document.querySelector(tabSelector).style.display = "block";
 
         // 모든 버튼에서 active 클래스 제거
+
         document.querySelectorAll(".tab-btn").forEach((btn) => {
           btn.classList.remove("active");
         });
@@ -187,6 +215,23 @@
             }
           });
         });
+
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+
+        // 클릭된 버튼에 active 클래스 추가
+        button.classList.add("active");
+
+        // 파도 애니메이션 재시작
+        button.style.animation = "none";
+        button.offsetHeight; // reflow
+        button.style.animation = null;
+      }
+
+      // 초기 상태 설정
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector(".tab_send_btn").click();
       });
     </script>
   </body>
