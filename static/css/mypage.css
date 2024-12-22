@@ -22,18 +22,6 @@ body {
   position: relative;
 }
 
-.temp-container {
-  position: absolute;
-  top: 71%;
-  left: 10%;
-}
-
-.temp-icon {
-  width: auto;
-  height: 80px;
-  margin-bottom: 20px;
-}
-
 .index-container {
   width: 1200px;
   height: 100%;

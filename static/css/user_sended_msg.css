@@ -1,0 +1,165 @@
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.board {
+  position: relative;
+  width: 100%;
+  padding: 0px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  font-family: "Pretendard-Regular", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.index-container-wrap {
+  max-width: 100%;
+  min-width: 1200px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.index-container {
+  width: 1200px;
+  height: 100%;
+}
+
+.main-body {
+  margin: 20px auto;
+  display: flex;
+  width: 1200px;
+  height: calc(100vh - 120px);
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sent-message,
+.received-message {
+  padding: 20px;
+}
+
+.message-header {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.content-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.label {
+  width: 80px;
+  font-weight: bold;
+}
+
+.text {
+  flex: 1;
+}
+
+.text input,
+.text textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.text textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+/* 구분선 */
+.message-container {
+  position: relative;
+}
+
+.message-container::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+}
+
+/* 목록 버튼 */
+.list-button-container {
+  position: absolute;
+  top: -40px;
+  right: 0;
+}
+
+.list-button {
+  padding: 8px 16px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Pretendard-Regular", sans-serif;
+  font-size: 14px;
+}
+
+.list-button:hover {
+  background-color: #f8f9fa;
+}
+
+/* temperature */
+
+.temp-container {
+  position: absolute;
+  top: -35px;
+  right: 75px; /* 목록 버튼과의 간격 조정 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.temp-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.temp-icon {
+  width: 20px;
+  height: auto;
+}
+
+.temperature {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0066cc; /* 파란색으로 변경 */
+}
