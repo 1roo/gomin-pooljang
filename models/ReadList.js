@@ -1,6 +1,5 @@
 const UserModel = require("./User");
 const WorryListModel = require("./WorryList");
-const moment = require("moment-timezone");
 const WorryList = WorryListModel.WorryList;
 const User = UserModel.User;
 
