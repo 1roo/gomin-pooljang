@@ -38,6 +38,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
 }
 
 .main-table {
@@ -184,4 +185,39 @@ body {
   100% {
     transform: translateX(100%);
   }
+}
+
+/* temperature */
+
+/* 온도 표시 스타일 수정 */
+.temp-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 0;
+  background-color: #fff;
+  margin-right: 35px; /* 오른쪽 여백 조정 */
+}
+
+.temp-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto; /* 오른쪽 정렬을 위해 추가 */
+}
+
+.temp-icon {
+  width: 20px;
+  height: auto;
+}
+
+.temperature {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0066cc;
+}
+
+.temperatureText {
+  font-size: 14px;
+  font-weight: bold;
 }

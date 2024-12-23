@@ -114,9 +114,9 @@ body {
 
 /* 목록 버튼 */
 .list-button-container {
-  position: absolute;
   top: -40px;
   right: 0;
+  margin-right: 20px;
 }
 
 .list-button {
@@ -133,12 +133,29 @@ body {
   background-color: #f8f9fa;
 }
 
+/* 목록 버튼과 temp container */
+.top-container {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 온도와 목록 버튼 사이의 간격 */
+}
+
+.top-controls {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px; /* 온도와 목록 버튼 사이의 간격 */
+}
+
 /* temperature */
 
 .temp-container {
-  position: absolute;
-  top: -35px;
-  right: 75px; /* 목록 버튼과의 간격 조정 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,4 +179,9 @@ body {
   font-size: 14px;
   font-weight: bold;
   color: #0066cc; /* 파란색으로 변경 */
+}
+
+.temperatureText {
+  font-size: 14px;
+  font-weight: bold;
 }
