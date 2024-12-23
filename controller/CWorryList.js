@@ -37,7 +37,7 @@ exports.createWorryList = async (req, res) => {
       senderContent,
       senderSwearWord,
     });
-    res.send({ result: true, message: "성공적으로 등록되었습니다." });
+    res.send({ result: true, message: "성공적으로 고민이 등록되었습니다." });
   } catch (error) {
     console.log("post /addWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
@@ -47,8 +47,7 @@ exports.createWorryList = async (req, res) => {
 exports.answerWorryList = async (req, res) => {
   try {
     //Id 는 WorryList 테이블의 Id
-    const { Id, responder_Id, responderContent, responderPostDateTime } =
-      req.body;
+    const { Id, responder_Id, responderContent } = req.body;
     const filePath = path.join(__dirname, "../config/badwords.txt");
 
     // 파일 읽기
@@ -75,7 +74,7 @@ exports.answerWorryList = async (req, res) => {
       {
         responder_Id,
         responderContent,
-        responderPostDateTime,
+        responderPostDateTime: new Date(),
         responderSwearWord,
       },
       { where: { Id } }
@@ -91,7 +90,7 @@ exports.answerWorryList = async (req, res) => {
 exports.myWorryList = async (req, res) => {
   try {
     const { sender_Id } = req.body;
-    const newMyWorryList = await WorryList.findAll({
+    const MyWorryList = await WorryList.findAll({
       attributes: [
         "Id",
         "sender_Id",
@@ -107,7 +106,7 @@ exports.myWorryList = async (req, res) => {
       ],
       where: { sender_Id },
     });
-    res.send({ result: true, newMyWorryList });
+    res.send({ result: true, MyWorryList });
   } catch (error) {
     console.log("get /myWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
@@ -117,7 +116,7 @@ exports.myWorryList = async (req, res) => {
 exports.myAnswerList = async (req, res) => {
   try {
     const { responder_Id } = req.body;
-    const newMyAnswerList = await WorryList.findAll({
+    const MyAnswerList = await WorryList.findAll({
       attributes: [
         "Id",
         "sender_Id",
@@ -133,7 +132,7 @@ exports.myAnswerList = async (req, res) => {
       ],
       where: { responder_Id },
     });
-    res.send({ result: true, newMyAnswerList });
+    res.send({ result: true, MyAnswerList });
   } catch (error) {
     console.log("get /myAnswerList error", error);
     res.status(500).send({ message: "서버 에러" });
