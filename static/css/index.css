@@ -3,17 +3,9 @@
 .index-container-wrap {
   max-width: 100%;
   min-width: 1200px;
-  display: flex;
+  align-items: center;
   justify-content: center;
-  border: 1px solid black;
   background-color: white;
-}
-
-.index-container {
-  width: 1200px;
-  height: 1200px;
-  overflow-wrap: break-word;
-  position: relative;
 }
 
 .logo {
@@ -26,6 +18,7 @@
   display: flex;
   width: 1200px;
   height: 800px;
+  margin: auto;
 }
 
 .receive-letter {
@@ -69,7 +62,7 @@
 /* 컨텐츠 */
 
 .announcement {
-  width: 710px;
+  width: 720px;
   border-radius: 25px;
   background-image: linear-gradient(to right, #b8edfa, #c3e4f2);
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -78,14 +71,13 @@
   align-items: center;
   padding: 20px;
   margin-bottom: 100px;
-  margin-left: 30px;
+  margin-left: 20px;
 }
 
-.announcement span {
+.letter-container .announcement span {
   color: rgb(66, 176, 240);
-  font-family: "Single Day", serif;
-  font-style: normal;
-  font-size: 24px;
+  width: 570px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -108,7 +100,7 @@ b {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.756);
 }
 
 .modal_body {
@@ -387,8 +379,6 @@ textarea {
   cursor: pointer;
   transition: background-color 0.3s;
   align-self: center;
-  font-family: "Single Day", serif;
-  font-style: normal;
 }
 
 .form-container button.submit-btn:hover {
