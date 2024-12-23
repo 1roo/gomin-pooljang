@@ -36,11 +36,6 @@ WorryListModel.belongsTo(UserModel, {
   targetKey: "userId",
 });
 
-WorryListModel.hasMany(ReadListModel, {
-  foreignKey: "worryList_Id",
-  sourceKey: "Id",
-});
-
 ReadListModel.belongsTo(UserModel, {
   foreignKey: "user_Id",
   targetKey: "userId",

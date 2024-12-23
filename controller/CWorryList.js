@@ -1,13 +1,41 @@
 const { Op } = require("sequelize");
+const fs = require("fs");
+const path = require("path");
 const { WorryList, sequelize, Sequelize } = require("../models");
 const { ReadList } = require("../models");
+const { promisify } = require("util");
+const readFileAsync = promisify(fs.readFile);
+
 exports.createWorryList = async (req, res) => {
   try {
     const { title, senderContent, sender_Id } = req.body;
+    const filePath = path.join(__dirname, "../config/badwords.txt");
+
+    // 파일 읽기
+    const data = await readFileAsync(filePath, "utf8");
+
+    // 데이터를 배열로 변환하고, 줄 바꿈, 캐리지 리턴, 쉼표 및 빈 문자열 제거
+    const badwords = data
+      .split(/[\n\r,]+/)
+      .map((word) => word.trim())
+      .filter((word) => word !== "");
+
+    // badwords 배열에 있는 단어가 senderContent 문자열에 포함되어 있는지 검사
+    const containsBadWord = badwords.some((word) =>
+      senderContent.includes(word)
+    );
+    console.log("containsBadWord===", containsBadWord);
+    if (containsBadWord) {
+      senderSwearWord = "Y";
+    } else {
+      senderSwearWord = "N";
+    }
+    console.log("senderSwearWord===", senderSwearWord);
     const newWorryList = await WorryList.create({
       sender_Id,
       title,
       senderContent,
+      senderSwearWord,
     });
     res.send({ result: true, message: "성공적으로 등록되었습니다." });
   } catch (error) {
@@ -18,10 +46,38 @@ exports.createWorryList = async (req, res) => {
 
 exports.answerWorryList = async (req, res) => {
   try {
+    //Id 는 WorryList 테이블의 Id
     const { Id, responder_Id, responderContent, responderPostDateTime } =
       req.body;
+    const filePath = path.join(__dirname, "../config/badwords.txt");
+
+    // 파일 읽기
+    const data = await readFileAsync(filePath, "utf8");
+
+    // 데이터를 배열로 변환하고, 줄 바꿈, 캐리지 리턴, 쉼표 및 빈 문자열 제거
+    const badwords = data
+      .split(/[\n\r,]+/)
+      .map((word) => word.trim())
+      .filter((word) => word !== "");
+
+    // badwords 배열에 있는 단어가 senderContent 문자열에 포함되어 있는지 검사
+    const containsBadWord = badwords.some((word) =>
+      responderContent.includes(word)
+    );
+    console.log("containsBadWord===", containsBadWord);
+    if (containsBadWord) {
+      responderSwearWord = "Y";
+    } else {
+      responderSwearWord = "N";
+    }
+
     const newAnswerWorryList = await WorryList.update(
-      { responder_Id, responderContent, responderPostDateTime },
+      {
+        responder_Id,
+        responderContent,
+        responderPostDateTime,
+        responderSwearWord,
+      },
       { where: { Id } }
     );
 
@@ -99,7 +155,21 @@ exports.findAllWorryList = async (req, res) => {
       and sender_Id != :userId and responder_Id is null order by worrylist_Id desc limit 100`,
       { replacements: { userId: user_Id }, type: Sequelize.QueryTypes.SELECT }
     );
-    res.send({ result: true, findAllWorryList });
+    //20개를 랜덤으로 배열에 저장
+    let randomWorryList = [];
+    for (let i = 0; i < 2; i++) {
+      let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
+      randomWorryList.push(findAllWorryList[randomIndex]);
+      findAllWorryList.splice(randomIndex, 1);
+    }
+    //콘솔로그로 출력
+    console.log("randomWorryList", randomWorryList);
+
+    //고민등록된 리스트가 없을경우 현제고민이없다고 에러?
+    //아니면 가짜 고민 1000개 넣어두기?
+    //등록자가 답변자 점수평가시 입력안하면 기본 점수로
+
+    res.send({ result: true, randomWorryList });
   } catch (error) {
     console.log("get /findAllWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
