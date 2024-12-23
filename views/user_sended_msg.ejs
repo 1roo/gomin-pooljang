@@ -16,20 +16,23 @@
         <%- include('./include/header') %>
         <div class="main-body">
           <div class="board">
-            <div class="temp-container">
-              <div class="temp-wrapper">
-                <img
-                  src="../static/images/thermometer.png"
-                  alt="온도계"
-                  class="temp-icon"
-                />
-                <span class="temperature">36.5°</span>
+            <div class="top-controls">
+              <div class="temp-container">
+                <div class="temp-wrapper">
+                  <img
+                    src="../static/images/thermometer.png"
+                    alt="온도계"
+                    class="temp-icon"
+                  />
+                  <span class="temperatureText">나의 온도</span>
+                  <span class="temperature">36.5°</span>
+                </div>
               </div>
-            </div>
-            <div class="list-button-container">
-              <button class="list-button" onclick="location.href='/mypage'">
-                목록
-              </button>
+              <div class="list-button-container">
+                <button class="list-button" onclick="location.href='/mypage'">
+                  목록
+                </button>
+              </div>
             </div>
             <div class="message-container">
               <div class="sent-message">
@@ -73,7 +76,6 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
   </body>
 </html>
