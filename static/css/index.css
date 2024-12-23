@@ -1,25 +1,54 @@
 /* 메인 페이지 */
 
+body {
+  font-family: "Pretendard-Regular", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
 .index-container-wrap {
   max-width: 100%;
   min-width: 1200px;
+
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.index-container {
+  width: 1200px;
+  height: 100%;
+}
+
+.main-body {
+  margin-top: 20px;
+  display: flex;
+
   align-items: center;
   justify-content: center;
   background-color: white;
 }
 
 .logo {
-  width: 100%;
-}
 
-/* 고민 받기 버튼 */
+  width: 100%;
+  height: calc(100vh - 120px);
+}
 
 .letter-container {
   display: flex;
   width: 1200px;
+
+  height: calc(100% - 120px);
+
   height: 800px;
   margin: auto;
+
 }
+
+/* 고민 받기 버튼 */
 
 .receive-letter {
   display: flex;

@@ -11,6 +11,20 @@
   </head>
   <body>
     <div class="index-container-wrap">
+
+      <div class="index-container">
+        <%-include('./include/header') %>
+        <%-include('./include/notification') %>
+        <div class="main-body">
+          <div class="letter-container">
+          <div class="receive-letter">
+            <div class="receive-letter-btn" onclick="receiveLetter()">
+              <img
+                src="/static/images/receive-letter.png"
+                alt="receive-letter"
+              />고민 듣는<br />예쁜 마음
+            </div>
+
       <%-include('./include/header') %> <%-include('./include/notification') %>
       <div class="letter-container">
         <div class="receive-letter">
@@ -19,6 +33,7 @@
               src="/static/images/receive-letter.png"
               alt="receive-letter"
             />고민 듣는<br />예쁜 마음
+
           </div>
         </div>
         <div class="letter">
