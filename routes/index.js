@@ -9,14 +9,14 @@ router.get("/", UserController.main);
 
 // 새 고민 작성, 욕설필터
 
-router.post("/user/regist", UserController.registUser);
-router.post("/user/check-email", UserController.checkEmail);
-router.post("/user/login", UserController.loginUser);
-router.post("/user/token", UserController.validation);
-router.patch("/user/change-pw", UserController.changePw);
-router.get("/user/logout", UserController.logout);
-router.post("/user/sendedMsg", UserController.sendedMsg);
-router.get("/user/receivedMsg", UserController.receivedMsg);
+router.post("/regist", UserController.registUser);
+router.post("/check-email", UserController.checkEmail);
+router.post("/login", UserController.loginUser);
+router.post("/token", UserController.validation);
+router.patch("/change-pw", UserController.changePw);
+router.get("/logout", UserController.logout);
+router.post("/sendedMsg", UserController.sendedMsg);
+router.get("/receivedMsg", UserController.receivedMsg);
 
 //고민봉 유저 고민 등록 row생성
 router.post("/addWorryList", WorryListController.createWorryList);
