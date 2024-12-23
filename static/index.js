@@ -41,17 +41,10 @@ closePwBtn.addEventListener("click", function () {
   closeModal(forgetPwModal);
 });
 
-// 비밀번호 찾기 모달 닫기 (X)
+// 로그인 모달 닫기 (X)
 const closeX = document.querySelector(".modal_body .closeX");
 closeX.addEventListener("click", function () {
   closeModal(modal);
-});
-
-/* 비밀번호 수정 버튼 클릭 시 비밀번호 수정 화면을 보이게 하는 부분 */
-document.querySelector(".step1").addEventListener("click", function () {
-  const pwUpdateContainer = document.querySelector(".pw-update-container");
-
-  pwUpdateContainer.style.display = "block";
 });
 
 // 비밀번호 찾기 모달 닫기 (X)
@@ -78,49 +71,121 @@ function receiveLetter() {
 
   // 새로운 form-reply 폼 생성
   const formContainer = document.querySelector(".form-container");
-
-  // formContainer가 존재하는지 확인
-  if (!formContainer) {
-    console.error("form-container not found!");
-    return;
-  }
-
   const newReplyForm = document.createElement("form");
   newReplyForm.setAttribute("name", "form-reply");
 
-  // 올바른 HTML 구조로 생성
   newReplyForm.innerHTML = `
-  <div class="form-content">
-  <div class="form-group andLeft">
-  <label for="title">
-  <span>제목</span>
-  </label>
-  <input type="text" id="title" name="title" readonly />
-      </div>
-      <div class="form-group bottom andLeft">
-        <label for="comment">
-        <span>내용</span>
-        </label>
-        <textarea
-        id="comment"
-        name="comment"
-        maxlength="200"
-        readonly
-        ></textarea>
-        </div>
-        <div class="form-group bottom andRight">
-        <label for="comment">
-          <span>답장</span>
-          </label>
-          <textarea id="comment" name="comment" maxlength="200"></textarea>
-      </div>
-    </div>`;
+              <form name="form-reply">
+                <div class="andLeft">
+                  <label for="title"><span>제목</span></label>
+                  <input type="text" id="title" name="title" readonly />
+                  <label for="comment"><span>내용</span></label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    maxlength="200"
+                    readonly
+                  ></textarea>
+                </div>
+                <button type="button" class="reject" onclick="rejectLetter()">
+                  건너뛰기
+                </button>
+
+                <div class="andRight">
+                  <label for="comment"><span>답장</span></label>
+                  <textarea
+                    id="comment"
+                    name="comment"
+                    maxlength="200"
+                  ></textarea>
+                </div>
+                <button
+                  name="received"
+                  type="button"
+                  class="submitReply"
+                  onclick="submitReply()"
+                >
+                  답장 보내기
+                </button>
+              </form>`;
 
   formContainer.appendChild(newReplyForm);
   newReplyForm.style.display = "block";
 }
 
+/* 뱓은 고민 건너뛰기 버튼 클릭 시 */
+
+function rejectLetter() {
+  const isConfirmed = confirm("정말로 건너뛰시겠습니까?");
+
+  if (isConfirmed) {
+    const formReply = document.querySelector('form[name="form-reply"]');
+    if (formReply) {
+      formReply.style.display = "none";
+    }
+
+    const formLetter = document.querySelector('form[name="form-letter"]');
+    if (formLetter) {
+      formLetter.style.display = "block";
+    }
+  }
+}
+
 /* axios */
+
+/* 고민 보내기 버튼 */
+async function sendContent() {
+  const form = document.forms["form-letter"];
+  const title = form.title.value;
+  const message = form.message.value;
+
+  if (title.trim() === "" || message.trim() === "") {
+    alert("제목과 내용을 작성해주세요!");
+    return;
+  }
+
+  const data = {
+    title,
+    message,
+  };
+
+  try {
+    const res = await axios({
+      method: "post",
+      url: "/",
+      data: data,
+    });
+    console.log(res.data);
+  } catch (e) {
+    console.error("Error send message:", e);
+  }
+}
+
+/* 답장 보내기 버튼 */
+async function submitReply() {
+  const form = document.forms["form-reply"];
+  const received = form.received.value;
+
+  if (received === "") {
+    alert("답장을 입력해주세요!!");
+    return;
+  }
+
+  const data = {
+    received,
+  };
+
+  try {
+    const res = await axios({
+      method: "post",
+      url: "/",
+      data: data,
+    });
+    console.log(res.data);
+  } catch (e) {
+    console.error("Error submit reply:", e);
+  }
+}
 
 /* 로그인 */
 async function loginFn() {
@@ -128,7 +193,7 @@ async function loginFn() {
   const email = form.email.value;
   const password = form.password.value;
 
-  if (email.trim() === 0 || password.trim() === 0) {
+  if (email.trim() === "" || password.trim() === "") {
     alert("이메일, 비밀번호를 모두 입력하셔야 합니다!");
     return;
   }
@@ -145,6 +210,14 @@ async function loginFn() {
       data: data,
     });
     console.log(res.data);
+    if (res.data.success) {
+      alert("로그인 성공!");
+
+      document.querySelector(".modal").style.display = "none";
+      document.querySelector(".index-container").style.display = "block";
+    } else {
+      alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.");
+    }
   } catch (e) {
     console.error("Error login:", e);
   }
@@ -154,13 +227,19 @@ async function loginFn() {
 async function duplCheck() {
   const form = document.forms["form-login"];
   const email = form.email.value;
+  const domain = form.selection.value;
 
   if (!email) {
     alert("이메일을 입력해주세요.");
     return;
   }
 
-  const data = { email };
+  if (!domain) {
+    alert("이메일을 선택 하셔야 합니다!");
+    return;
+  }
+
+  const data = { email, domain };
 
   try {
     const res = await axios({
@@ -183,30 +262,45 @@ async function duplCheck() {
 async function joinFn() {
   const form = document.forms["form-join"];
   const email = form.email.value;
+  const domain = form.selection.value;
   const newPw = form.newPw.value;
   const confirmPw = form.confirmPw.value;
-  const question = form.question.value;
+  const question = form.combo.value;
   const answer = form.answer.value;
 
-  if (email.trim() === 0 || newPw.trim() === 0 || confirmPw.trim() === 0) {
+  // 유효성 검사
+
+  if (newPw.trim() === "" || confirmPw.trim() === "") {
     alert("이메일, 비밀번호를 모두 입력하셔야 합니다!");
     return;
   }
 
-  if (question[0] === 0) {
+  if (!question) {
     alert("질문을 선택 하셔야 합니다!");
     return;
   }
 
-  if (answer.trim() === 0) {
+  if (answer.trim() === "") {
     alert("답변을 입력하셔야 합니다!");
+    return;
+  }
+
+  // 비밀 번호 일치 여부 (확인)
+
+  if (newPw.trim() !== confirmPw.trim()) {
+    alert("비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+
+    form.newPw.value = "";
+    form.confirmPw.value = "";
+
+    form.newPw.focus();
     return;
   }
 
   const data = {
     email,
+    domain,
     newPw,
-    confirmPw,
     question,
     answer,
   };
@@ -218,6 +312,19 @@ async function joinFn() {
       data: data,
     });
     console.log(res.data);
+    if (res.data) {
+      const joinBtn = document.querySelector(".joinBtn");
+      joinBtn.focus();
+    } else {
+      alert("회원 가입 시 작성한 질문, 답과 일치하지 않습니다.");
+    }
+
+    if (res.data) {
+      const formLogin = document.querySelector('form[name="form-login"]');
+      const formJoin = document.querySelector('form[name="form-join"]');
+      formLogin.style.display = "block";
+      formJoin.style.display = "none";
+    }
   } catch (e) {
     console.error("Error join:", e);
   }
@@ -225,26 +332,91 @@ async function joinFn() {
 
 /* 비밀번호 수정 */
 
-// 비밀번호 수정 완료 버튼
-async function updatePw() {
+// 비밀번호 수정시 이메일 조회 버튼
+async function checkExist() {
   const form = document.forms["form-pw"];
   const email = form.email.value;
-  const newPw = form.newPw.value;
-  const confirmPw = form.confirmPw.value;
+  const domain = form.selection.value;
 
-  // 비밀번호와 확인 비밀번호가 일치하지 않는 경우
-  if (newPw.trim() !== confirmPw.trim()) {
-    alert("비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+  const data = {
+    email,
+  };
 
-    newPw = "";
-    confirmPw = "";
+  if (!email) {
+    alert("이메일을 입력해주세요.");
+    return;
+  }
 
-    newPw.focus();
+  try {
+    const res = await axiso({
+      method: "patch",
+      url: "/",
+      data: data,
+    });
+    console.log(res.data);
+    if (res.data) {
+      form.selection.focus();
+    } else {
+      alert("존재하지 않는 이메일입니다.");
+    }
+  } catch (e) {
+    console.error("Error exist email:", e);
+  }
+}
+
+// 비밀 번호 수정 버튼
+async function checkAnswer() {
+  const form = document.forms["form-pw"];
+  const email = form.email.value;
+  const question = form.combo.value;
+  const answer = form.answer.value;
+
+  if (!email || !question || !answer) {
+    alert("이메일, 질문, 답을 모두 입력하셔야 합니다!");
     return;
   }
 
   const data = {
     email,
+    question,
+    answer,
+  };
+
+  try {
+    const res = await axios({
+      method: "post",
+      url: "/",
+      data: data,
+    });
+    if (res.data) {
+      // 질문과 답이 일치하면 비밀번호 수정 화면 보이기
+      const complete = document.querySelector(".pw-update-container");
+      complete.style.display = "block";
+    } else {
+      alert("회원 가입 시 작성한 질문, 답과 일치하지 않습니다.");
+    }
+  } catch (e) {
+    console.error("Error updating password:", e);
+  }
+}
+
+// 비밀번호 수정 완료 버튼
+async function updatePw() {
+  const form = document.forms["form-pw"];
+  const newPw = form.newPw.value;
+  const confirmPw = form.confirmPw.value;
+
+  if (newPw.trim() !== confirmPw.trim()) {
+    alert("비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+
+    form.newPw.value = "";
+    form.confirmPw.value = "";
+
+    form.newPw.focus();
+    return;
+  }
+
+  const data = {
     newPw,
   };
 
