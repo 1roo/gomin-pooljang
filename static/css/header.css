@@ -63,8 +63,15 @@ body {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+  outline: none; /* 포커스 시 나타나는 외곽선도 제거 */
 }
 
 .header-menu:hover {
   background-color: #f0f0f0;
+}
+
+.header-menu:active,
+.header-menu:focus {
+  border: none;
+  outline: none;
 }

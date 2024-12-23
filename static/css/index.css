@@ -1,32 +1,40 @@
 /* 메인 페이지 */
 
+body {
+  font-family: "Pretendard-Regular", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
 .index-container-wrap {
   max-width: 100%;
   min-width: 1200px;
+  height: 100vh;
   display: flex;
   justify-content: center;
-  border: 1px solid black;
-  background-color: white;
+  position: relative;
 }
 
 .index-container {
   width: 1200px;
-  height: 1200px;
-  overflow-wrap: break-word;
-  position: relative;
+  height: 100%;
 }
 
-.logo {
+.main-body {
+  margin-top: 20px;
+  display: flex;
   width: 100%;
+  height: calc(100vh - 120px);
 }
-
-/* 고민 받기 버튼 */
 
 .letter-container {
   display: flex;
   width: 1200px;
-  height: 800px;
+  height: calc(100% - 120px);
 }
+
+/* 고민 받기 버튼 */
 
 .receive-letter {
   display: flex;
