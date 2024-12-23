@@ -29,7 +29,7 @@ const ReadListModel = (sequelize, Sequelize) => {
           key: "Id",
         },
       },
-      create_DateTime: {
+      createDateTime: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("now"),
       },
