@@ -18,7 +18,11 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
       },
       question: {
-        type: Sequelize.ENUM("value1", "value2", "value3"),
+        type: Sequelize.ENUM(
+          "출신 초등학교 이름은?",
+          "학창시절 별명은?",
+          "조부모님의 성함은?"
+        ),
         allowNull: false,
       },
       answer: {
