@@ -64,7 +64,6 @@
   background-image: linear-gradient(to right, #e4fafa, #bae4f3);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   justify-content: center;
-  /* align-items: flex-start; */
   text-align: center;
 }
 
@@ -317,15 +316,7 @@ b {
 
 /* 편지 내용 */
 
-/* .form {
-  position: relative;
-  width: 50px;
-  height: 100%;
-  padding: 50px 30px 0;
-} */
-
 form {
-  /* display: flex; */
   justify-content: space-around;
   align-items: center;
   width: 100%;
@@ -341,32 +332,12 @@ form {
   width: 100%;
 }
 
-.form-content {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.form-group {
-  display: block;
-  width: 100%;
-  margin-bottom: 20px;
-  flex-direction: column;
-}
-.form-group > label {
-  display: inline-block;
-}
-.form-group > .title {
-  width: calc(100% - 53px);
-}
-
 .bottom {
   display: flex;
-  align-items: flex-start;
-  flex-direction: row;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  margin-bottom: 50px;
 }
 
 label {
@@ -402,7 +373,7 @@ textarea {
 }
 
 textarea {
-  height: 300px;
+  height: 200px;
   resize: vertical;
 }
 
@@ -519,11 +490,39 @@ form[name="form-reply"] {
 }
 
 .andLeft {
-  margin-right: 60px;
+  margin-left: 30px;
+  margin-bottom: 20px;
   width: 600px;
 }
 
 .andRight {
-  margin-left: 60px;
+  margin-left: 170px;
+  margin-top: 60px;
   width: 600px;
+}
+
+.reject {
+  padding: 12px 30px;
+  font-size: 24px;
+  background-image: linear-gradient(to right, #66b3ff, #3399ff);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: center;
+}
+
+.submitReply {
+  padding: 12px 30px;
+  font-size: 24px;
+  background-image: linear-gradient(to right, #66b3ff, #3399ff);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: center;
 }
