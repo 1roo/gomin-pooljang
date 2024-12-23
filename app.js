@@ -31,6 +31,12 @@ const indexRouter = require("./routes");
 app.use("/", indexRouter);
 
 /**
+ * 이메일 중복여부부
+ * 작성자: 하나래
+ */
+app.post("/check-email", UserController.checkEmail);
+
+/**
  * 회원가입
  * 작성자: 하나래
  */
