@@ -10,31 +10,31 @@ const WorryListModel = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
-      Title: {
+      title: {
         type: Sequelize.STRING(100),
         allowNull: false,
       },
-      Sender_Content: {
+      senderContent: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      Responder_Content: {
+      responderContent: {
         type: Sequelize.TEXT,
       },
-      Temp_Rate_responder: {
+      tempRateResponder: {
         type: Sequelize.FLOAT,
       },
-      Sender_Swear_Word: {
+      senderSwearWord: {
         type: Sequelize.STRING(1),
       },
-      Responder_Swear_Word: {
+      responderSwearWord: {
         type: Sequelize.STRING(1),
       },
-      Sender_Post_DateTime: {
+      senderPostDateTime: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("now"),
       },
-      Responder_Post_DateTime: {
+      responderPostDateTime: {
         type: Sequelize.DATE,
       },
       sender_Id: {

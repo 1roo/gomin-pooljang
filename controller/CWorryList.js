@@ -3,11 +3,11 @@ const { WorryList, sequelize, Sequelize } = require("../models");
 const { ReadList } = require("../models");
 exports.createWorryList = async (req, res) => {
   try {
-    const { Title, Sender_Content, sender_Id } = req.body;
+    const { title, senderContent, sender_Id } = req.body;
     const newWorryList = await WorryList.create({
       sender_Id,
-      Title,
-      Sender_Content,
+      title,
+      senderContent,
     });
     res.send({ result: true, message: "성공적으로 등록되었습니다." });
   } catch (error) {
@@ -18,10 +18,10 @@ exports.createWorryList = async (req, res) => {
 
 exports.answerWorryList = async (req, res) => {
   try {
-    const { Id, responder_Id, Responder_Content, Responder_Post_DateTime } =
+    const { Id, responder_Id, responderContent, responderPostDateTime } =
       req.body;
     const newAnswerWorryList = await WorryList.update(
-      { responder_Id, Responder_Content, Responder_Post_DateTime },
+      { responder_Id, responderContent, responderPostDateTime },
       { where: { Id } }
     );
 
@@ -39,15 +39,15 @@ exports.myWorryList = async (req, res) => {
       attributes: [
         "Id",
         "sender_Id",
-        "Title",
-        "Sender_Content",
-        "Sender_Swear_Word",
-        "Sender_Post_DateTime",
+        "title",
+        "senderContent",
+        "senderSwearWord",
+        "senderPostDateTime",
         "responder_Id",
-        "Responder_Content",
-        "Responder_Swear_Word",
-        "Responder_Post_DateTime",
-        "Temp_Rate_responder",
+        "responderContent",
+        "responderSwearWord",
+        "responderPostDateTime",
+        "tempRateresponder",
       ],
       where: { sender_Id },
     });
@@ -65,15 +65,15 @@ exports.myAnswerList = async (req, res) => {
       attributes: [
         "Id",
         "sender_Id",
-        "Title",
-        "Sender_Content",
-        "Sender_Swear_Word",
-        "Sender_Post_DateTime",
+        "title",
+        "senderContent",
+        "senderSwearWord",
+        "senderPostDateTime",
         "responder_Id",
-        "Responder_Content",
-        "Responder_Swear_Word",
-        "Responder_Post_DateTime",
-        "Temp_Rate_responder",
+        "responderContent",
+        "responderSwearWord",
+        "responderPostDateTime",
+        "tempRateresponder",
       ],
       where: { responder_Id },
     });
