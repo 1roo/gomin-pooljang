@@ -11,7 +11,7 @@ exports.main = (req, res) => {
 };
 
 /**
- * registUser
+ * checkEmail
  * 작성자: 하나래
  */
 exports.checkEmail = async (req, res) => {
