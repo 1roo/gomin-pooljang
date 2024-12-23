@@ -15,8 +15,10 @@ router.post("/login", UserController.loginUser);
 router.post("/token", UserController.validation);
 router.patch("/change-pw", UserController.changePw);
 router.get("/logout", UserController.logout);
-router.post("/sendedMsg", UserController.sendedMsg);
-router.get("/receivedMsg", UserController.receivedMsg);
+router.get("/find-account", UserController.findAccount);
+router.get("/delete-account", UserController.deleteAccount);
+// router.post("/sendedMsg", UserController.sendedMsg);
+// router.get("/receivedMsg", UserController.receivedMsg);
 
 //고민봉 유저 고민 등록 row생성
 router.post("/addWorryList", WorryListController.createWorryList);
