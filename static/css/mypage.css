@@ -65,7 +65,12 @@ body {
   font-size: 16px;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.tab-btn:focus {
+  outline: none;
+  border: 1px solid transparent;
 }
 
 .tab-btn:hover {
@@ -96,8 +101,8 @@ body {
 }
 
 .tab-btn.active {
-  background-color: transparent;
-  border: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border: 1px solid transparent;
 }
 
 .tab-1-wrap,
