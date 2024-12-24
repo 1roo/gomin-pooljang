@@ -25,8 +25,8 @@ exports.testCreateWorryList = async (req, res) => {
       for (let j = 0; j < 10; j++) {
         const newWorryList = await WorryList.create({
           sender_Id: userId,
-          title: userId + "의" + j + "번째 유저의 고민",
-          senderContent: userId + "의" + j + "번째 유저의 고민",
+          title: userId + "의" + j + "고민",
+          senderContent: userId + "의" + j + "고민 내용",
           senderSwearWord: "N",
         });
       }
@@ -38,7 +38,7 @@ exports.testCreateWorryList = async (req, res) => {
         "성공적으로 10명의 유저 각각 10개씩 총 100개 고민 등록되었습니다.",
     });
   } catch (error) {
-    console.log("post /addWorryList error", error);
+    console.log("post /addWorryList100 error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -237,22 +237,27 @@ exports.myAnswerList = async (req, res) => {
 
 exports.findAllWorryList = async (req, res) => {
   try {
-    const { user_Id } = req.query;
-    // 최근 20개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
+    const { user_Id } = req.body;
+    // 최근 50개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
     const findAllWorryList = await sequelize.query(
       `select worrylist.*, readlist.user_Id, readlist.worryList_Id from worrylist 
       left join readlist on worrylist.Id = readlist.worryList_Id where(user_Id is null or user_Id != :userId)
-      and sender_Id != :userId and responder_Id is null order by worrylist_Id desc limit 20`,
+      and sender_Id != :userId and responder_Id is null order by worrylist_Id desc limit 50`,
       { replacements: { userId: user_Id }, type: Sequelize.QueryTypes.SELECT }
     );
-    //20개중 5개를 랜덤으로 보냄
+
+    // 50개중 5개를 랜덤으로 보냄
+    // 프론트에서 다음고민 버튼으로 5개 다봤으면 다시 /worrylist 주소로 요청을해서 5개를 받아와야함.
+    // 고민을 봤으면 readlist에 추가해야함
+
     let randomWorryList = [];
     for (let i = 0; i < 5; i++) {
       let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
+      console.log("randomIndex====", randomIndex);
       randomWorryList.push(findAllWorryList[randomIndex]);
       findAllWorryList.splice(randomIndex, 1);
     }
-    //콘솔로그로 출력
+
     console.log("randomWorryList", randomWorryList);
 
     //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함

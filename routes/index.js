@@ -48,6 +48,6 @@ router.post("/addReadList", ReadListController.createReadList);
 router.patch("/addAnswer", WorryListController.answerWorryList);
 
 //고민봉 새로운 고민 보기
-router.get("/worryList", WorryListController.findAllWorryList);
+router.post("/worryList", WorryListController.findAllWorryList);
 
 module.exports = router;
