@@ -31,7 +31,7 @@ const indexRouter = require("./routes");
 app.use("/", indexRouter);
 
 /**
- * 이메일 중복여부부
+ * 이메일 중복여부
  * 작성자: 하나래
  */
 app.post("/check-email", UserController.checkEmail);
@@ -65,6 +65,18 @@ app.patch("/changePw", UserController.changePw);
  * 작성자: 하나래
  */
 app.post("/logout", UserController.logout);
+
+/**
+ * 회원탈퇴
+ * 작성자: 하나래
+ */
+app.post("/deleteAccount", UserController.deleteAccount);
+
+/**
+ * 회원가입질문 일치 여부
+ * 작성자: 하나래
+ */
+app.post("/findAccount", UserController.findAccount);
 
 app.get("*", (req, res) => {
   res.render("404");
