@@ -237,7 +237,7 @@ exports.myAnswerList = async (req, res) => {
 
 exports.findAllWorryList = async (req, res) => {
   try {
-    const { user_Id } = req.query;
+    const { user_Id } = req.body;
     // 최근 50개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
     const findAllWorryList = await sequelize.query(
       `select worrylist.*, readlist.user_Id, readlist.worryList_Id from worrylist 
