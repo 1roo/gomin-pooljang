@@ -1,9 +1,9 @@
 const { ReadList } = require("../models");
 exports.createReadList = async (req, res) => {
   try {
-    const { user_Id, worryList_Id } = req.body;
+    const { userId, worryList_Id } = req.body;
     const newReadList = await ReadList.create({
-      user_Id,
+      userId,
       worryList_Id,
     });
     res.send({ result: true, message: "성공적으로 내가 본 목록이 추가됨" });
