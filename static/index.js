@@ -59,59 +59,37 @@ document
   .addEventListener("click", receiveLetter);
 
 function receiveLetter() {
-  const formLetter = document.getElementById("letterForm");
+  // 보내는 편지 폼 숨기기
+  const formLetter = document.querySelector('form[name="form-letter"]');
   if (formLetter) {
     formLetter.style.display = "none";
   }
 
-  // 기존의 form-reply가 있으면 삭제
-  const existingReplyForm = document.querySelector('form[name="form-reply"]');
-  if (existingReplyForm) {
-    existingReplyForm.remove();
+  // 받는 편지 폼 보이기
+  const formReply = document.querySelector('form[name="form-reply"]');
+  if (formReply) {
+    formReply.style.display = "block";
+  } else {
+    // 받는 편지 폼이 없는 경우 새로 생성
+    const formContainer = document.querySelector(".form-container");
+    const newReplyForm = document.createElement("form");
+    newReplyForm.setAttribute("name", "form-reply");
+    newReplyForm.innerHTML = `
+        <div class="andLeft">
+          <label for="title"><span>제목</span></label>
+          <input type="text" id="title" name="title" readonly />
+          <label for="comment"><span>내용</span></label>
+          <textarea id="message" name="message" maxlength="200" readonly></textarea>
+        </div>
+        <button type="button" class="reject" onclick="rejectLetter()">건너뛰기</button>
+        <div class="andRight">
+          <label for="comment"><span>답장</span></label>
+          <textarea id="comment" name="comment" maxlength="200"></textarea>
+        </div>
+        <button name="received" type="button" class="submitReply" onclick="submitReply()">답장 보내기</button>
+      `;
+    formContainer.appendChild(newReplyForm);
   }
-
-  // 새로운 form-reply 폼 생성
-  const formContainer = document.querySelector(".form-container");
-  const newReplyForm = document.createElement("form");
-  newReplyForm.setAttribute("name", "form-reply");
-
-  newReplyForm.innerHTML = `
-              <form name="form-reply">
-                <div class="andLeft">
-                  <label for="title"><span>제목</span></label>
-                  <input type="text" id="title" name="title" readonly />
-                  <label for="comment"><span>내용</span></label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    maxlength="200"
-                    readonly
-                  ></textarea>
-                </div>
-                <button type="button" class="reject" onclick="rejectLetter()">
-                  건너뛰기
-                </button>
-
-                <div class="andRight">
-                  <label for="comment"><span>답장</span></label>
-                  <textarea
-                    id="comment"
-                    name="comment"
-                    maxlength="200"
-                  ></textarea>
-                </div>
-                <button
-                  name="received"
-                  type="button"
-                  class="submitReply"
-                  onclick="submitReply()"
-                >
-                  답장 보내기
-                </button>
-              </form>`;
-
-  formContainer.appendChild(newReplyForm);
-  newReplyForm.style.display = "block";
 }
 
 /* 뱓은 고민 건너뛰기 버튼 클릭 시 */
