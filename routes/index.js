@@ -26,8 +26,14 @@ router.post("/addWorryList", WorryListController.createWorryList);
 //고민봉 나의 고민 목록 row 가져오기
 router.post("/myWorryList", WorryListController.myWorryList);
 
+//고민봉 나의 고민목록 내용 가져오기
+router.post("/myWorryList/content", WorryListController.myWorryListContent);
+
 //고민봉 나의 답변 목록 row 가져오기
 router.post("/myAnswerList", WorryListController.myAnswerList);
+
+//고민봉 나의 답변목록 내용 가져오기
+router.post("/myAnswerList/content", WorryListController.myAnswerListContent);
 
 //고민봉 내가 본 고민 목록  row생성
 router.post("/addReadList", ReadListController.createReadList);

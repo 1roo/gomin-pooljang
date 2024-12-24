@@ -23,6 +23,10 @@ const WorryListModel = (sequelize, Sequelize) => {
       },
       tempRateResponder: {
         type: Sequelize.FLOAT,
+        defaultValue: 37.0,
+      },
+      checkReviewScore: {
+        type: Sequelize.STRING(1),
       },
       senderSwearWord: {
         type: Sequelize.STRING(1),
