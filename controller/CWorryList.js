@@ -1,10 +1,47 @@
 const { Op } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { WorryList, sequelize, Sequelize } = require("../models");
-const { ReadList } = require("../models");
+const {
+  ReadList,
+  User,
+  WorryList,
+  sequelize,
+  Sequelize,
+} = require("../models");
 const { promisify } = require("util");
 const readFileAsync = promisify(fs.readFile);
+
+// 도메인 룰 테스트용 고민 10명의 유저 각각 10개씩 총 100개 생성성
+exports.testCreateWorryList = async (req, res) => {
+  try {
+    const findUserId = await User.findAll({
+      order: [["userId", "DESC"]],
+      limit: 10,
+    });
+
+    for (let i = 0; i < 10; i++) {
+      let userId = findUserId[i].userId;
+      console.log("userId 확인 ===", userId);
+      for (let j = 0; j < 10; j++) {
+        const newWorryList = await WorryList.create({
+          sender_Id: userId,
+          title: userId + "의" + j + "번째 유저의 고민",
+          senderContent: userId + "의" + j + "번째 유저의 고민",
+          senderSwearWord: "N",
+        });
+      }
+    }
+
+    res.send({
+      result: true,
+      message:
+        "성공적으로 10명의 유저 각각 10개씩 총 100개 고민 등록되었습니다.",
+    });
+  } catch (error) {
+    console.log("post /addWorryList error", error);
+    res.status(500).send({ message: "서버 에러" });
+  }
+};
 
 exports.createWorryList = async (req, res) => {
   try {
@@ -199,11 +236,6 @@ exports.myAnswerList = async (req, res) => {
 };
 
 exports.findAllWorryList = async (req, res) => {
-  //내가 본 고민은 제외하고 WorryList테이블에서 id값 기준으로 맨뒤에 100개를 가져와야함.
-  // 100개중 랜덤20개를 따로 저장하고 다음버튼 누룰시 20개중 다음 고민이 나오게 해야함.
-  // 다음 버튼 누룰시 봤던고민은 ReadList 테이블에 추가함.
-  // 답변 보내기 버튼을 누를시 WorryList 필드를 업데이트 함
-
   try {
     const { user_Id } = req.query;
     // 최근 20개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
