@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User, Message } = require("../models");
+const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const SALT = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -8,6 +8,37 @@ console.log(User);
 /* '/' GET */
 exports.main = (req, res) => {
   res.render("index");
+};
+
+//고민봉 도메인 룰 확인용 회원10명가입
+exports.testUserCreate = async (req, res) => {
+  try {
+    password = "1234";
+    const salt = await bcrypt.genSalt(SALT);
+    const hashedPw = await bcrypt.hash(password, salt);
+
+    for (let i = 0; i < 10; i++) {
+      const findUserId = await User.findAll({
+        order: [["userId", "DESC"]],
+        limit: 1,
+      });
+      const newUser = await User.create({
+        email: "a" + (findUserId[0].userId + 1) + "@naver.com",
+        password: hashedPw,
+        question: "출신 초등학교 이름은?",
+        answer: "qqq",
+      });
+    }
+
+    res.send({
+      result: true,
+
+      message: "회원가입 10명 성공",
+    });
+  } catch (error) {
+    console.log("post /regist100 error", error);
+    res.status(500).send({ message: "서버 에러" });
+  }
 };
 
 /**

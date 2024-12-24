@@ -35,9 +35,9 @@ module.exports = (sequelize, Sequelize) => {
         defaultValue: Sequelize.NOW,
       },
       temp: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 36.5,
       },
     },
     {
