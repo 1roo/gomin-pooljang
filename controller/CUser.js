@@ -77,15 +77,15 @@ exports.registUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ where: { email: email } });
     console.log("user: ", user);
     console.log("Request Body:", req.body);
 
     if (!user) {
-      return res
-        .status(400)
-        .send({ result: false, message: "유저가 존재하지 않습니다." });
+      return res.status(400).send({ result: false, message: "invalid_email" });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       const token = jwt.sign(
@@ -95,14 +95,47 @@ exports.loginUser = async (req, res) => {
           expiresIn: "1h",
         }
       );
-      res.send({ result: true, token: token });
+      return res.send({ result: true, token: token });
     } else {
-      res
+      return res
         .status(400)
-        .send({ result: false, message: "비밀번호가 일치하지 않습니다." });
+        .send({ result: false, message: "invalid_password" });
     }
   } catch (error) {
     console.log("post /login error", error);
+    res.status(500).send({ message: "서버 에러" });
+  }
+};
+
+/**
+ * 이메일과 질문, 대답 일치 여부
+ * 작성자: 하나래
+ */
+exports.findAccount = async (req, res) => {
+  try {
+    const { email, question, answer } = req.body;
+    if (!email || !question || !answer) {
+      return res
+        .status(400)
+        .send({ result: false, message: "모든 필드를 입력해주세요" });
+    }
+    const user = await User.findOne({
+      where: {
+        email,
+        question,
+        answer,
+      },
+    });
+
+    if (!user) {
+      return res
+        .status(400)
+        .send({ result: false, message: "정보가 일치하지 않습니다" });
+    }
+
+    res.send({ result: true, message: "정보가 일치합니다" });
+  } catch (error) {
+    console.log("post /find-account error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -137,8 +170,6 @@ exports.validation = async (req) => {
 exports.changePw = async (req, res) => {
   try {
     const user = await exports.validation(req);
-    console.log("레큐바디: ", req.body);
-    console.log("유저: ", user);
 
     const newPw = req.body.password;
     console.log("New Password:", newPw);
@@ -151,7 +182,10 @@ exports.changePw = async (req, res) => {
     const salt = await bcrypt.genSalt(SALT);
     const hashedPw = await bcrypt.hash(newPw, salt);
 
-    await User.update({ password: hashedPw }, { where: { email: user.email } });
+    await User.update(
+      { password: hashedPw },
+      { where: { email: user.email, password } }
+    );
 
     res.send({ result: true, message: "비밀번호 변경 성공" });
   } catch (error) {
@@ -167,8 +201,20 @@ exports.changePw = async (req, res) => {
 exports.logout = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
-    invalidateToken(token);
-    res.status(200).send("로그아웃 성공");
+
+    if (!token) {
+      return res
+        .status(400)
+        .send({ result: false, message: "토큰이 없습니다." });
+    }
+
+    const isInvalidated = await invalidateToken(token);
+    if (!isInvalidated) {
+      return res
+        .status(400)
+        .send({ result: false, message: "토큰 무효화 실패" });
+    }
+    res.status(200).send({ result: true, message: "로그아웃 성공" });
   } catch (error) {
     console.error("logout error:", error.message);
     res.status(500).send({ result: false, message: "서버 에러" });
@@ -176,84 +222,128 @@ exports.logout = async (req, res) => {
 };
 
 /**
- * 내가 보낸 고민, 답장 가져오기
+ * deleteUser
  * 작성자: 하나래
  */
-exports.sendedMsg = async (req, res) => {
+exports.deleteAccount = async (req, res) => {
   try {
-    console.log("sendedMsg 호출됨");
+    const userInfo = await exports.validation(req);
+    const { password } = req.body;
 
-    const user = await exports.validation(req);
-    console.log("user: ", user);
-
-    if (user) {
-      const isReplied = await Message.findOne({
-        attributes: ["repliedOrNot"],
-        where: { userId: user.userId },
-      });
-      let msg = null;
-      if (isReplied?.repliedOrNot) {
-        msg = await Message.findOne({
-          attributes: [
-            "title",
-            "content",
-            "createdAt",
-            "repliedTitle",
-            "repliedContent",
-            "repliedDate",
-          ],
-          where: { userId: user.userId },
-        });
-      } else {
-        msg = await Message.findOne({
-          attributes: ["content", "createdAt"],
-          where: { userId: user.userId },
-        });
-      }
-
-      res.status(200).send({ result: msg });
+    // 사용자 정보 확인
+    const user = await User.findOne({ where: { email: userInfo.email } });
+    if (!user) {
+      return res
+        .status(400)
+        .send({ result: false, message: "유저가 없습니다." });
     }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .send({ result: false, message: "비밀번호가 틀렸습니다." });
+    }
+
+    const salt = await bcrypt.genSalt(SALT);
+    const hashedPw = await bcrypt.hash("deleted_password", salt);
+
+    await User.update(
+      {
+        email: "deleted_user@example.com",
+        password: hashedPw,
+        question: null,
+        answer: null,
+        updatedAt: new Date(),
+      },
+      { where: { email: userInfo.email } }
+    );
+
+    res.send({ result: true, message: "회원삭제 완료" });
   } catch (error) {
-    console.error("sended-msg error:", error.message);
-    res.status(500).send({ result: false, message: "서버 에러" });
+    console.log("deleteAccount error", error);
+    res.status(500).send({ message: "서버 에러" });
   }
 };
 
-/**
- * 내가 받은 고민, 답장 가져오기
- * 작성자: 하나래
- */
-exports.receivedMsg = async (req, res) => {
-  try {
-    const user = await exports.validation(req);
-    if (user) {
-      const isReplied = await Message.findOne({
-        attributes: ["repliedOrNot"],
-        where: { receivedUserId: user.userId },
-      });
-      let msg = null;
-      if (isReplied?.repliedOrNot) {
-        msg = await Message.findOne({
-          attributes: [
-            "title",
-            "content",
-            "createdAt",
-            "repliedTitle",
-            "repliedContent",
-            "repliedDate",
-          ],
-          where: { receivedUserId: user.userId },
-        });
-      } else {
-        msg = await Message.findOne({
-          attributes: ["content", "createdAt"],
-          where: { receivedUserId: user.userId },
-        });
-      }
-      res.status(200).send({ result: msg });
-    }
-  } catch (error) {
-    console.error("received-msg error:", error.message);
-    res.status(500).send({ result: false, message: "서버 에러" });
-  }
-};
+// /**
+//  * 내가 보낸 고민, 답장 가져오기
+//  * 작성자: 하나래
+//  */
+// exports.sendedMsg = async (req, res) => {
+//   try {
+//     console.log("sendedMsg 호출됨");
+
+//     const user = await exports.validation(req);
+//     console.log("user: ", user);
+
+//     if (user) {
+//       const isReplied = await Message.findOne({
+//         attributes: ["repliedOrNot"],
+//         where: { userId: user.userId },
+//       });
+//       let msg = null;
+//       if (isReplied?.repliedOrNot) {
+//         msg = await Message.findOne({
+//           attributes: [
+//             "title",
+//             "content",
+//             "createdAt",
+//             "repliedTitle",
+//             "repliedContent",
+//             "repliedDate",
+//           ],
+//           where: { userId: user.userId },
+//         });
+//       } else {
+//         msg = await Message.findOne({
+//           attributes: ["content", "createdAt"],
+//           where: { userId: user.userId },
+//         });
+//       }
+
+//       res.status(200).send({ result: msg });
+//     }
+//   } catch (error) {
+//     console.error("sended-msg error:", error.message);
+//     res.status(500).send({ result: false, message: "서버 에러" });
+//   }
+// };
+
+// /**
+//  * 내가 받은 고민, 답장 가져오기
+//  * 작성자: 하나래
+//  */
+// exports.receivedMsg = async (req, res) => {
+//   try {
+//     const user = await exports.validation(req);
+//     if (user) {
+//       const isReplied = await Message.findOne({
+//         attributes: ["repliedOrNot"],
+//         where: { receivedUserId: user.userId },
+//       });
+//       let msg = null;
+//       if (isReplied?.repliedOrNot) {
+//         msg = await Message.findOne({
+//           attributes: [
+//             "title",
+//             "content",
+//             "createdAt",
+//             "repliedTitle",
+//             "repliedContent",
+//             "repliedDate",
+//           ],
+//           where: { receivedUserId: user.userId },
+//         });
+//       } else {
+//         msg = await Message.findOne({
+//           attributes: ["content", "createdAt"],
+//           where: { receivedUserId: user.userId },
+//         });
+//       }
+//       res.status(200).send({ result: msg });
+//     }
+//   } catch (error) {
+//     console.error("received-msg error:", error.message);
+//     res.status(500).send({ result: false, message: "서버 에러" });
+//   }
+// };
