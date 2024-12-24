@@ -83,6 +83,9 @@ exports.createWorryList = async (req, res) => {
 
 exports.answerWorryList = async (req, res) => {
   try {
+    //같은고민을 2명이 답변하고있는경우 마지막으로 답변한사람꺼로 덮어쓰기가 됨.. 답변등록시
+    //답변된건지 아닌지 조회를 먼저하고 답변이 된거면 예외처리로 이미답변됫다고 해야함
+
     //Id 는 WorryList 테이블의 Id
     const { Id, responder_Id, responderContent } = req.body;
     const filePath = path.join(__dirname, "../config/badwords.txt");
@@ -245,26 +248,27 @@ exports.findAllWorryList = async (req, res) => {
       and sender_Id != :userId and responder_Id is null order by worrylist_Id desc limit 50`,
       { replacements: { userId: user_Id }, type: Sequelize.QueryTypes.SELECT }
     );
-
-    // 50개중 5개를 랜덤으로 보냄
-    // 프론트에서 다음고민 버튼으로 5개 다봤으면 다시 /worrylist 주소로 요청을해서 5개를 받아와야함.
-    // 고민을 봤으면 readlist에 추가해야함
-
-    let randomWorryList = [];
-    for (let i = 0; i < 5; i++) {
-      let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
-      console.log("randomIndex====", randomIndex);
-      randomWorryList.push(findAllWorryList[randomIndex]);
-      findAllWorryList.splice(randomIndex, 1);
+    //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함
+    if (findAllWorryList.length == 0) {
+      res.send({ result: false, message: "현재 고민이 없습니다." });
+      return;
     }
 
+    // 50개중 1개를 랜덤으로 보냄
+    let randomWorryList = [];
+    let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
+    console.log("randomIndex====", randomIndex);
+    randomWorryList.push(findAllWorryList[randomIndex]);
     console.log("randomWorryList", randomWorryList);
 
-    //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함
-    //같은고민을 2명이 답변하고있는경우 마지막으로 답변한사람꺼로 덮어쓰기가 됨.. 답변등록시
-    //답변된건지 아닌지 조회를 먼저하고 답변이 된거면 예외처리로 이미답변됫다고 해줌
-
-    res.send({ result: true, randomWorryList });
+    if (findAllWorryList.length > 0) {
+      //고민을 봤으면 readlist에 추가해야함
+      const newReadList = await ReadList.create({
+        user_Id,
+        worryList_Id: randomWorryList[0].Id,
+      });
+      res.send({ result: true, randomWorryList });
+    }
   } catch (error) {
     console.log("get /worryList error", error);
     res.status(500).send({ message: "서버 에러" });
