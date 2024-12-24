@@ -22,6 +22,15 @@ exports.testUserCreate = async (req, res) => {
         order: [["userId", "DESC"]],
         limit: 1,
       });
+      if (findUserId.length === 0) {
+        const newUser1 = await User.create({
+          email: "test@naver.com",
+          password: hashedPw,
+          question: "출신 초등학교 이름은?",
+          answer: "qqq",
+        });
+        continue;
+      }
       const newUser = await User.create({
         email: "a" + (findUserId[0].userId + 1) + "@naver.com",
         password: hashedPw,
@@ -199,9 +208,9 @@ exports.validation = async (req) => {
  * 작성자: 하나래
  */
 exports.changePw = async (req, res) => {
+  //
   try {
     const user = await exports.validation(req);
-
     const newPw = req.body.password;
     console.log("New Password:", newPw);
     if (!newPw || newPw.length < 4) {

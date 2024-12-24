@@ -26,6 +26,9 @@ router.post("/regist10", UserController.testUserCreate);
 //고민봉 도메인 룰 테스트용 고민 10명의 유저 각각 10개씩 총 100개 생성성
 router.post("/addWorryList100", WorryListController.testCreateWorryList);
 
+//고민봉 리뷰 점수 업데이트
+router.patch("/updateTemp", WorryListController.updateTempRateresponder);
+
 //고민봉 유저 고민 등록 row생성
 router.post("/addWorryList", WorryListController.createWorryList);
 

@@ -45,7 +45,7 @@ exports.testCreateWorryList = async (req, res) => {
 
 exports.createWorryList = async (req, res) => {
   try {
-    const { title, senderContent, sender_Id } = req.body;
+    const { title, senderContent, user_Id } = req.body;
     const filePath = path.join(__dirname, "../config/badwords.txt");
 
     // 파일 읽기
@@ -69,7 +69,7 @@ exports.createWorryList = async (req, res) => {
     }
     console.log("senderSwearWord===", senderSwearWord);
     const newWorryList = await WorryList.create({
-      sender_Id,
+      sender_Id: user_Id,
       title,
       senderContent,
       senderSwearWord,
@@ -83,13 +83,17 @@ exports.createWorryList = async (req, res) => {
 
 exports.answerWorryList = async (req, res) => {
   try {
-    //같은고민을 2명이 답변하고있는경우 마지막으로 답변한사람꺼로 덮어쓰기가 됨.. 답변등록시
-    //답변된건지 아닌지 조회를 먼저하고 답변이 된거면 예외처리로 이미답변됫다고 해야함
-
     //Id 는 WorryList 테이블의 Id
-    const { Id, responder_Id, responderContent } = req.body;
+    const { Id, userId, responderContent } = req.body;
     const filePath = path.join(__dirname, "../config/badwords.txt");
 
+    //같은고민을 2명이 답변하고있는경우 마지막으로 답변한사람꺼로 덮어쓰기가 됨.. 답변등록시
+    //답변된건지 아닌지 조회를 먼저하고 답변이 된거면 예외처리로 이미답변됫다고 해야함
+    const findWorryList = await WorryList.findOne({ where: { Id } });
+    if (findWorryList.responder_Id != null) {
+      res.send({ result: false, message: "이미 답변된 고민입니다." });
+      return;
+    }
     // 파일 읽기
     const data = await readFileAsync(filePath, "utf8");
 
@@ -110,9 +114,9 @@ exports.answerWorryList = async (req, res) => {
       responderSwearWord = "N";
     }
 
-    const newAnswerWorryList = await WorryList.update(
+    const answerWorryList = await WorryList.update(
       {
-        responder_Id,
+        responder_Id: userId,
         responderContent,
         responderPostDateTime: new Date(),
         responderSwearWord,
@@ -154,6 +158,57 @@ exports.myAnswerListContent = async (req, res) => {
     res.status(500).send({ message: "서버 에러" });
   }
 };
+
+// 답변받은 유저가 리뷰점수를 줌.
+exports.updateTempRateresponder = async (req, res) => {
+  try {
+    //tempScore는 1,2,3,4,5 5개 단계로 점수를 줄수 있도록함
+    //온도점수공식
+    // 1: -0.2
+    // 2: -0.1
+    // 3: 0
+    // 4: +0.1
+    // 5: +0.2
+    const { Id, tempScore } = req.body;
+    let calulateTempScore = parseFloat(tempScore);
+    if (calulateTempScore == 1) {
+      calulateTempScore = 0.2;
+    }
+    if (calulateTempScore == 2) {
+      calulateTempScore = 0.1;
+    }
+    if (calulateTempScore == 3) {
+      calulateTempScore = 0;
+    }
+    if (calulateTempScore == 4) {
+      calulateTempScore = 0.1;
+    }
+    if (calulateTempScore == 5) {
+      calulateTempScore = 0.2;
+    }
+
+    console.log("calulateTempScore===", calulateTempScore);
+    const findWorryList = await WorryList.findOne({ where: { Id } });
+    findWorryList.update({
+      tempRateResponder: tempScore,
+      checkReviewScore: "Y",
+    });
+
+    const findUser = await User.findOne({
+      where: { userId: findWorryList.responder_Id },
+    });
+
+    await findUser.update({
+      temp: parseFloat(findUser.temp) + calulateTempScore,
+    });
+
+    res.send({ result: true, message: "성공적으로 평가했습니다." });
+  } catch (error) {
+    console.log("patch /updateTempRateresponder error", error);
+    res.status(500).send({ message: "서버 에러" });
+  }
+};
+
 exports.myWorryListContent = async (req, res) => {
   // 나의 고민에 답변이 달렸을경우 checkReviewScore가 N로 바뀜
   // checkReviewScore 이 N면 리뷰점수를 줄수 있도록 해야함
@@ -186,7 +241,7 @@ exports.myWorryListContent = async (req, res) => {
 
 exports.myWorryList = async (req, res) => {
   try {
-    const { sender_Id } = req.body;
+    const { userId } = req.body;
     const myWorryList = await WorryList.findAll({
       attributes: [
         "Id",
@@ -202,7 +257,7 @@ exports.myWorryList = async (req, res) => {
         "tempRateresponder",
         "checkReviewScore",
       ],
-      where: { sender_Id },
+      where: { sender_Id: userId },
     });
     res.send({ result: true, myWorryList });
   } catch (error) {
@@ -213,7 +268,7 @@ exports.myWorryList = async (req, res) => {
 
 exports.myAnswerList = async (req, res) => {
   try {
-    const { responder_Id } = req.body;
+    const { userId } = req.body;
     const myAnswerList = await WorryList.findAll({
       attributes: [
         "Id",
@@ -229,8 +284,10 @@ exports.myAnswerList = async (req, res) => {
         "tempRateresponder",
         "checkReviewScore",
       ],
-      where: { responder_Id },
+      where: { responder_Id: userId },
     });
+
+    console.log("myAnswerList===", myAnswerList);
     res.send({ result: true, myAnswerList });
   } catch (error) {
     console.log("post /myAnswerList error", error);
@@ -240,13 +297,13 @@ exports.myAnswerList = async (req, res) => {
 
 exports.findAllWorryList = async (req, res) => {
   try {
-    const { user_Id } = req.body;
+    const { userId } = req.body;
     // 최근 50개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
     const findAllWorryList = await sequelize.query(
       `select worrylist.*, readlist.user_Id, readlist.worryList_Id from worrylist 
       left join readlist on worrylist.Id = readlist.worryList_Id where(user_Id is null or user_Id != :userId)
       and sender_Id != :userId and responder_Id is null order by worrylist_Id desc limit 50`,
-      { replacements: { userId: user_Id }, type: Sequelize.QueryTypes.SELECT }
+      { replacements: { userId: userId }, type: Sequelize.QueryTypes.SELECT }
     );
     //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함
     if (findAllWorryList.length == 0) {
@@ -264,7 +321,7 @@ exports.findAllWorryList = async (req, res) => {
     if (findAllWorryList.length > 0) {
       //고민을 봤으면 readlist에 추가해야함
       const newReadList = await ReadList.create({
-        user_Id,
+        userId,
         worryList_Id: randomWorryList[0].Id,
       });
       res.send({ result: true, randomWorryList });
