@@ -6,32 +6,37 @@
   font-style: normal;
 }
 
+.header-full-width {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: "Pretendard-Regular", sans-serif;
   margin: 0;
   padding: 0;
-  overflow-y: auto;
+  overflow-x: hidden;
 }
 
+/*  index-container 중앙정렬 */
 .index-container-wrap {
-  max-width: 100%;
-  min-width: 1200px;
-  height: 100vh;
   display: flex;
   justify-content: center;
-  position: relative;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .index-container {
-  width: 1200px;
-  height: 100%;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .main-body {
   margin-top: 20px;
   display: flex;
   width: 100%;
-  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+  overflow-x: hidden;
 }
 
 .board {
@@ -39,6 +44,7 @@ body {
   flex-direction: column;
   width: 100%;
   position: relative;
+  overflow: auto;
 }
 
 .main-table {

@@ -59,11 +59,12 @@ document
   .addEventListener("click", receiveLetter);
 
 function receiveLetter() {
-  const formLetter = document.querySelector('form[name="form-letter"]');
+  const formLetter = document.getElementById("letterForm");
+  if (formLetter) {
+    formLetter.style.display = "none";
+  }
 
-  formLetter.style.display = "none";
-
-  // 기존의 form-reply가 있으면 삭제하기
+  // 기존의 form-reply가 있으면 삭제
   const existingReplyForm = document.querySelector('form[name="form-reply"]');
   if (existingReplyForm) {
     existingReplyForm.remove();
