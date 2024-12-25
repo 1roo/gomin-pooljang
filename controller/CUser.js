@@ -10,6 +10,25 @@ exports.main = (req, res) => {
   res.render("index");
 };
 
+//고민봉
+exports.index = (req, res) => {
+  const jwt = req.cookies.jwtToken;
+  const loginStatus = req.cookies.loginStatus;
+
+  console.log("jwt: ", jwt);
+  console.log("loginStatus: ", loginStatus);
+  const payload = jwt.split(".")[1];
+  const decodedPayload = atob(payload);
+  console.log("decodedPayload = ", decodedPayload);
+  res.render("index copy", { jwt, loginStatus, decodedPayload });
+};
+
+//고민봉 mypageCopy
+exports.mypageCopy = async (req, res) => {
+  const { userId } = req.body;
+  res.send({ result: true, message: "마이페이지" });
+};
+
 //고민봉 도메인 룰 확인용 회원10명가입
 exports.testUserCreate = async (req, res) => {
   try {
@@ -110,6 +129,49 @@ exports.registUser = async (req, res) => {
   }
 };
 
+//고민봉logunUser2
+exports.loginUser2 = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email: email } });
+
+    console.log("user: ", user);
+    console.log("Request Body:", req.body);
+
+    if (user === null) {
+      return res.send({ result: false, message: "이메일이 틀렸습니다" });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      console.log("isMatch 조건문 안");
+      const token = jwt.sign(
+        { id: user.userId, email: user.email },
+        SECRET_KEY,
+        {
+          expiresIn: "1h",
+        }
+      );
+      res.cookie("jwtToken", token, {
+        httpOnly: true,
+        path: "/",
+      });
+      res.cookie("loginStatus", "true", {
+        httpOnly: true,
+        path: "/",
+      });
+      return res.send({ result: true, token: token });
+    } else {
+      return res.send({
+        result: false,
+        message: "비밀번호 틀렸습니다",
+      });
+    }
+  } catch (error) {
+    console.log("post /login error", error);
+    res.send({ result: false, message: "서버에러" });
+  }
+};
+
 /**
  * loginUser
  * 작성자: 하나래
@@ -135,6 +197,14 @@ exports.loginUser = async (req, res) => {
           expiresIn: "1h",
         }
       );
+      res.cookie("jwtToken", token, {
+        httpOnly: true,
+        path: "/",
+      });
+      res.cookie("loginStatus", "true", {
+        httpOnly: true,
+        path: "/",
+      });
       return res.send({ result: true, token: token });
     } else {
       return res
@@ -231,6 +301,29 @@ exports.changePw = async (req, res) => {
   } catch (error) {
     console.error("changePw error", error.message);
     res.status(500).send({ message: error.message || "서버 에러" });
+  }
+};
+
+//고민봉
+exports.logout2 = async (req, res) => {
+  try {
+    console.log("logout2 호출됨");
+    const token =
+      req.headers.authorization && req.headers.authorization.split(" ")[1];
+
+    console.log("logut2 token = ", token);
+    const jwtCookie = req.cookies.jwtToken;
+    const loginStatusCookie = req.cookies.loginStatus;
+    console.log("jwtCookie: ", jwtCookie);
+    console.log("loginStatusCookie: ", loginStatusCookie);
+
+    res.clearCookie("jwtToken");
+    res.clearCookie("loginStatus");
+
+    res.status(200).send({ result: true, message: "로그아웃 성공" });
+  } catch (error) {
+    console.error("logout error:", error.message);
+    res.status(500).send({ result: false, message: "서버 에러" });
   }
 };
 

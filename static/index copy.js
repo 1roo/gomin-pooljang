@@ -6,10 +6,12 @@ window.addEventListener("load", () => {
   const dataContainer = document.getElementById("data-container");
   const jwt = dataContainer.getAttribute("data-jwt");
   const loginStatus = dataContainer.getAttribute("data-login-status");
-  console.log("JWT:=== ", jwt);
-  console.log("Login Status:=== ", typeof loginStatus);
+  const decodedPayload = dataContainer.getAttribute("data-decoded-payload");
+  console.log("JWT: ", jwt);
+  console.log("Login Status: ", loginStatus);
+  console.log("Decoded Payload: ", decodedPayload);
+
   if (loginStatus === "true") {
-    console.log("로그인한상태");
     return;
   }
   modal.style.display = "flex";
@@ -225,21 +227,26 @@ async function loginFn() {
   try {
     const res = await axios({
       method: "post",
-      url: "/user/login",
+      url: "/login2",
       data: data,
     });
 
-    const { token, result } = res.data;
+    const { token, result, message } = res.data;
+    console.log("token = ", token);
+    console.log("result = ", result);
     if (result) {
-      // localStorage에 저장
-      localStorage.setItem("token", token);
-      alert("로그인 성공!");
+      closeModal(modal);
+      console.log("로그인 성공");
+      //토큰 페이로드 값 확인하기
+      const payload = token.split(".")[1];
+      const decodedPayload = atob(payload);
+      console.log("decodedPayload = ", decodedPayload);
 
-      document.querySelector(".modal").style.display = "none";
-      document.querySelector(".index-container-wrap").style.display = "block";
-    } else {
-      alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.");
-      form.reset();
+      // document.querySelector(".modal").style.display = "none";
+      // document.querySelector(".index-container-wrap").style.display = "block";
+    }
+    if (!result) {
+      alert(message);
     }
   } catch (e) {
     console.error("Error login:", e);

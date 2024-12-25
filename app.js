@@ -4,6 +4,7 @@ const app = express();
 require("dotenv").config();
 const UserController = require("./controller/CUser");
 const PORT = process.env.PORT;
+const cors = require("cors");
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -11,24 +12,12 @@ app.use("/static", express.static(__dirname + "/static"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-//고민봉 마이페이지
-app.get("/mypage", (req, res) => {
-  res.render("mypage");
-});
-
-//고민봉 내가보낸 고민탭
-app.get("/mypage/user_sended_msg", (req, res) => {
-  res.render("user_sended_msg");
-});
-
-//고민봉 내가받은 고민탭
-app.get("/mypage/user_received_msg", (req, res) => {
-  res.render("user_received_msg");
-});
-
 const indexRouter = require("./routes");
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 app.use("/", indexRouter);
+app.use(cors());
 
 /**
  * 이메일 중복여부

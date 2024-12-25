@@ -20,11 +20,22 @@ router.get("/delete-account", UserController.deleteAccount);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
 
+//고민봉 index2
+router.get("/index", UserController.index);
+
+//고민봉 login2
+router.post("/login2", UserController.loginUser2);
+
+//고민봉 logout2
+router.get("/logout2", UserController.logout2);
+
 //고민봉 도메인 룰 테스트용 10명 회원가입 시키기
 router.post("/regist10", UserController.testUserCreate);
 
 //고민봉 도메인 룰 테스트용 고민 10명의 유저 각각 10개씩 총 100개 생성성
 router.post("/addWorryList100", WorryListController.testCreateWorryList);
+
+router.post("/mypageCopy", UserController.mypageCopy);
 
 //고민봉 리뷰 점수 업데이트
 router.patch("/updateTemp", WorryListController.updateTempRateresponder);
