@@ -3,15 +3,6 @@ const forgetPwModal = document.querySelector(".forgot-pw-modal");
 
 /* 첫 접속 시 화면 (로그인 모달) */
 window.addEventListener("load", () => {
-  const dataContainer = document.getElementById("data-container");
-  const jwt = dataContainer.getAttribute("data-jwt");
-  const loginStatus = dataContainer.getAttribute("data-login-status");
-  console.log("JWT:=== ", jwt);
-  console.log("Login Status:=== ", typeof loginStatus);
-  if (loginStatus === "true") {
-    console.log("로그인한상태");
-    return;
-  }
   modal.style.display = "flex";
 });
 

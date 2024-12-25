@@ -1,16 +1,18 @@
 const modal = document.querySelector(".modal");
 const forgetPwModal = document.querySelector(".forgot-pw-modal");
 
+const dataContainer = document.getElementById("data-container");
+const jwt = dataContainer.getAttribute("data-jwt");
+const loginStatus = dataContainer.getAttribute("data-login-status");
+const decodedPayload = dataContainer.getAttribute("data-decoded-payload");
+const userId = dataContainer.getAttribute("data-userId");
+
 /* 첫 접속 시 화면 (로그인 모달) */
 window.addEventListener("load", () => {
-  const dataContainer = document.getElementById("data-container");
-  const jwt = dataContainer.getAttribute("data-jwt");
-  const loginStatus = dataContainer.getAttribute("data-login-status");
-  const decodedPayload = dataContainer.getAttribute("data-decoded-payload");
   console.log("JWT: ", jwt);
   console.log("Login Status: ", loginStatus);
   console.log("Decoded Payload: ", decodedPayload);
-
+  console.log("로그인회원 기본키 userId =  ", userId);
   if (loginStatus === "true") {
     return;
   }
@@ -65,27 +67,26 @@ closeForgetX.addEventListener("click", function () {
 });
 
 /* 고민 받기 버튼 클릭 시 새로고침 */
-document
-  .querySelector(".receive-letter-btn")
-  .addEventListener("click", receiveLetter);
 
-function receiveLetter() {
-  // 보내는 편지 폼 숨기기
-  const formLetter = document.querySelector('form[name="form-letter"]');
-  if (formLetter) {
-    formLetter.style.display = "none";
-  }
+async function receiveLetter() {
+  try {
+    console.log("고민듣는 예쁜마음 클릭함");
+    // 보내는 편지 폼 숨기기
+    const formLetter = document.querySelector('form[name="form-letter"]');
+    if (formLetter) {
+      formLetter.style.display = "none";
+    }
 
-  // 받는 편지 폼 보이기
-  const formReply = document.querySelector('form[name="form-reply"]');
-  if (formReply) {
-    formReply.style.display = "block";
-  } else {
-    // 받는 편지 폼이 없는 경우 새로 생성
-    const formContainer = document.querySelector(".form-container");
-    const newReplyForm = document.createElement("form");
-    newReplyForm.setAttribute("name", "form-reply");
-    newReplyForm.innerHTML = `
+    // 받는 편지 폼 보이기
+    const formReply = document.querySelector('form[name="form-reply"]');
+    if (formReply) {
+      formReply.style.display = "block";
+    } else {
+      // 받는 편지 폼이 없는 경우 새로 생성
+      const formContainer = document.querySelector(".form-container");
+      const newReplyForm = document.createElement("form");
+      newReplyForm.setAttribute("name", "form-reply");
+      newReplyForm.innerHTML = `
         <div class="andLeft">
           <label for="title"><span>제목</span></label>
           <input type="text" id="title" name="title" readonly />
@@ -99,8 +100,22 @@ function receiveLetter() {
         </div>
         <button name="received" type="button" class="submitReply" onclick="submitReply()">답장 보내기</button>
       `;
-    formContainer.appendChild(newReplyForm);
-  }
+      formContainer.appendChild(newReplyForm);
+    }
+    console.log("여기서 jwt 값 확인 = ", jwt);
+
+    const config = { headers: { Authorization: `Bearer ${jwt}` } };
+    const data = { userId };
+
+    const res = await axios({
+      method: "post",
+      url: "/worrylist",
+      headers: config.headers,
+      data: data,
+    });
+
+    console.log("res =정보  ", res.data);
+  } catch (error) {}
 }
 
 /* 뱓은 고민 건너뛰기 버튼 클릭 시 */

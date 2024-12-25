@@ -17,10 +17,21 @@ exports.index = (req, res) => {
 
   console.log("jwt: ", jwt);
   console.log("loginStatus: ", loginStatus);
-  const payload = jwt.split(".")[1];
-  const decodedPayload = atob(payload);
-  console.log("decodedPayload = ", decodedPayload);
-  res.render("index copy", { jwt, loginStatus, decodedPayload });
+  if (jwt) {
+    const payload = jwt.split(".")[1];
+    const decodedPayload = atob(payload);
+    console.log("decodedPayload = ", decodedPayload);
+    const decodedPayload2 = JSON.parse(atob(payload));
+    const userId = decodedPayload2.id;
+    res.render("index copy", { jwt, loginStatus, decodedPayload, userId });
+  } else {
+    res.render("index copy", {
+      jwt,
+      loginStatus,
+      decodedPayload: "false",
+      userId: "false",
+    });
+  }
 };
 
 //고민봉 mypageCopy
@@ -148,7 +159,7 @@ exports.loginUser2 = async (req, res) => {
         { id: user.userId, email: user.email },
         SECRET_KEY,
         {
-          expiresIn: "1h",
+          expiresIn: "30d",
         }
       );
       res.cookie("jwtToken", token, {

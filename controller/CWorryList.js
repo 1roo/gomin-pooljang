@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
+
 const {
   ReadList,
   User,
@@ -300,36 +301,41 @@ exports.myAnswerList = async (req, res) => {
     res.status(500).send({ message: "서버 에러" });
   }
 };
-
 exports.findAllWorryList = async (req, res) => {
   try {
+    const token =
+      req.headers.authorization && req.headers.authorization.split(" ")[1];
     const { userId } = req.body;
+
+    console.log("백엔드에서 userId===", userId);
+    console.log("백엔드에서 token===", token);
+
     // 최근 50개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
     const findAllWorryList = await sequelize.query(
       `select worrylist.*, readlist.user_Id, readlist.worryList_Id from worrylist 
-      left join readlist on worrylist.Id = readlist.worryList_Id where(user_Id is null or user_Id != :userId)
-      and sender_Id != :userId and responder_Id is null order by worrylist_Id desc limit 50`,
-      { replacements: { userId: userId }, type: Sequelize.QueryTypes.SELECT }
+      left join readlist on worrylist.Id = readlist.worryList_Id where(user_Id is null or user_Id != :id)
+      and sender_Id != :id and responder_Id is null order by worrylist_Id desc limit 50`,
+      { replacements: { id: userId }, type: Sequelize.QueryTypes.SELECT }
     );
+
     //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함
-    if (findAllWorryList.length == 0) {
+    if (findAllWorryList.length === 0) {
       res.send({ result: false, message: "현재 고민이 없습니다." });
-      return;
-    }
+    } else {
+      // 50개중 1개를 랜덤으로 보냄
+      let randomWorryList = [];
+      let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
+      console.log("randomIndex====", randomIndex);
+      randomWorryList.push(findAllWorryList[randomIndex]);
+      console.log("randomWorryList", randomWorryList[0]);
+      console.log("randomWorryList", randomWorryList[0].Id);
 
-    // 50개중 1개를 랜덤으로 보냄
-    let randomWorryList = [];
-    let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
-    console.log("randomIndex====", randomIndex);
-    randomWorryList.push(findAllWorryList[randomIndex]);
-    console.log("randomWorryList", randomWorryList);
-
-    if (findAllWorryList.length > 0) {
       //고민을 봤으면 readlist에 추가해야함
       const newReadList = await ReadList.create({
-        userId,
+        user_Id: userId,
         worryList_Id: randomWorryList[0].Id,
       });
+
       res.send({ result: true, randomWorryList });
     }
   } catch (error) {
