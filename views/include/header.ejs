@@ -38,8 +38,25 @@
       function menu2_2() {
         alert("내정보수정 입니다");
       }
-      function menu2_3() {
-        alert("로그아웃 입니다");
+      async function menu2_3() {
+        const dataContainer = document.getElementById("data-container");
+        const jwt = dataContainer.getAttribute("data-jwt");
+        const loginStatus = dataContainer.getAttribute("data-login-status");
+        console.log("JWT ========: ", jwt);
+        console.log("Login Status =========: ", loginStatus);
+
+        const config = { headers: { Authorization: `Bearer ${jwt}` } };
+
+        try {
+          const res = await axios({
+            method: "get",
+            url: "/logout2",
+            headers: config.headers,
+          });
+
+          console.log("Logout Response: ", res.data);
+          document.location.href = "/index";
+        } catch (error) {}
       }
     </script>
   </body>
