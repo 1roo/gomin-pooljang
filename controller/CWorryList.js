@@ -84,6 +84,8 @@ exports.createWorryList = async (req, res) => {
 
 exports.answerWorryList = async (req, res) => {
   try {
+    const token =
+      req.headers.authorization && req.headers.authorization.split(" ")[1];
     //Id 는 WorryList 테이블의 Id
     const { Id, userId, responderContent } = req.body;
     const filePath = path.join(__dirname, "../config/badwords.txt");

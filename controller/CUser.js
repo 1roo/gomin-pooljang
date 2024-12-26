@@ -7,7 +7,26 @@ console.log(User);
 
 /* '/' GET */
 exports.main = (req, res) => {
-  res.render("index");
+  const jwt = req.cookies.jwtToken;
+  const loginStatus = req.cookies.loginStatus;
+
+  console.log("jwt: ", jwt);
+  console.log("loginStatus: ", loginStatus);
+  if (jwt) {
+    const payload = jwt.split(".")[1];
+    const decodedPayload = atob(payload);
+    console.log("decodedPayload = ", decodedPayload);
+    const decodedPayload2 = JSON.parse(atob(payload));
+    const userId = decodedPayload2.id;
+    res.render("index", { jwt, loginStatus, decodedPayload, userId });
+  } else {
+    res.render("index", {
+      jwt,
+      loginStatus,
+      decodedPayload: "false",
+      userId: "false",
+    });
+  }
 };
 
 //고민봉

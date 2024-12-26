@@ -1,8 +1,21 @@
 const modal = document.querySelector(".modal");
 const forgetPwModal = document.querySelector(".forgot-pw-modal");
 
+const dataContainer = document.getElementById("data-container");
+const jwt = dataContainer.getAttribute("data-jwt");
+const loginStatus = dataContainer.getAttribute("data-login-status");
+const decodedPayload = dataContainer.getAttribute("data-decoded-payload");
+const userId = dataContainer.getAttribute("data-userId");
+
 /* 첫 접속 시 화면 (로그인 모달) */
 window.addEventListener("load", () => {
+  console.log("JWT: ", jwt);
+  console.log("Login Status: ", loginStatus);
+  console.log("Decoded Payload: ", decodedPayload);
+  console.log("로그인회원 기본키 userId =  ", userId);
+  if (loginStatus === "true") {
+    return;
+  }
   modal.style.display = "flex";
 });
 
@@ -53,64 +66,79 @@ closeForgetX.addEventListener("click", function () {
   closeModal(forgetPwModal);
 });
 
-/* 고민 받기 버튼 클릭 시 새로고침 */
-document
-  .querySelector(".receive-letter-btn")
-  .addEventListener("click", receiveLetter);
-
-function receiveLetter() {
-  // 보내는 편지 폼 숨기기
-  const formLetter = document.querySelector('form[name="form-letter"]');
-  if (formLetter) {
-    formLetter.style.display = "none";
-  }
-
-  // 받는 편지 폼 보이기
-  const formReply = document.querySelector('form[name="form-reply"]');
-  if (formReply) {
-    formReply.style.display = "block";
-  } else {
-    // 받는 편지 폼이 없는 경우 새로 생성
-    const formContainer = document.querySelector(".form-container");
-    const newReplyForm = document.createElement("form");
-    newReplyForm.setAttribute("name", "form-reply");
-    newReplyForm.innerHTML = `
-        <div class="andLeft">
-          <label for="title"><span>제목</span></label>
-          <input type="text" id="title" name="title" readonly />
-          <label for="comment"><span>내용</span></label>
-          <textarea id="message" name="message" maxlength="200" readonly></textarea>
-        </div>
-        <button type="button" class="reject" onclick="rejectLetter()">건너뛰기</button>
-        <div class="andRight">
-          <label for="comment"><span>답장</span></label>
-          <textarea id="comment" name="comment" maxlength="200"></textarea>
-        </div>
-        <button name="received" type="button" class="submitReply" onclick="submitReply()">답장 보내기</button>
-      `;
-    formContainer.appendChild(newReplyForm);
-  }
-}
-
-/* 뱓은 고민 건너뛰기 버튼 클릭 시 */
-
-function rejectLetter() {
-  const isConfirmed = confirm("정말로 건너뛰시겠습니까?");
-
-  if (isConfirmed) {
-    const formReply = document.querySelector('form[name="form-reply"]');
-    if (formReply) {
-      formReply.style.display = "none";
-    }
-
-    const formLetter = document.querySelector('form[name="form-letter"]');
-    if (formLetter) {
-      formLetter.style.display = "block";
-    }
-  }
-}
-
 /* axios */
+
+/* 받은 고민 건너뛰기 버튼 클릭 시 */
+
+async function rejectLetter() {
+  const data = {
+    userId,
+  };
+
+  try {
+    const res = await axios({
+      method: "post",
+      url: "/worryList",
+      data: data,
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+
+    const { result, randomWorryList } = res.data;
+    if (result) {
+      const title = document.getElementById("replyTitle");
+      const msg = document.getElementById("replyMessage");
+      console.log("tile", title);
+      title.value = randomWorryList[0].title;
+      msg.value = randomWorryList[0].senderContent;
+    }
+  } catch (e) {
+    console.error("Error send message:", e);
+  }
+}
+
+/* 고민 받기 버튼 클릭 시 새로고침 */
+
+async function receiveLetter() {
+  const formLetter = document.querySelector('form[name="form-letter"]');
+  const formReply = document.querySelector('form[name="form-reply"]');
+  const getId = document.getElementById("getId");
+
+  if (formLetter && formReply) {
+    // 'form-letter'는 숨기고, 'form-reply'는 보이게
+    formLetter.style.display =
+      formLetter.style.display === "none" ? "block" : "none";
+    formReply.style.display =
+      formReply.style.display === "none" ? "block" : "none";
+  }
+  const data = {
+    userId,
+  };
+
+  try {
+    const res = await axios({
+      method: "post",
+      url: "/worryList",
+      data: data,
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+
+    const { result, randomWorryList } = res.data;
+    if (result) {
+      const title = document.getElementById("replyTitle");
+      const msg = document.getElementById("replyMessage");
+      console.log("tile", title);
+      title.value = randomWorryList[0].title;
+      msg.value = randomWorryList[0].senderContent;
+      getId.value = randomWorryList[0].Id;
+    }
+  } catch (e) {
+    console.error("Error send message:", e);
+  }
+}
 
 /* 
 고민 보내기 
@@ -136,14 +164,13 @@ async function sendContent() {
   try {
     const res = await axios({
       method: "post",
-      url: "/message/write",
+      url: "/worryList",
       data: data,
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    const { result, message } = res.data;
+    const { result } = res.data;
     if (result) {
       alert(message);
     }
@@ -160,29 +187,32 @@ async function sendContent() {
 
 async function submitReply() {
   const form = document.forms["form-reply"];
-  const received = form.received.value;
-  const token = localStorage.getItem("token");
+  const comment = form.comment.value;
+  const getId = document.getElementById("getId").value;
+  console.log(getId);
+  // const token = localStorage.getItem("token");
 
-  if (received === "") {
+  if (comment.trim() === "") {
     alert("답장을 입력해주세요!!");
     return;
   }
 
   const data = {
-    received,
+    Id: getId,
+    userId,
+    responderContent: comment,
   };
 
   try {
     const res = await axios(
       {
-        method: "post",
-        url: "/user/get-message",
+        method: "patch",
+        url: "/addAnswer",
         data: data,
       },
       {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${jwt}`,
         },
       }
     );
@@ -216,20 +246,23 @@ async function loginFn() {
   try {
     const res = await axios({
       method: "post",
-      url: "/user/login",
+      url: "/login",
       data: data,
     });
 
-    const { token, result } = res.data;
+    const { token, result, message } = res.data;
     if (result) {
       // localStorage에 저장
-      localStorage.setItem("token", token);
+      // localStorage.setItem("token", token);
       alert("로그인 성공!");
-
-      document.querySelector(".modal").style.display = "none";
-      document.querySelector(".index-container-wrap").style.display = "block";
+      closeModal(modal);
+      document.location.href = "/";
     } else {
-      alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.");
+      if (message === "invalid_email") {
+        document.querySelector(".id_error").style.display = "inline";
+      } else if (message === "invalid_password") {
+        document.querySelector(".pw_error").style.display = "inline";
+      }
       form.reset();
     }
   } catch (e) {
