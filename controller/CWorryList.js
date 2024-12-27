@@ -46,7 +46,7 @@ exports.testCreateWorryList = async (req, res) => {
 
 exports.createWorryList = async (req, res) => {
   try {
-    const { title, senderContent, user_Id } = req.body;
+    const { title, senderContent, userId } = req.body;
     const filePath = path.join(__dirname, "../config/badwords.txt");
 
     // 파일 읽기
@@ -70,7 +70,7 @@ exports.createWorryList = async (req, res) => {
     }
     console.log("senderSwearWord===", senderSwearWord);
     const newWorryList = await WorryList.create({
-      sender_Id: user_Id,
+      sender_Id: userId,
       title,
       senderContent,
       senderSwearWord,
@@ -322,6 +322,7 @@ exports.findAllWorryList = async (req, res) => {
 
     //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함
     if (findAllWorryList.length === 0) {
+      console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
       res.send({ result: false, message: "현재 고민이 없습니다." });
     } else {
       // 50개중 1개를 랜덤으로 보냄

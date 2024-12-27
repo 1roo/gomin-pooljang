@@ -138,6 +138,7 @@ async function receiveLetter() {
     });
 
     const { result, randomWorryList } = res.data;
+    console.log(result);
     if (result) {
       const title = document.querySelector(".replyTitle");
       console.log("title", title);
