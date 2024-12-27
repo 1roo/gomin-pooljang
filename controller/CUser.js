@@ -180,7 +180,7 @@ exports.checkEmail = async (req, res) => {
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).send({
+      return res.send({
         result: false,
         message: "올바른 이메일 형식이 아닙니다.",
       });
@@ -294,7 +294,10 @@ exports.loginUser = async (req, res) => {
         }
       );
       res.cookie("jwtToken", token, {
-        httpOnly: true,
+        httpOnly: false,
+        secure: false,
+        sameSite: "Lax",
+        maxAge: 3600000,
         path: "/",
       });
       res.cookie("loginStatus", "true", {
@@ -319,9 +322,7 @@ exports.findAccount = async (req, res) => {
   try {
     const { email, question, answer } = req.body;
     if (!email || !question || !answer) {
-      return res
-        .status(400)
-        .send({ result: false, message: "모든 필드를 입력해주세요" });
+      return res.send({ result: false, message: "모든 필드를 입력해주세요" });
     }
     const user = await User.findOne({
       where: {

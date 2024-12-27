@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GOMIN Pooljang</title>
     <link rel="stylesheet" href="../static/css/header.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- axios 추가 -->
   </head>
   <body>
     <header style="text-align: center; width: 100%">
@@ -16,83 +18,93 @@
                 class="logo"
                 src="../static/images/logo.png"
                 alt="logo"
-                onclick="home()" />
+                onclick="location.href='/'" />
             </div>
-            <div class="container menu-container">
-              <button class="header-menu" onclick="menu2_1()">
-                마이페이지
-              </button>
-              <button class="header-menu" onclick="menu2_2()">정보수정</button>
-              <button class="header-menu" onclick="menu2_3()">로그아웃</button>
-              <button class="header-menu" onclick="menu2_4()">회원탈퇴</button>
-            </div>
+            <div class="container menu-container"></div>
           </div>
         </div>
       </div>
     </header>
 
     <script>
-      function home() {
-        document.location.href = "/";
+      function getCookie(name) {
+        const cookies = document.cookie.split("; ");
+        for (let cookie of cookies) {
+          const [key, value] = cookie.split("=");
+          if (key === name) return value;
+        }
+        return null;
       }
 
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("DOMContentLoaded event triggered!"); // DOMContentLoaded 확인
+        const menuContainer = document.querySelector(".menu-container");
+
+        // Render menu based on jwtToken
+        const jwtToken = getCookie("jwtToken");
+        console.log("znzlznzlznzlznzl", jwtToken); // 디버깅 로그
+        console.log("JWT Token:", jwtToken); // 쿠키 값 확인
+
+        menuContainer.innerHTML = jwtToken
+          ? `
+            <button class="header-menu" onclick="menu2_1()">마이페이지</button>
+            <button class="header-menu" onclick="menu2_2()">정보수정</button>
+            <button class="header-menu" onclick="menu2_3()">로그아웃</button>
+            <button class="header-menu" onclick="menu2_4()">회원탈퇴</button>
+          `
+          : `
+            <button class="header-menu" onclick="location.href='/'">로그인</button>
+          `;
+      });
+
+      // Navigate to My Page
       function menu2_1() {
         const dataContainer = document.getElementById("data-container");
-        const jwt = dataContainer.getAttribute("data-jwt");
-        const loginStatus = dataContainer.getAttribute("data-login-status");
-        const decodedPayload = dataContainer.getAttribute(
-          "data-decoded-payload"
-        );
-        const userId = dataContainer.getAttribute("data-userId");
+        const userId = dataContainer?.getAttribute("data-userId");
 
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "/mypage";
+        if (userId) {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = "/mypage";
 
-        const input = document.createElement("input");
+          const input = document.createElement("input");
+          input.type = "text";
+          input.name = "userId";
+          input.value = userId;
 
-        input.type = "text";
-        input.name = "userId";
-        input.value = userId;
-
-        // 폼에 인풋 필드 추가
-        form.appendChild(input);
-
-        // 폼을 문서에 추가
-        document.body.appendChild(form);
-
-        // 폼 제출
-        form.submit();
+          form.appendChild(input);
+          document.body.appendChild(form);
+          form.submit();
+        } else {
+          alert("사용자 정보가 없습니다.");
+        }
       }
 
+      // Modify User Info
       function menu2_2() {
         alert("내정보수정 입니다");
       }
-      async function menu2_3() {
-        const dataContainer = document.getElementById("data-container");
-        const jwt = dataContainer.getAttribute("data-jwt");
-        const loginStatus = dataContainer.getAttribute("data-login-status");
-        console.log("JWT ========: ", jwt);
-        console.log("Login Status =========: ", loginStatus);
 
-        const config = { headers: { Authorization: `Bearer ${jwt}` } };
+      // Logout
+      async function menu2_3() {
+        const jwtToken = getCookie("jwtToken");
 
         try {
-          const res = await axios({
-            method: "get",
-            url: "/logout2",
-            headers: config.headers,
+          const res = await axios.get("/logout2", {
+            headers: { Authorization: `Bearer ${jwtToken}` },
           });
 
-          console.log("Logout Response: ", res.data);
-          document.location.href = "/";
-        } catch (error) {}
+          console.log("Logout Response:", res.data);
+          alert("로그아웃 되었습니다.");
+          location.href = "/";
+        } catch (error) {
+          console.error("로그아웃 중 오류 발생:", error);
+        }
       }
 
+      // Delete Account
       async function menu2_4() {
-        const dataContainer = document.getElementById("data-container");
-        const jwt = dataContainer.getAttribute("data-jwt");
-        const config = { headers: { Authorization: `Bearer ${jwt}` } };
+        const jwtToken = getCookie("jwtToken");
         try {
           const password = prompt("비밀번호를 입력하세요");
 
@@ -101,19 +113,20 @@
             return;
           }
 
-          const res = await axios({
-            method: "post",
-            url: "/deleteAccount",
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-              "Content-Type": "application/json",
-            },
-            data: { password: password },
-          });
+          const res = await axios.post(
+            "/deleteAccount",
+            { password },
+            {
+              headers: {
+                Authorization: `Bearer ${jwtToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (res.data.success) {
             alert("계정이 성공적으로 삭제되었습니다.");
-            document.location.href = "/";
+            location.href = "/";
           } else {
             alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
           }
