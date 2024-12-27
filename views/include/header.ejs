@@ -50,17 +50,13 @@
         form.action = "/mypage";
 
         const input = document.createElement("input");
-        const input2 = document.createElement("input");
 
         input.type = "text";
         input.name = "userId";
         input.value = userId;
-        input2.type = "text";
-        input2.name = "jwtToken";
-        input2.value = jwt;
+
         // 폼에 인풋 필드 추가
         form.appendChild(input);
-        form.appendChild(input2);
 
         // 폼을 문서에 추가
         document.body.appendChild(form);

@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="../static/css/mypage.css" />
   </head>
   <body>
+    <div
+      id="data-container"
+      data-jwt="<%= jwt %>"
+      data-login-status="<%= loginStatus %>"
+      data-decoded-Payload="<%= decodedPayload %>"
+      data-userId="<%= userId %>"
+    ></div>
     <div class="header-full-width"><%- include('./include/header') %></div>
     <div class="index-container-wrap">
       <div class="index-container">

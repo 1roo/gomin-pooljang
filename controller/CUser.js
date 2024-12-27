@@ -31,10 +31,16 @@ exports.main = (req, res) => {
 
 //고민봉
 exports.mypage = (req, res) => {
-  const { jwtToken, userId } = req.body;
-  console.log("mypage 에서 jwtToken:", jwtToken);
-  console.log("mypage 에서 userId:", userId);
-  res.render("mypage");
+  const jwt = req.cookies.jwtToken;
+  const loginStatus = req.cookies.loginStatus;
+  console.log("mypage 에서 jwt = ", jwt);
+  console.log("mypage 에서 loginStatus: ", loginStatus);
+  const payload = jwt.split(".")[1];
+  const decodedPayload = atob(payload);
+  console.log("decodedPayload = ", decodedPayload);
+  const decodedPayload2 = JSON.parse(atob(payload));
+  const userId = decodedPayload2.id;
+  res.render("mypage", { jwt, loginStatus, decodedPayload, userId });
 };
 
 //고민봉
