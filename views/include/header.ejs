@@ -7,32 +7,62 @@
     <link rel="stylesheet" href="../static/css/header.css" />
   </head>
   <body>
-    <div class="header-wrapper">
-      <div class="header">
-        <div class="header-content">
-          <div class="container logo-container">
-            <img
-              class="logo"
-              src="../static/images/logo.png"
-              alt="logo"
-              onclick="home()"
-            />
-          </div>
-          <div class="container menu-container">
-            <button class="header-menu" onclick="menu2_1()">마이페이지</button>
-            <button class="header-menu" onclick="menu2_2()">정보수정</button>
-            <button class="header-menu" onclick="menu2_3()">로그아웃</button>
+    <header style="text-align: center; width: 100%">
+      <div class="header-wrapper">
+        <div class="header">
+          <div class="header-content">
+            <div class="container logo-container">
+              <img
+                class="logo"
+                src="../static/images/logo.png"
+                alt="logo"
+                onclick="home()"
+              />
+            </div>
+            <div class="container menu-container">
+              <button class="header-menu" onclick="menu2_1()">
+                마이페이지
+              </button>
+              <button class="header-menu" onclick="menu2_2()">정보수정</button>
+              <button class="header-menu" onclick="menu2_3()">로그아웃</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </header>
+
     <script>
       function home() {
         document.location.href = "/";
       }
 
       function menu2_1() {
-        document.location.href = "/mypage";
+        const dataContainer = document.getElementById("data-container");
+        const jwt = dataContainer.getAttribute("data-jwt");
+        const loginStatus = dataContainer.getAttribute("data-login-status");
+        const decodedPayload = dataContainer.getAttribute(
+          "data-decoded-payload"
+        );
+        const userId = dataContainer.getAttribute("data-userId");
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/mypage";
+
+        const input = document.createElement("input");
+
+        input.type = "text";
+        input.name = "userId";
+        input.value = userId;
+
+        // 폼에 인풋 필드 추가
+        form.appendChild(input);
+
+        // 폼을 문서에 추가
+        document.body.appendChild(form);
+
+        // 폼 제출
+        form.submit();
       }
 
       function menu2_2() {
