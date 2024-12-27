@@ -33,19 +33,30 @@
       }
 
       function menu2_1() {
-        // 폼 생성
+        const dataContainer = document.getElementById("data-container");
+        const jwt = dataContainer.getAttribute("data-jwt");
+        const loginStatus = dataContainer.getAttribute("data-login-status");
+        const decodedPayload = dataContainer.getAttribute(
+          "data-decoded-payload"
+        );
+        const userId = dataContainer.getAttribute("data-userId");
+
         const form = document.createElement("form");
         form.method = "POST";
         form.action = "/mypage";
 
-        // 인풋 필드 생성
         const input = document.createElement("input");
+        const input2 = document.createElement("input");
 
         input.type = "text";
         input.name = "userId";
-        input.value = "5"; // 예시 값 설정
+        input.value = userId;
+        input2.type = "text";
+        input2.name = "jwtToken";
+        input2.value = jwt;
         // 폼에 인풋 필드 추가
         form.appendChild(input);
+        form.appendChild(input2);
 
         // 폼을 문서에 추가
         document.body.appendChild(form);
