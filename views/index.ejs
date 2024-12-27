@@ -53,11 +53,11 @@
                 <span class="pw_error">가입되지 않은 아이디입니다!</span>
               </label>
               <div class="checkbox-container">
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                  <span id="checkbox">자동 로그인</span>
+                <label class="middle">
+                  <input type="checkbox" />
+                  <span class="checkbox">자동 로그인</span>
                 </label>
-                <button type="button" class="join forget" id="forget-btn">
+                <button type="button" class="join forget">
                   Forget Password?
                 </button>
               </div>
@@ -241,22 +241,30 @@
                 <input
                   type="text"
                   class="input-title"
+                  name="title"
                   placeholder="제목을 입력하세요"
                 />
                 <textarea
                   class="input-content"
+                  name="message"
                   placeholder="내용을 입력하세요"
                 ></textarea>
 
                 <div class="button-container">
-                  <button class="submit-button">고민 보내기</button>
+                  <button
+                    type="button"
+                    class="submit-btn"
+                    onclick="sendContent()"
+                  >
+                    고민 보내기
+                  </button>
                 </div>
               </form>
 
               <!-- 새로운 고민 섹션 -->
-              <form name="form-reply" style="display: none">
-                <div class="new-worry">
-                  <label for="title"><span>제목</span></label>
+              <div class="new-worry">
+                <form name="form-reply" style="display: none">
+                  <label for="title">제목</label>
                   <input
                     type="text"
                     id="title"
@@ -264,10 +272,10 @@
                     class="replyTitle"
                     readonly
                   />
-                  <label for="comment"><span>내용</span></label>
+                  <label for="message">내용</label>
                   <input
                     type="text"
-                    id="comment"
+                    id="message"
                     name="message"
                     class="replyMessage"
                     readonly
@@ -292,10 +300,17 @@
                   ></textarea>
 
                   <div class="button-container">
-                    <button class="reply-button">답장 보내기</button>
+                    <button
+                      type="button"
+                      class="reply-button"
+                      name="received"
+                      onclick="submitReply()"
+                    >
+                      답장 보내기
+                    </button>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>

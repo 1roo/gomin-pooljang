@@ -359,6 +359,13 @@ body {
   font-weight: 700;
 }
 
+.login .middle {
+  display: flex;
+  width: 150px;
+  flex-direction: row;
+  margin-right: 100px;
+}
+
 .join .left-re {
   padding-left: 5px;
 }
@@ -378,16 +385,11 @@ body {
   font-weight: 500;
 }
 
-.login .checkbox {
-  width: 20px;
-  margin-right: 5px;
-}
-
-#checkbox {
-  display: inline-block;
+.checkbox {
   font-size: 15px;
   color: gray;
   font-weight: 500;
+  width: 200px;
 }
 /* 
 .login button,
@@ -451,13 +453,6 @@ body {
   font-size: 16px;
 }
 
-#forget-btn {
-  display: inline-block;
-  text-align: center;
-  padding: 5px 10px;
-  font-size: 14px;
-}
-
 #join-btn {
   display: inline-block;
   text-align: center;
@@ -472,15 +467,9 @@ body {
   margin-bottom: 10px;
 }
 
-.login .checkbox {
-  margin-right: 10px;
-  width: auto;
-}
-
-#checkbox {
-  margin-left: 0;
-}
-
 .login .forget {
-  margin-left: 10px;
+  /* display: inline-block; */
+  text-align: center;
+  width: 100px;
+  font-size: 14px;
 }
