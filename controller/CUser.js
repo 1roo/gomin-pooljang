@@ -540,14 +540,12 @@ exports.deleteAccount = async (req, res) => {
       { where: { email: userInfo.email } }
     );
 
+    res.clearCookie("jwtToken", { path: "/" });
+    res.clearCookie("loginStatus", { path: "/" });
     res.send({
       success: true,
       message: "계정이 성공적으로 비활성화되었습니다.",
     });
-
-    res.clearCookie("jwtToken", { path: "/" });
-    res.clearCookie("loginStatus", { path: "/" });
-    res.redirect("/");
   } catch (error) {
     console.error("deleteAccount error:", error.message);
     console.error("Error stack:", error.stack);
