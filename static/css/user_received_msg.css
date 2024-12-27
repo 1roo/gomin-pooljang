@@ -18,6 +18,7 @@ body {
   min-width: 1200px;
   height: 100vh;
   display: flex;
+  align-items: center;
   justify-content: center;
   position: relative;
 }
@@ -27,8 +28,7 @@ body {
   height: 100%;
 }
 
-.main-body {
-  margin: 20px auto;
+.temp-wrapper {
   display: flex;
   width: 1200px;
   height: calc(100vh - 120px);

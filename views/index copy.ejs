@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="../static/css/index.css" />
     <!-- axios CDN -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="/static/index.js"></script>
+    <script defer src="/static/index copy.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
   </head>
   <body>
     <div
@@ -41,6 +43,7 @@
         <div class="letter">
           <!-- 로그인 / 회원가입 모달 -->
           <!-- 로그인 -->
+
           <div class="modal">
             <div class="modal_body">
               <div>
@@ -280,18 +283,17 @@
 
           <!-- 고민 받기 버튼 클릭 시 내가 받는 편지 -->
           <div class="form-container">
-            <form name="form-reply" style="display: none">
+            <form name="form-reply">
               <div class="andLeft">
                 <label for="title"><span>제목</span></label>
-                <input type="text" id="replyTitle" name="title" readonly />
+                <input type="text" id="title" name="title" readonly />
                 <label for="comment"><span>내용</span></label>
                 <textarea
-                  id="replyMessage"
+                  id="message"
                   name="message"
                   maxlength="200"
                   readonly
                 ></textarea>
-                <input style="visibility: hidden" id="getId" />
               </div>
               <button type="button" class="reject" onclick="rejectLetter()">
                 건너뛰기
