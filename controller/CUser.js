@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { User, WorryList } = require("../models");
 const bcrypt = require("bcrypt");
 const SALT = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -30,7 +30,7 @@ exports.main = (req, res) => {
 };
 
 //고민봉
-exports.mypage = (req, res) => {
+exports.mypage = async (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
   console.log("mypage 에서 jwt = ", jwt);
@@ -40,7 +40,50 @@ exports.mypage = (req, res) => {
   console.log("decodedPayload = ", decodedPayload);
   const decodedPayload2 = JSON.parse(atob(payload));
   const userId = decodedPayload2.id;
-  res.render("mypage", { jwt, loginStatus, decodedPayload, userId });
+
+  const myWorryList = await WorryList.findAll({
+    attributes: [
+      "Id",
+      "sender_Id",
+      "title",
+      "senderContent",
+      "senderSwearWord",
+      "senderPostDateTime",
+      "responder_Id",
+      "responderContent",
+      "responderSwearWord",
+      "responderPostDateTime",
+      "tempRateresponder",
+      "checkReviewScore",
+    ],
+    where: { sender_Id: userId },
+  });
+  const myAnswerList = await WorryList.findAll({
+    attributes: [
+      "Id",
+      "sender_Id",
+      "title",
+      "senderContent",
+      "senderSwearWord",
+      "senderPostDateTime",
+      "responder_Id",
+      "responderContent",
+      "responderSwearWord",
+      "responderPostDateTime",
+      "tempRateresponder",
+      "checkReviewScore",
+    ],
+    where: { responder_Id: userId },
+  });
+
+  res.render("mypage", {
+    jwt,
+    loginStatus,
+    decodedPayload,
+    userId,
+    myWorryList,
+    myAnswerList,
+  });
 };
 
 //고민봉

@@ -21,6 +21,9 @@ router.patch("/makeNewPw", UserController.makeNewPw);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
 
+router.get("/user-received-msg", UserController.userReceviedMsg);
+router.get("/user-sended-msg", UserController.userSendedMsg);
+
 router.post("/mypage", UserController.mypage);
 
 //고민봉 index2
