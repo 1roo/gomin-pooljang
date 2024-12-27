@@ -88,11 +88,11 @@ exports.mypage = async (req, res) => {
 
 //고민봉
 exports.userReceviedMsg = (req, res) => {
-  res.render("user_received_msg");
+  res.render("myAnswerList");
 };
 
 exports.userSendedMsg = (req, res) => {
-  res.render("user_sended_msg");
+  res.render("myWorryList");
 };
 
 //고민봉
