@@ -15,12 +15,11 @@ router.post("/login", UserController.loginUser);
 router.post("/token", UserController.validation);
 router.patch("/change-pw", UserController.changePw);
 router.get("/logout", UserController.logout);
-router.get("/find-account", UserController.findAccount);
+router.post("/find-account", UserController.findAccount);
 router.post("/deleteAccount", UserController.deleteAccount);
 router.patch("/makeNewPw", UserController.makeNewPw);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
-
 
 router.get("/myAnswerList", UserController.userReceviedMsg);
 router.get("/myWorryList", UserController.userSendedMsg);

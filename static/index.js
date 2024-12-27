@@ -435,7 +435,7 @@ async function checkAnswer() {
     const res = await axios(
       {
         method: "post",
-        url: "/findAccount",
+        url: "/find-account",
         data: data,
       },
       {
