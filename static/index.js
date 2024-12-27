@@ -469,7 +469,7 @@ async function checkAnswer() {
  */
 async function updatePw() {
   const form = document.forms["form-pw"];
-  const email = document.email.value;
+  const email = form.email.value;
   const password = form.password.value;
   const confirmPw = form.confirmPw.value;
   const token = localStorage.getItem("token");

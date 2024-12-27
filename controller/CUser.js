@@ -421,7 +421,7 @@ exports.makeNewPw = async (req, res) => {
   try {
     const { password, email } = req.body;
     console.log("New Password:", password);
-    if (!newPw || newPw.length < 4) {
+    if (!password || password.length < 4) {
       return res.send({
         result: false,
         message: "비밀번호는 최소 4자 이상입니다.",
@@ -429,9 +429,9 @@ exports.makeNewPw = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(SALT);
-    const hashedPw = await bcrypt.hash(newPw, salt);
+    const hashedPw = await bcrypt.hash(password, salt);
 
-    await User.update({ password: hashedPw }, { where: { email, password } });
+    await User.update({ password: hashedPw }, { where: { email } });
 
     res.send({ result: true, message: "비밀번호 변경 성공" });
   } catch (error) {

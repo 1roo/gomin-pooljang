@@ -17,7 +17,7 @@ router.patch("/change-pw", UserController.changePw);
 router.get("/logout", UserController.logout);
 router.post("/find-account", UserController.findAccount);
 router.post("/deleteAccount", UserController.deleteAccount);
-router.patch("/makeNewPw", UserController.makeNewPw);
+router.post("/makeNewPw", UserController.makeNewPw);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
 
