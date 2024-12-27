@@ -6,8 +6,7 @@
     <title>GOMIN Pooljang</title>
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/css/mypage.css" />
   </head>
   <body>
@@ -16,8 +15,7 @@
       data-jwt="<%= jwt %>"
       data-login-status="<%= loginStatus %>"
       data-decoded-Payload="<%= decodedPayload %>"
-      data-userId="<%= userId %>"
-    ></div>
+      data-userId="<%= userId %>"></div>
     <div class="header-full-width"><%- include('./include/header') %></div>
     <div class="index-container-wrap">
       <div class="index-container">
@@ -29,8 +27,7 @@
                 <img
                   src="../static/images/thermometer.png"
                   alt="온도계"
-                  class="temp-icon"
-                />
+                  class="temp-icon" />
                 <span class="temperatureText">나의 온도</span>
                 <span class="temperature">36.5°</span>
               </div>
@@ -39,16 +36,14 @@
               <div class="main-table-col">
                 <button
                   class="tab_send_btn tab-btn"
-                  onclick="toggleTab(this, '.tab')"
-                >
+                  onclick="toggleTab(this, '.tab')">
                   내가 보낸 고민
                 </button>
               </div>
               <div class="main-table-col">
                 <button
                   class="tab_receive_btn tab-btn"
-                  onclick="toggleTab(this, '.tab-2')"
-                >
+                  onclick="toggleTab(this, '.tab-2')">
                   내가 답장한 고민
                 </button>
               </div>

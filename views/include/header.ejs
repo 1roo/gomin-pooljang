@@ -16,8 +16,7 @@
                 class="logo"
                 src="../static/images/logo.png"
                 alt="logo"
-                onclick="home()"
-              />
+                onclick="home()" />
             </div>
             <div class="container menu-container">
               <button class="header-menu" onclick="menu2_1()">
@@ -25,6 +24,7 @@
               </button>
               <button class="header-menu" onclick="menu2_2()">정보수정</button>
               <button class="header-menu" onclick="menu2_3()">로그아웃</button>
+              <button class="header-menu" onclick="menu2_4()">회원탈퇴</button>
             </div>
           </div>
         </div>
@@ -87,6 +87,40 @@
           console.log("Logout Response: ", res.data);
           document.location.href = "/";
         } catch (error) {}
+      }
+
+      async function menu2_4() {
+        const dataContainer = document.getElementById("data-container");
+        const jwt = dataContainer.getAttribute("data-jwt");
+        const config = { headers: { Authorization: `Bearer ${jwt}` } };
+        try {
+          const password = prompt("비밀번호를 입력하세요");
+
+          if (!password) {
+            alert("비밀번호를 입력해주세요.");
+            return;
+          }
+
+          const res = await axios({
+            method: "post",
+            url: "/deleteAccount",
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "application/json",
+            },
+            data: { password: password },
+          });
+
+          if (res.data.success) {
+            alert("계정이 성공적으로 삭제되었습니다.");
+            document.location.href = "/";
+          } else {
+            alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
+          }
+        } catch (error) {
+          console.error("계정 삭제 중 오류 발생:", error);
+          alert("계정 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
       }
     </script>
   </body>

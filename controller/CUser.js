@@ -173,7 +173,7 @@ exports.checkEmail = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
-      return res.status(400).send({
+      return res.send({
         result: false,
         message: "이메일을 입력해 주세요.",
       });
@@ -346,53 +346,36 @@ exports.findAccount = async (req, res) => {
  * validation
  * 작성자: 하나래
  */
-exports.validation = async (req, res) => {
-  try {
-    const authHeader = req.cookies.token;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+exports.validation = async (req) => {
+  try {
+    const authHeader = req.cookies.jwtToken; // 쿠키 이름 수정
+    if (!authHeader || !authHeader.startsWith("ey")) {
+      console.error("Token is missing or invalid");
       throw new Error("토큰이 필요합니다.");
     }
 
-    const token = authHeader.split(" ")[1];
     let decoded;
-
     try {
-      decoded = jwt.verify(token, SECRET_KEY);
+      decoded = jwt.verify(authHeader, SECRET_KEY);
     } catch (error) {
       if (error.name === "TokenExpiredError") {
+        console.error("Token has expired");
         throw new Error("토큰이 만료되었습니다.");
       }
+      console.error("Invalid token:", error.message);
       throw new Error("유효하지 않은 토큰입니다.");
     }
 
     const user = await User.findOne({ where: { email: decoded.email } });
     if (!user) {
+      console.error("User not found for email:", decoded.email);
       throw new Error("사용자를 찾을 수 없습니다.");
     }
-
-    // 토큰의 만료 시간만 업데이트
-    const updatedToken = jwt.sign(
-      { id: user.userId, email: user.email },
-      SECRET_KEY,
-      {
-        expiresIn: "1h",
-      }
-    );
-
-    res.cookie("jwtToken", updatedToken, {
-      httpOnly: true,
-      path: "/",
-    });
-
-    res.cookie("loginStatus", "true", {
-      httpOnly: true,
-      path: "/",
-    });
-
-    return res.json({ user, result: true, token: updatedToken });
+    return { email: decoded.email, id: decoded.id };
   } catch (error) {
-    return res.status(401).json({ error: error.message });
+    console.error("Validation error:", error.message);
+    throw error;
   }
 };
 
@@ -511,16 +494,37 @@ exports.logout = async (req, res) => {
 exports.deleteAccount = async (req, res) => {
   try {
     const userInfo = await exports.validation(req);
-    const { password } = req.body;
 
-    // 사용자 정보 확인
+    if (!userInfo?.email) {
+      console.error("Validation did not return a valid email");
+      return res.send({
+        success: false,
+        message: "사용자 인증에 실패했습니다.",
+      });
+    }
+
+    const { password } = req.body;
+    if (!password) {
+      console.error("Password not provided in request");
+      return res.send({ success: false, message: "비밀번호가 필요합니다." });
+    }
+
     const user = await User.findOne({ where: { email: userInfo.email } });
     if (!user) {
-      return res.send({ result: false, message: "유저가 없습니다." });
+      console.error("User not found in database");
+      return res.send({
+        success: false,
+        message: "사용자를 찾을 수 없습니다.",
+      });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.send({ result: false, message: "비밀번호가 틀렸습니다." });
+      console.error("Password mismatch for user:", userInfo.email);
+      return res.send({
+        success: false,
+        message: "비밀번호가 일치하지 않습니다.",
+      });
     }
 
     const salt = await bcrypt.genSalt(SALT);
@@ -528,19 +532,28 @@ exports.deleteAccount = async (req, res) => {
 
     await User.update(
       {
-        email: "deleted_user@example.com",
+        email: `deleted_${user.userId}@example.com`,
         password: hashedPw,
-        question: null,
-        answer: null,
         updatedAt: new Date(),
       },
       { where: { email: userInfo.email } }
     );
 
-    res.send({ result: true, message: "회원삭제 완료" });
+    res.send({
+      success: true,
+      message: "계정이 성공적으로 비활성화되었습니다.",
+    });
+
+    res.clearCookie("jwtToken", { path: "/" });
+    res.clearCookie("loginStatus", { path: "/" });
+    res.redirect("/");
   } catch (error) {
-    console.log("deleteAccount error", error);
-    res.status(500).send({ message: "서버 에러" });
+    console.error("deleteAccount error:", error.message);
+    console.error("Error stack:", error.stack);
+    res.send({
+      success: false,
+      message: "서버 오류가 발생했습니다. 나중에 다시 시도해주세요.",
+    });
   }
 };
 
