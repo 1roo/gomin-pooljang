@@ -160,6 +160,9 @@
     <!-- JavaScript 코드 -->
     <script>
       function toggleTab(button, tabSelector) {
+        console.log("myAnswerList[0] =", "<%=myAnswerList[0].title%>");
+        console.log("myWorryList[0] =", "<%=myWorryList[0].title%>");
+
         document.querySelectorAll(".tab, .tab-2").forEach((tab) => {
           tab.style.display = "none";
         });
