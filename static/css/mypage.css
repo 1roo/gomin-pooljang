@@ -187,6 +187,7 @@ body {
 .page-link:hover {
   background-color: #f8f9fa;
   color: #000;
+  cursor: pointer;
 }
 
 @keyframes wave {
@@ -231,4 +232,9 @@ body {
 .temperatureText {
   font-size: 14px;
   font-weight: bold;
+}
+
+//고민봉
+.active-page {
+  font-size: 30px;
 }

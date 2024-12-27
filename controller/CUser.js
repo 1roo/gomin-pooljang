@@ -29,6 +29,92 @@ exports.main = (req, res) => {
   }
 };
 
+exports.mypage2 = async (req, res) => {
+  try {
+    const jwt = req.cookies.jwtToken;
+    const loginStatus = req.cookies.loginStatus;
+    console.log("mypage 에서 jwt = ", jwt);
+    console.log("mypage 에서 loginStatus: ", loginStatus);
+    const payload = jwt.split(".")[1];
+    const decodedPayload = atob(payload);
+
+    let { userId, currentPage } = req.body;
+    let limit = 6;
+    console.log("userId===", userId);
+    console.log("currentPage===", currentPage);
+
+    currentPage = parseInt(currentPage);
+
+    const totalMyWorryList = await WorryList.findAll({
+      where: { sender_Id: userId },
+    });
+    console.log("totalMyWorryList===", totalMyWorryList.length);
+    let total = Math.ceil(totalMyWorryList.length / limit);
+    console.log("total===", total);
+
+    if (totalMyWorryList.length == 0) {
+      let startPage = 0;
+      let endPage = 0;
+      res.send({
+        result: true,
+        startPage,
+        endPage,
+        message: "고민이 없습니다.",
+      });
+      return;
+    }
+    if (total == 1) {
+      console.log("여여여기기22");
+      let startPage = 1;
+      let endPage = 1;
+      res.send({
+        result: true,
+        startPage,
+        endPage,
+        myWorryList: totalMyWorryList,
+      });
+      return;
+    }
+
+    const myWorryList = await WorryList.findAll({
+      attributes: [
+        "Id",
+        "sender_Id",
+        "title",
+        "senderContent",
+        "senderSwearWord",
+        "senderPostDateTime",
+        "responder_Id",
+        "responderContent",
+        "responderSwearWord",
+        "responderPostDateTime",
+        "tempRateresponder",
+        "checkReviewScore",
+      ],
+      where: { sender_Id: userId },
+      order: [["Id", "DESC"]],
+      limit,
+      offset: limit * (currentPage - 1),
+    });
+
+    let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
+    let endPage = total;
+    console.log("startPage===", startPage);
+    console.log("endPage===", endPage);
+    res.render("mypage", {
+      result: true,
+      jwt,
+      loginStatus,
+      decodedPayload,
+      userId,
+      myWorryList,
+      startPage,
+      endPage,
+      currentPage,
+    });
+  } catch (error) {}
+};
+
 //고민봉
 exports.mypage = async (req, res) => {
   const jwt = req.cookies.jwtToken;
@@ -290,7 +376,7 @@ exports.loginUser = async (req, res) => {
         { id: user.userId, email: user.email },
         SECRET_KEY,
         {
-          expiresIn: "1h",
+          expiresIn: "1d",
         }
       );
       res.cookie("jwtToken", token, {

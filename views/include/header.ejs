@@ -69,11 +69,17 @@
           form.action = "/mypage";
 
           const input = document.createElement("input");
+          const input2 = document.createElement("input");
           input.type = "text";
           input.name = "userId";
           input.value = userId;
 
+          input2.type = "text";
+          input2.name = "currentPage";
+          input2.value = 1;
+
           form.appendChild(input);
+          form.appendChild(input2);
           document.body.appendChild(form);
           form.submit();
         } else {

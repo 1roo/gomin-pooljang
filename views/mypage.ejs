@@ -6,7 +6,8 @@
     <title>GOMIN Pooljang</title>
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="../static/css/mypage.css" />
   </head>
   <body>
@@ -15,7 +16,8 @@
       data-jwt="<%= jwt %>"
       data-login-status="<%= loginStatus %>"
       data-decoded-Payload="<%= decodedPayload %>"
-      data-userId="<%= userId %>"></div>
+      data-userId="<%= userId %>"
+    ></div>
     <div class="header-full-width"><%- include('./include/header') %></div>
     <div class="index-container-wrap">
       <div class="index-container">
@@ -27,7 +29,8 @@
                 <img
                   src="../static/images/thermometer.png"
                   alt="온도계"
-                  class="temp-icon" />
+                  class="temp-icon"
+                />
                 <span class="temperatureText">나의 온도</span>
                 <span class="temperature">36.5°</span>
               </div>
@@ -36,14 +39,16 @@
               <div class="main-table-col">
                 <button
                   class="tab_send_btn tab-btn"
-                  onclick="toggleTab(this, '.tab')">
+                  onclick="toggleTab(this, '.tab')"
+                >
                   내가 보낸 고민
                 </button>
               </div>
               <div class="main-table-col">
                 <button
                   class="tab_receive_btn tab-btn"
-                  onclick="toggleTab(this, '.tab-2')">
+                  onclick="toggleTab(this, '.tab-2')"
+                >
                   내가 답장한 고민
                 </button>
               </div>
@@ -55,23 +60,20 @@
                   <div class="tab-1-wrap-row-1-col-1">제목</div>
                   <div class="tab-1-wrap-row-1-col-2">날짜</div>
                 </div>
-                <% for(let i=0; i<6; i++) { %>
+                <% for(let i=0; i < myWorryList.length; i++) { %>
                 <div class="send-gomin-list">
                   <div class="send-gomin-list-row">
                     <div class="send-gomin-list-col-1">
-                      <a
-                        href="#"
-                        class="gomin-link send"
-                        data-gomin-id="<%= i %>"
-                        >내가 보낸 고민입니다.</a
-                      >
+                      <li><%=myWorryList[i].title%></li>
                     </div>
                     <div class="send-gomin-list-col-2">
-                      <%= new Date().toLocaleString('ko-KR', { timeZone:
-                      'Asia/Seoul', year: 'numeric', month: '2-digit', day:
-                      '2-digit', hour: '2-digit', minute: '2-digit', hour12:
-                      false }).replace(/\./g, '').replace(',',
-                      '').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') %>
+                      <li>
+                        <%= new
+                        Date(myWorryList[i].senderPostDateTime).toLocaleString('ko-KR',
+                        { year: 'numeric', month: '2-digit', day: '2-digit',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit',
+                        hour12: false }) %>
+                      </li>
                     </div>
                   </div>
                 </div>
@@ -80,17 +82,30 @@
                 <nav aria-label="Page navigation" class="pagination-container">
                   <ul class="pagination justify-content-center">
                     <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
+                      <a class="page-link" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    <% for(let i=1; i<=7; i++) { %>
-                    <li class="page-item <%= i === 1 ? 'active' : '' %>">
-                      <a class="page-link" href="#"><%= i %></a>
-                    </li>
-                    <% } %>
                     <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
+                      <a class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                      </a>
+                    </li>
+
+                    <% for(let i=startPage; i <= endPage; i++) { %>
+                    <li
+                      class="page-item <%= currentPage === i ? 'font-weight-bold' : '' %> page-link"
+                    >
+                      <%= i %>
+                    </li>
+                    <% }%>
+                    <li class="page-item">
+                      <a class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                       </a>
                     </li>
@@ -155,6 +170,7 @@
     <!-- JavaScript 코드 -->
     <script>
       function toggleTab(button, tabSelector) {
+        console.log("현재 페이지 = ", "<%=currentPage %>");
         document.querySelectorAll(".tab, .tab-2").forEach((tab) => {
           tab.style.display = "none";
         });

@@ -24,7 +24,10 @@ router.post("/makeNewPw", UserController.makeNewPw);
 router.get("/myAnswerList", UserController.userReceviedMsg);
 router.get("/myWorryList", UserController.userSendedMsg);
 
-router.post("/mypage", UserController.mypage);
+//고민봉 페이징 구현중
+router.post("/myWorryListPage", WorryListController.myWorryListPage);
+
+router.post("/mypage", UserController.mypage2);
 
 //고민봉 index2
 router.get("/index", UserController.index);
