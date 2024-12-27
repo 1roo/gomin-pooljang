@@ -21,6 +21,7 @@ router.patch("/makeNewPw", UserController.makeNewPw);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
 
+//my페이지 확인용
 router.get("/user-received-msg", UserController.userReceviedMsg);
 router.get("/user-sended-msg", UserController.userSendedMsg);
 
