@@ -251,6 +251,8 @@ async function loginFn() {
     });
 
     const { token, result, message } = res.data;
+
+    console.log("/login 에서 받은 message = ", message);
     if (result) {
       // localStorage에 저장
       // localStorage.setItem("token", token);

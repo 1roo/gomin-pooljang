@@ -215,7 +215,7 @@ exports.loginUser = async (req, res) => {
     console.log("Request Body:", req.body);
 
     if (!user) {
-      return res.status(400).send({ result: false, message: "invalid_email" });
+      return res.status(200).send({ result: false, message: "invalid_email" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -238,7 +238,7 @@ exports.loginUser = async (req, res) => {
       return res.send({ result: true, token: token });
     } else {
       return res
-        .status(400)
+        .status(200)
         .send({ result: false, message: "invalid_password" });
     }
   } catch (error) {
