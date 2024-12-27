@@ -19,6 +19,13 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use(cors());
 
+app.get("/user_received_msg", (req, res) => {
+  res.render("user_received_msg");
+});
+
+app.get("/user_sended_msg", (req, res) => {
+  res.render("user_sended_msg");
+});
 /**
  * 이메일 중복여부
  * 작성자: 하나래

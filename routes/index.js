@@ -20,6 +20,8 @@ router.get("/delete-account", UserController.deleteAccount);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
 
+router.post("/mypage", UserController.mypage);
+
 //고민봉 index2
 router.get("/index", UserController.index);
 
