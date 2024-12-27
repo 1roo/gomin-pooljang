@@ -296,7 +296,7 @@ exports.findAccount = async (req, res) => {
  */
 exports.validation = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.cookies.token;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw new Error("토큰이 필요합니다.");
@@ -405,7 +405,8 @@ exports.logout2 = async (req, res) => {
  */
 exports.logout = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.cookies.token?.split(" ")[1];
+    // const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
       return res.send({ result: false, message: "토큰이 없습니다." });
