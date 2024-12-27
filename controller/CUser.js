@@ -173,7 +173,7 @@ exports.checkEmail = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
-      return res.status(400).send({
+      return res.send({
         result: false,
         message: "이메일을 입력해 주세요.",
       });
@@ -346,76 +346,36 @@ exports.findAccount = async (req, res) => {
  * validation
  * 작성자: 하나래
  */
-exports.validation = async (req, res) => {
+
+exports.validation = async (req) => {
   try {
-    // 1. 요청 쿠키 확인
-    // console.log("Request Cookies:", req.cookies);
-
-    // const authHeader = req.cookies.token;
-
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    const authHeader = req.cookies.jwtToken; // 쿠키 이름 수정
+    if (!authHeader || !authHeader.startsWith("ey")) {
+      console.error("Token is missing or invalid");
       throw new Error("토큰이 필요합니다.");
     }
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      console.error("토큰이 존재하지 않거나 형식이 잘못되었습니다.");
-      throw new Error("토큰이 필요합니다.");
-    }
-
-    const token = authHeader.split(" ")[1];
-    console.log("Extracted Token:", token);
 
     let decoded;
-
-    // 2. JWT 디코딩
     try {
-      decoded = jwt.verify(token, SECRET_KEY);
-      console.log("Decoded JWT:", decoded);
+      decoded = jwt.verify(authHeader, SECRET_KEY);
     } catch (error) {
       if (error.name === "TokenExpiredError") {
-        console.error("토큰이 만료되었습니다.");
+        console.error("Token has expired");
         throw new Error("토큰이 만료되었습니다.");
       }
-      console.error("유효하지 않은 토큰입니다.", error);
+      console.error("Invalid token:", error.message);
       throw new Error("유효하지 않은 토큰입니다.");
     }
 
-    // 3. 데이터베이스에서 사용자 검색
     const user = await User.findOne({ where: { email: decoded.email } });
-    console.log("Found User:", user);
-
     if (!user) {
-      console.error("데이터베이스에서 사용자를 찾을 수 없습니다.");
+      console.error("User not found for email:", decoded.email);
       throw new Error("사용자를 찾을 수 없습니다.");
     }
-
-    // 4. 새 토큰 생성
-    const updatedToken = jwt.sign(
-      { id: user.userId, email: user.email },
-      SECRET_KEY,
-      {
-        expiresIn: "1h",
-      }
-    );
-    console.log("Updated Token:", updatedToken);
-
-    // 5. 쿠키 설정
-    res.cookie("jwtToken", updatedToken, {
-      httpOnly: true,
-      path: "/",
-    });
-    res.cookie("loginStatus", "true", {
-      httpOnly: true,
-      path: "/",
-    });
-
-    console.log("쿠키 설정 완료. 응답 성공.");
-    return { user, result: true, token: updatedToken };
+    return { email: decoded.email, id: decoded.id };
   } catch (error) {
-    console.error("오류 발생:", error.message);
-    return { error: error.message };
+    console.error("Validation error:", error.message);
+    throw error;
   }
 };
 
@@ -532,57 +492,63 @@ exports.logout = async (req, res) => {
  * 작성자: 하나래
  */
 exports.deleteAccount = async (req, res) => {
-  console.log("deleteAccount function started");
   try {
-    console.log("Validating user...");
     const userInfo = await exports.validation(req);
-    console.log("User validation completed", { email: userInfo.email });
 
-    console.log("Extracting password from request body");
+    if (!userInfo?.email) {
+      console.error("Validation did not return a valid email");
+      return res.send({
+        success: false,
+        message: "사용자 인증에 실패했습니다.",
+      });
+    }
+
     const { password } = req.body;
-    console.log("Password received");
+    if (!password) {
+      console.error("Password not provided in request");
+      return res.send({ success: false, message: "비밀번호가 필요합니다." });
+    }
 
-    console.log("Finding user in database");
     const user = await User.findOne({ where: { email: userInfo.email } });
     if (!user) {
-      console.log("User not found in database");
-      return { success: false, message: "사용자를 찾을 수 없습니다." };
+      console.error("User not found in database");
+      return res.send({
+        success: false,
+        message: "사용자를 찾을 수 없습니다.",
+      });
     }
-    console.log("User found in database", { userId: user.id });
 
-    console.log("Comparing passwords");
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log("Password mismatch");
-      return { success: false, message: "비밀번호가 일치하지 않습니다." };
+      console.error("Password mismatch for user:", userInfo.email);
+      return res.send({
+        success: false,
+        message: "비밀번호가 일치하지 않습니다.",
+      });
     }
-    console.log("Password matched");
 
-    console.log("Generating new salt and hashing deleted password");
     const salt = await bcrypt.genSalt(SALT);
     const hashedPw = await bcrypt.hash("deleted_password", salt);
-    console.log("New password hashed");
 
-    console.log("Updating user account");
     await User.update(
       {
-        email: `deleted_${user.id}@example.com`,
+        email: `deleted_${user.userId}@example.com`,
         password: hashedPw,
-        question: null,
-        answer: null,
         updatedAt: new Date(),
       },
       { where: { email: userInfo.email } }
     );
-    console.log("User account updated successfully");
 
-    console.log("Sending success response");
     res.send({
       success: true,
       message: "계정이 성공적으로 비활성화되었습니다.",
     });
+
+    res.clearCookie("jwtToken", { path: "/" });
+    res.clearCookie("loginStatus", { path: "/" });
+    res.redirect("/");
   } catch (error) {
-    console.error("deleteAccount error", error);
+    console.error("deleteAccount error:", error.message);
     console.error("Error stack:", error.stack);
     res.send({
       success: false,
