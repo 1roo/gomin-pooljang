@@ -21,6 +21,7 @@ router.patch("/makeNewPw", UserController.makeNewPw);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
 
+
 router.get("/myAnswerList", UserController.userReceviedMsg);
 router.get("/myWorryList", UserController.userSendedMsg);
 

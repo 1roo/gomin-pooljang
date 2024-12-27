@@ -37,7 +37,11 @@ document.getElementById("forget-btn").addEventListener("click", function () {
   forgetPwModal.style.display = "flex";
 });
 
-/* 모달 닫기 함수 */
+/**
+ * 모달
+ * 닫기
+ * 함수
+ */
 function closeModal(modalToClose) {
   modalToClose.style.display = "none";
 }
@@ -68,7 +72,11 @@ closeForgetX.addEventListener("click", function () {
 
 /* axios */
 
-/* 받은 고민 건너뛰기 버튼 클릭 시 */
+/**
+ * 받은 고민
+ * 건너뛰기
+ * 버튼 클릭 시
+ */
 
 async function rejectLetter() {
   const data = {
@@ -87,9 +95,8 @@ async function rejectLetter() {
 
     const { result, randomWorryList } = res.data;
     if (result) {
-      const title = document.getElementById("replyTitle");
-      const msg = document.getElementById("replyMessage");
-      console.log("tile", title);
+      const title = document.querySelector(".replyTitle");
+      const msg = document.querySelector(".replyMessage");
       title.value = randomWorryList[0].title;
       msg.value = randomWorryList[0].senderContent;
     }
@@ -98,7 +105,11 @@ async function rejectLetter() {
   }
 }
 
-/* 고민 받기 버튼 클릭 시 새로고침 */
+/**
+ * 고민 받기
+ * 버튼 클릭 시
+ * 새로고침
+ */
 
 async function receiveLetter() {
   const formLetter = document.querySelector('form[name="form-letter"]');
@@ -128,9 +139,9 @@ async function receiveLetter() {
 
     const { result, randomWorryList } = res.data;
     if (result) {
-      const title = document.getElementById("replyTitle");
-      const msg = document.getElementById("replyMessage");
-      console.log("tile", title);
+      const title = document.querySelector(".replyTitle");
+      console.log("title", title);
+      const msg = document.querySelector(".replyMessage");
       title.value = randomWorryList[0].title;
       msg.value = randomWorryList[0].senderContent;
       getId.value = randomWorryList[0].Id;
@@ -140,10 +151,11 @@ async function receiveLetter() {
   }
 }
 
-/* 
-고민 보내기 
-버튼 
-*/
+/**
+ * 고민
+ * 보내기
+ * 버튼
+ */
 
 async function sendContent() {
   const form = document.forms["form-letter"];
@@ -179,11 +191,11 @@ async function sendContent() {
   }
 }
 
-/* 
-답장 
-보내기 
-버튼 
-*/
+/**
+ * 답장
+ * 보내기
+ * 버튼
+ */
 
 async function submitReply() {
   const form = document.forms["form-reply"];
@@ -225,8 +237,8 @@ async function submitReply() {
   }
 }
 
-/* 
-로그인
+/**
+ * 로그인
  */
 async function loginFn() {
   const form = document.forms["form-login"];
@@ -270,16 +282,16 @@ async function loginFn() {
   }
 }
 
-/* 
-이메일 
-중복 
-검사
+/**
+ * 이메일
+ * 중복
+ * 검사
  */
 async function duplCheck() {
   const form = document.forms["form-join"];
   const email = form.email.value;
   const token = localStorage.getItem("token");
-  const domain = form.selection.value;
+  const domain = form.domain.value;
 
   if (!email) {
     alert("이메일을 입력해주세요.");
@@ -311,16 +323,16 @@ async function duplCheck() {
   }
 }
 
-/* 
-회원가입 
-*/
+/**
+ * 회원가입
+ */
 async function joinFn() {
   const form = document.forms["form-join"];
   const email = form.email.value;
-  const domain = form.selection.value;
+  const domain = form.domain.value;
   const password = form.password.value;
   const confirmPw = form.confirmPw.value;
-  const question = form.combo.value;
+  const question = form.question.value;
   const answer = form.answer.value;
 
   // 유효성 검사
@@ -386,30 +398,33 @@ async function joinFn() {
   }
 }
 
-/* 
-비밀번호 
-수정 
-forget password?
-*/
+/**
+ * 비밀번호
+ * 수정
+ * forget password?
+ */
 
 // 비밀 번호 수정 버튼
 async function checkAnswer() {
   const form = document.forms["form-pw"];
   const email = form.email.value;
-  const domain = form.selection.value;
-  const question = form.combo.value;
+  const question = form.question.value;
   const answer = form.answer.value;
   const token = localStorage.getItem("token");
 
-  if (!email || !question || !answer) {
-    alert("이메일, 질문, 답을 모두 입력하셔야 합니다!");
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!email || !emailPattern.test(email)) {
+    alert("유효한 이메일 주소를 입력하세요!");
     return;
   }
 
-  const fullEmail = `${email}@${domain}`;
+  if (!question || !answer) {
+    alert("질문, 답을 모두 입력하셔야 합니다!");
+    return;
+  }
 
   const data = {
-    email: fullEmail,
+    email,
     question,
     answer,
   };
@@ -418,7 +433,7 @@ async function checkAnswer() {
     const res = await axios(
       {
         method: "post",
-        url: "/user/change-pw",
+        url: "/findAccount",
         data: data,
       },
       {
@@ -428,44 +443,55 @@ async function checkAnswer() {
         },
       }
     );
-    if (res.data) {
+
+    const { result, message } = res.data;
+    if (result) {
       // 질문과 답이 일치하면 비밀번호 수정 화면 보이기
+      alert(message);
       const complete = document.querySelector(".pw-update-container");
       complete.style.display = "block";
     } else {
       alert("회원 가입 시 작성한 질문, 답과 일치하지 않습니다.");
+      form.reset();
+      form.email.focus();
     }
   } catch (e) {
     console.error("Error updating password:", e);
   }
 }
 
-// 비밀번호 수정 완료 버튼
+/**
+ * 비밀번호
+ * 수정 완료
+ * 버튼
+ */
 async function updatePw() {
   const form = document.forms["form-pw"];
-  const newPw = form.newPw.value;
+  const email = document.email.value;
+  const password = form.password.value;
   const confirmPw = form.confirmPw.value;
   const token = localStorage.getItem("token");
 
-  if (newPw.trim() !== confirmPw.trim()) {
+  if (password.trim() !== confirmPw.trim()) {
     alert("비밀번호와 확인 비밀번호가 일치하지 않습니다.");
 
-    form.newPw.value = "";
+    form.password.value = "";
     form.confirmPw.value = "";
 
-    form.newPw.focus();
+    form.password.focus();
     return;
   }
 
   const data = {
-    newPw,
+    email,
+    password,
   };
 
   try {
     const res = await axios(
       {
-        method: "patch",
-        url: "/",
+        method: "post",
+        url: "/makeNewPw",
         data: data,
       },
       {
@@ -475,8 +501,13 @@ async function updatePw() {
         },
       }
     );
-    alert("비밀번호가 수정되었습니다.");
-    document.querySelector(".forgot-pw-modal").style.display = "none";
+    const { result, message } = res.data;
+    if (result) {
+      alert(message);
+      document.querySelector(".forgot-pw-modal").style.display = "none";
+    } else {
+      form.reset();
+    }
   } catch (e) {
     console.error("Error updating password:", e);
     alert("비밀번호 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");

@@ -471,7 +471,8 @@ exports.logout2 = async (req, res) => {
 
     res.clearCookie("jwtToken");
     res.clearCookie("loginStatus");
-
+    res.clearCookie(req.cookies.jwtToken);
+    res.clearCookie(req.cookies.loginStatus);
     res.status(200).send({ result: true, message: "로그아웃 성공" });
   } catch (error) {
     console.error("logout error:", error.message);
