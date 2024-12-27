@@ -7,26 +7,30 @@
     <link rel="stylesheet" href="../static/css/header.css" />
   </head>
   <body>
-    <div class="header-wrapper">
-      <div class="header">
-        <div class="header-content">
-          <div class="container logo-container">
-            <img
-              class="logo"
-              src="../static/images/logo.png"
-              alt="logo"
-              onclick="home()"
-            />
-          </div>
-
-          <div class="container menu-container">
-            <button class="header-menu" onclick="menu2_1()">마이페이지</button>
-            <button class="header-menu" onclick="menu2_2()">정보수정</button>
-            <button class="header-menu" onclick="menu2_3()">로그아웃</button>
+    <header style="text-align: center; width: 100%">
+      <div class="header-wrapper">
+        <div class="header">
+          <div class="header-content">
+            <div class="container logo-container">
+              <img
+                class="logo"
+                src="../static/images/logo.png"
+                alt="logo"
+                onclick="home()"
+              />
+            </div>
+            <div class="container menu-container">
+              <button class="header-menu" onclick="menu2_1()">
+                마이페이지
+              </button>
+              <button class="header-menu" onclick="menu2_2()">정보수정</button>
+              <button class="header-menu" onclick="menu2_3()">로그아웃</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </header>
+
     <script>
       function home() {
         document.location.href = "/";
