@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /* 비밀번호 수정 모달 */
-document.getElementById("forget-btn").addEventListener("click", function () {
+document.querySelector(".forget").addEventListener("click", function () {
   forgetPwModal.style.display = "flex";
 });
 
@@ -138,6 +138,7 @@ async function receiveLetter() {
     });
 
     const { result, randomWorryList } = res.data;
+    console.log(result);
     if (result) {
       const title = document.querySelector(".replyTitle");
       console.log("title", title);
@@ -160,29 +161,30 @@ async function receiveLetter() {
 async function sendContent() {
   const form = document.forms["form-letter"];
   const title = form.title.value;
-  const message = form.message.value;
-  const token = localStorage.getItem("token");
+  const senderContent = form.message.value;
+  // const token = localStorage.getItem("token");
 
-  if (title.trim() === "" || message.trim() === "") {
+  if (title.trim() === "" || senderContent.trim() === "") {
     alert("제목과 내용을 작성해주세요!");
     return;
   }
 
   const data = {
     title,
-    message,
+    senderContent,
+    userId,
   };
 
   try {
     const res = await axios({
       method: "post",
-      url: "/worryList",
+      url: "/addWorryList",
       data: data,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwt}`,
       },
     });
-    const { result } = res.data;
+    const { result, message } = res.data;
     if (result) {
       alert(message);
     }
@@ -479,6 +481,12 @@ async function updatePw() {
     form.confirmPw.value = "";
 
     form.password.focus();
+    return;
+  }
+
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!email || !emailPattern.test(email)) {
+    alert("유효한 이메일 주소를 입력하세요!");
     return;
   }
 
