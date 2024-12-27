@@ -376,6 +376,34 @@ exports.changePw = async (req, res) => {
   }
 };
 
+/**
+ * makeNewPw
+ * 작성자: 하나래
+ */
+exports.makeNewPw = async (req, res) => {
+  //
+  try {
+    const { password, email } = req.body;
+    console.log("New Password:", password);
+    if (!newPw || newPw.length < 4) {
+      return res.send({
+        result: false,
+        message: "비밀번호는 최소 4자 이상입니다.",
+      });
+    }
+
+    const salt = await bcrypt.genSalt(SALT);
+    const hashedPw = await bcrypt.hash(newPw, salt);
+
+    await User.update({ password: hashedPw }, { where: { email, password } });
+
+    res.send({ result: true, message: "비밀번호 변경 성공" });
+  } catch (error) {
+    console.error("changePw error", error.message);
+    res.status(500).send({ message: error.message || "서버 에러" });
+  }
+};
+
 //고민봉
 exports.logout2 = async (req, res) => {
   try {
