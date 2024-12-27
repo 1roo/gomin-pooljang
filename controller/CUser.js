@@ -88,11 +88,11 @@ exports.mypage = async (req, res) => {
 
 //고민봉
 exports.userReceviedMsg = (req, res) => {
-  res.render("user_received_msg");
+  res.render("myAnswerList");
 };
 
 exports.userSendedMsg = (req, res) => {
-  res.render("user_sended_msg");
+  res.render("myWorryList");
 };
 
 //고민봉
@@ -494,7 +494,8 @@ exports.logout2 = async (req, res) => {
 
     res.clearCookie("jwtToken");
     res.clearCookie("loginStatus");
-
+    res.clearCookie(req.cookies.jwtToken);
+    res.clearCookie(req.cookies.loginStatus);
     res.status(200).send({ result: true, message: "로그아웃 성공" });
   } catch (error) {
     console.error("logout error:", error.message);

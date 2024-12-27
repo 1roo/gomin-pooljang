@@ -44,7 +44,7 @@
                 <button
                   class="tab_receive_btn tab-btn"
                   onclick="toggleTab(this, '.tab-2')">
-                  내가 받은 고민
+                  내가 답장한 고민
                 </button>
               </div>
             </div>
@@ -98,7 +98,7 @@
                 </nav>
               </div>
             </div>
-            <!-- 내가 받은 고민 탭 -->
+            <!-- 내가 답장한 고민 탭 -->
             <div class="tab-2" style="display: none">
               <div class="tab-1-wrap">
                 <div class="tab-1-wrap-row-1">
@@ -113,7 +113,7 @@
                         href="#"
                         class="gomin-link receive"
                         data-gomin-id="<%= i %>"
-                        >내가 받은 고민입니다.</a
+                        >내가 답장한 고민입니다.</a
                       >
                     </div>
                     <div class="receive-gomin-list-col-2">
@@ -155,9 +155,6 @@
     <!-- JavaScript 코드 -->
     <script>
       function toggleTab(button, tabSelector) {
-        console.log("myAnswerList[0] =", "<%=myAnswerList[0].title%>");
-        console.log("myWorryList[0] =", "<%=myWorryList[0].title%>");
-
         document.querySelectorAll(".tab, .tab-2").forEach((tab) => {
           tab.style.display = "none";
         });
@@ -179,9 +176,9 @@
             const userId = this.getAttribute("data-gomin-id");
             const isSent = this.classList.contains("send");
             if (isSent) {
-              window.location.href = `/mypage/user_sended_msg/${userId}`;
+              window.location.href = `/myWorryList/${userId}`;
             } else {
-              window.location.href = `/mypage/user_received_msg/${userId}`;
+              window.location.href = `/myAnswerList/${userId}`;
             }
           });
         });
