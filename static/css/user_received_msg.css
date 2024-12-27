@@ -18,7 +18,6 @@ body {
   min-width: 1200px;
   height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
   position: relative;
 }
@@ -28,7 +27,8 @@ body {
   height: 100%;
 }
 
-.temp-wrapper {
+.main-body {
+  margin: 20px auto;
   display: flex;
   width: 1200px;
   height: calc(100vh - 120px);
@@ -168,7 +168,7 @@ body {
 }
 
 .rating-button:hover {
-  background-color: #2a5d6b;
+  background-color: rgb(47, 99, 112);
 }
 
 .modal {
@@ -221,7 +221,7 @@ body {
 }
 
 #submitRating:hover {
-  background-color: #2a5d6b;
+  background-color: rgb(47, 99, 112);
 }
 
 #closeModal {
@@ -230,5 +230,5 @@ body {
 }
 
 #closeModal:hover {
-  background-color: #e7e8e9;
+  background-color: #f4f4f4;
 }
