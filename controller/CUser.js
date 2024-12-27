@@ -229,7 +229,7 @@ exports.loginUser = async (req, res) => {
     console.log("Request Body:", req.body);
 
     if (!user) {
-      return res.status(400).send({ result: false, message: "invalid_email" });
+      return res.send({ result: false, message: "invalid_email" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -251,9 +251,7 @@ exports.loginUser = async (req, res) => {
       });
       return res.send({ result: true, token: token });
     } else {
-      return res
-        .status(400)
-        .send({ result: false, message: "invalid_password" });
+      return res.send({ result: false, message: "invalid_password" });
     }
   } catch (error) {
     console.log("post /login error", error);
@@ -282,9 +280,7 @@ exports.findAccount = async (req, res) => {
     });
 
     if (!user) {
-      return res
-        .status(400)
-        .send({ result: false, message: "정보가 일치하지 않습니다" });
+      return res.send({ result: false, message: "정보가 일치하지 않습니다" });
     }
 
     res.send({ result: true, message: "정보가 일치합니다" });
@@ -298,23 +294,54 @@ exports.findAccount = async (req, res) => {
  * validation
  * 작성자: 하나래
  */
-exports.validation = async (req) => {
-  const authHeader = req.headers.authorization;
+exports.validation = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new Error("토큰이 필요합니다.");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new Error("토큰이 필요합니다.");
+    }
+
+    const token = authHeader.split(" ")[1];
+    let decoded;
+
+    try {
+      decoded = jwt.verify(token, SECRET_KEY);
+    } catch (error) {
+      if (error.name === "TokenExpiredError") {
+        throw new Error("토큰이 만료되었습니다.");
+      }
+      throw new Error("유효하지 않은 토큰입니다.");
+    }
+
+    const user = await User.findOne({ where: { email: decoded.email } });
+    if (!user) {
+      throw new Error("사용자를 찾을 수 없습니다.");
+    }
+
+    // 토큰의 만료 시간만 업데이트
+    const updatedToken = jwt.sign(
+      { id: user.userId, email: user.email },
+      SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    res.cookie("jwtToken", updatedToken, {
+      httpOnly: true,
+      path: "/",
+    });
+
+    res.cookie("loginStatus", "true", {
+      httpOnly: true,
+      path: "/",
+    });
+
+    return res.json({ user, result: true, token: updatedToken });
+  } catch (error) {
+    return res.status(401).json({ error: error.message });
   }
-
-  const token = authHeader.split(" ")[1];
-  const decoded = jwt.verify(token, SECRET_KEY);
-  console.log("Decoded Token:", decoded);
-
-  const user = await User.findOne({ where: { email: decoded.email } });
-  if (!user) {
-    throw new Error("사용자를 찾을 수 없습니다.");
-  }
-
-  return user;
 };
 
 /**
@@ -328,9 +355,10 @@ exports.changePw = async (req, res) => {
     const newPw = req.body.password;
     console.log("New Password:", newPw);
     if (!newPw || newPw.length < 4) {
-      return res
-        .status(400)
-        .send({ result: false, message: "비밀번호는 최소 4자 이상입니다." });
+      return res.send({
+        result: false,
+        message: "비밀번호는 최소 4자 이상입니다.",
+      });
     }
 
     const salt = await bcrypt.genSalt(SALT);
@@ -380,16 +408,12 @@ exports.logout = async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      return res
-        .status(400)
-        .send({ result: false, message: "토큰이 없습니다." });
+      return res.send({ result: false, message: "토큰이 없습니다." });
     }
 
     const isInvalidated = await invalidateToken(token);
     if (!isInvalidated) {
-      return res
-        .status(400)
-        .send({ result: false, message: "토큰 무효화 실패" });
+      return res.send({ result: false, message: "토큰 무효화 실패" });
     }
     res.status(200).send({ result: true, message: "로그아웃 성공" });
   } catch (error) {
@@ -410,15 +434,11 @@ exports.deleteAccount = async (req, res) => {
     // 사용자 정보 확인
     const user = await User.findOne({ where: { email: userInfo.email } });
     if (!user) {
-      return res
-        .status(400)
-        .send({ result: false, message: "유저가 없습니다." });
+      return res.send({ result: false, message: "유저가 없습니다." });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res
-        .status(400)
-        .send({ result: false, message: "비밀번호가 틀렸습니다." });
+      return res.send({ result: false, message: "비밀번호가 틀렸습니다." });
     }
 
     const salt = await bcrypt.genSalt(SALT);
