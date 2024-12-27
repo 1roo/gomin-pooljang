@@ -30,6 +30,20 @@ exports.main = (req, res) => {
 };
 
 //고민봉
+exports.mypage = (req, res) => {
+  res.render("mypage");
+};
+
+//고민봉
+exports.userReceviedMsg = (req, res) => {
+  res.render("user_received_msg");
+};
+
+exports.userSendedMsg = (req, res) => {
+  res.render("user_sended_msg");
+};
+
+//고민봉
 exports.index = (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;

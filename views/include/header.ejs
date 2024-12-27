@@ -18,6 +18,7 @@
               onclick="home()"
             />
           </div>
+
           <div class="container menu-container">
             <button class="header-menu" onclick="menu2_1()">마이페이지</button>
             <button class="header-menu" onclick="menu2_2()">정보수정</button>
@@ -32,7 +33,25 @@
       }
 
       function menu2_1() {
-        document.location.href = "/mypage";
+        // 폼 생성
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/mypage";
+
+        // 인풋 필드 생성
+        const input = document.createElement("input");
+
+        input.type = "text";
+        input.name = "userId";
+        input.value = "5"; // 예시 값 설정
+        // 폼에 인풋 필드 추가
+        form.appendChild(input);
+
+        // 폼을 문서에 추가
+        document.body.appendChild(form);
+
+        // 폼 제출
+        form.submit();
       }
 
       function menu2_2() {
