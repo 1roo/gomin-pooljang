@@ -25,11 +25,11 @@
                     class="temp-icon"
                   />
                   <span class="temperatureText">나의 온도</span>
-                  <span class="temperature"><%=user.temp%></span>
+                  <span class="temperature">36.5°</span>
                 </div>
               </div>
               <div class="list-button-container">
-                <button class="list-button" onclick="history.back()">
+                <button class="list-button" onclick="location.href='/mypage'">
                   목록
                 </button>
               </div>
@@ -40,22 +40,16 @@
                 <div class="message-content">
                   <div class="content-row">
                     <div class="label">제목</div>
-                    <div class="text"><%=myAnswerList.title %></div>
+                    <div class="text">다른 유저의 고민 제목입니다</div>
                   </div>
                   <div class="content-row">
                     <div class="label">날짜</div>
-                    <div class="text">
-                      <%= new
-                      Date(myAnswerList.senderPostDateTime).toLocaleString('ko-KR',
-                      { year: 'numeric', month: '2-digit', day: '2-digit', hour:
-                      '2-digit', minute: '2-digit', second: '2-digit', hour12:
-                      false }) %>
-                    </div>
+                    <div class="text">2024-12-22 09:00</div>
                   </div>
                   <div class="content-row">
                     <div class="label">내용</div>
                     <div class="text message-text">
-                      <%=myAnswerList.senderContent %>
+                      고민 내용이 여기에 표시됩니다.
                     </div>
                   </div>
                 </div>
@@ -64,19 +58,17 @@
                 <div class="message-header">답장</div>
                 <div class="message-content">
                   <div class="content-row">
+                    <div class="label">제목</div>
+                    <div class="text">답장 제목입니다</div>
+                  </div>
+                  <div class="content-row">
                     <div class="label">날짜</div>
-                    <div class="text">
-                      <%= new
-                      Date(myAnswerList.responderPostDateTime).toLocaleString('ko-KR',
-                      { year: 'numeric', month: '2-digit', day: '2-digit', hour:
-                      '2-digit', minute: '2-digit', second: '2-digit', hour12:
-                      false }) %>
-                    </div>
+                    <div class="text">2024-12-22 10:00</div>
                   </div>
                   <div class="content-row">
                     <div class="label">내용</div>
                     <div class="text message-text">
-                      <%=myAnswerList.responderContent %>
+                      내가 보낸 답장 내용이 여기에 표시됩니다.
                     </div>
                   </div>
                 </div>

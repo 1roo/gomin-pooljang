@@ -25,37 +25,31 @@
                     class="temp-icon"
                   />
                   <span class="temperatureText">나의 온도</span>
-                  <span class="temperature"><%=user.temp%></span>
+                  <span class="temperature">36.5°</span>
                 </div>
               </div>
               <div class="list-button-container">
-                <button class="list-button" onclick="history.back()">
+                <button class="list-button" onclick="location.href='/mypage'">
                   목록
                 </button>
               </div>
             </div>
             <div class="message-container">
               <div class="sent-message">
-                <div class="message-header">내가 답장한 고민</div>
+                <div class="message-header">내가 보낸 고민</div>
                 <div class="message-content">
                   <div class="content-row">
                     <div class="label">제목</div>
-                    <div class="text"><%=myAnswerList.title %></div>
+                    <div class="text">고민 제목입니다</div>
                   </div>
                   <div class="content-row">
                     <div class="label">날짜</div>
-                    <div class="text">
-                      <%= new
-                      Date(myAnswerList.senderPostDateTime).toLocaleString('ko-KR',
-                      { year: 'numeric', month: '2-digit', day: '2-digit', hour:
-                      '2-digit', minute: '2-digit', second: '2-digit', hour12:
-                      false }) %>
-                    </div>
+                    <div class="text">2024-12-22 09:00</div>
                   </div>
                   <div class="content-row">
                     <div class="label">내용</div>
                     <div class="text message-text">
-                      <%=myAnswerList.senderContent %>
+                      고민 내용이 여기에 표시됩니다.
                     </div>
                   </div>
                 </div>
@@ -64,27 +58,46 @@
                 <div class="message-header">답장</div>
                 <div class="message-content">
                   <div class="content-row">
+                    <div class="label">제목</div>
+                    <div class="text">답장 제목입니다</div>
+                  </div>
+                  <div class="content-row">
                     <div class="label">날짜</div>
-                    <div class="text">
-                      <%= new
-                      Date(myAnswerList.responderPostDateTime).toLocaleString('ko-KR',
-                      { year: 'numeric', month: '2-digit', day: '2-digit', hour:
-                      '2-digit', minute: '2-digit', second: '2-digit', hour12:
-                      false }) %>
-                    </div>
+                    <div class="text">2024-12-22 10:00</div>
                   </div>
                   <div class="content-row">
                     <div class="label">내용</div>
                     <div class="text message-text">
-                      <%=myAnswerList.responderContent %>
+                      답장 내용이 여기에 표시됩니다.
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="rating-button-container">
+              <button id="ratingButton" class="rating-button">별점주기</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- 별점 모달 -->
+    <div id="ratingModal" class="modal">
+      <div class="modal-content">
+        <h3>고민 해결에 도움이 되었나요?</h3>
+        <div class="star-rating">
+          <span class="star" data-rating="1">&#9733;</span>
+          <span class="star" data-rating="2">&#9733;</span>
+          <span class="star" data-rating="3">&#9733;</span>
+          <span class="star" data-rating="4">&#9733;</span>
+          <span class="star" data-rating="5">&#9733;</span>
+        </div>
+        <button id="submitRating">확인</button>
+        <button id="closeModal">취소</button>
+      </div>
+    </div>
+
+    <script src="../static/user_rating.js"></script>
   </body>
 </html>

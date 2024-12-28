@@ -149,6 +149,15 @@ body {
   align-items: center;
   font-size: 14px;
 }
+.send-gomin-list-col-1:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.receive-gomin-list-col-1:hover {
+  cursor: pointer;
+  color: red;
+}
 
 .send-gomin-list-col-1,
 .send-gomin-list-col-2,
@@ -187,6 +196,7 @@ body {
 .page-link:hover {
   background-color: #f8f9fa;
   color: #000;
+  cursor: pointer;
 }
 
 @keyframes wave {
@@ -231,4 +241,9 @@ body {
 .temperatureText {
   font-size: 14px;
   font-weight: bold;
+}
+
+//고민봉
+.active-page {
+  font-size: 30px;
 }

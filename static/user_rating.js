@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeBtn = document.getElementById("closeModal");
   const submitBtn = document.getElementById("submitRating");
   const stars = document.querySelectorAll(".star");
+  const dataContainer = document.getElementById("data-container");
+  const Id = dataContainer.getAttribute("data-myWorryList");
   let currentRating = 0;
 
   btn.onclick = function () {
@@ -51,14 +53,32 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  submitBtn.onclick = function () {
-    if (currentRating > 0) {
-      alert(`${currentRating}점이 제출되었습니다.`);
-      modal.style.display = "none";
-      currentRating = 0;
-      resetStars();
-    } else {
-      alert("별점을 선택해주세요.");
-    }
+  submitBtn.onclick = async function () {
+    try {
+      if (currentRating > 0) {
+        console.log("내가준 점수 = ", currentRating);
+        console.log("고민봉 id = ", Id);
+        const data = {
+          Id: Id,
+          tempScore: currentRating,
+        };
+
+        const res = await axios({
+          method: "patch",
+          url: "/updateTemp",
+          data: data,
+        });
+        const { result, message } = res.data;
+        alert(result);
+        alert(message);
+
+        modal.style.display = "none";
+        currentRating = 0;
+        resetStars();
+        document.location.reload();
+      } else {
+        alert("별점을 선택해주세요.");
+      }
+    } catch (error) {}
   };
 });

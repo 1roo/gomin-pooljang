@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="../static/css/mypage.css" />
   </head>
   <body>
+    <div
+      id="data-container"
+      data-jwt="<%= jwt %>"
+      data-login-status="<%= loginStatus %>"
+      data-decoded-Payload="<%= decodedPayload %>"
+      data-userId="<%= userId %>"
+    ></div>
     <div class="header-full-width"><%- include('./include/header') %></div>
     <div class="index-container-wrap">
       <div class="index-container">
@@ -57,10 +64,7 @@
                 <% for(let i=0; i < myWorryList.length; i++) { %>
                 <div class="send-gomin-list">
                   <div class="send-gomin-list-row">
-                    <div
-                      class="send-gomin-list-col-1"
-                      onclick="myWorryListContentPage(`<%=myWorryList[i].Id %>`)"
-                    >
+                    <div class="send-gomin-list-col-1">
                       <li><%=myWorryList[i].title%></li>
                     </div>
                     <div class="send-gomin-list-col-2">
@@ -111,7 +115,6 @@
                 </nav>
               </div>
             </div>
-
             <!-- 내가 답장한 고민 탭 -->
             <div class="tab-2" style="display: none">
               <div class="tab-1-wrap">
@@ -122,7 +125,10 @@
                 <% for(let i=0; i < myAnswerList.length; i++) { %>
                 <div class="receive-gomin-list">
                   <div class="receive-gomin-list-row">
-                    <div class="receive-gomin-list-col-1">
+                    <div
+                      class="receive-gomin-list-col-1"
+                      onclick="myAnswerListContentPage(`<%=myAnswerList[i].Id %>`)"
+                    >
                       <li><%=myAnswerList[i].title%></li>
                     </div>
                     <div class="receive-gomin-list-col-2">
@@ -183,12 +189,11 @@
     <!-- JavaScript 코드 -->
     <script>
       // 고민 보내기 탭
-      function worryListChangeNext7() {
+      function myAnswerListChangeNext7() {
         const total = parseInt("<%=total %>");
         const endPage = "<%=endPage %>";
         const startPage = parseInt("<%=startPage %>");
         const currentPage = "<%=currentPage %>";
-
         if (total === 0) {
           alert("다음 고민이 없습니다.");
           return;
@@ -217,7 +222,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myWorryList";
+          input3.value = "myAnswerList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -225,6 +230,7 @@
           document.body.appendChild(form);
           form.submit();
         }
+
         if (endPage == total) {
           const form = document.createElement("form");
           form.method = "POST";
@@ -243,7 +249,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myWorryList";
+          input3.value = "myAnswerList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -252,7 +258,7 @@
           form.submit();
         }
       }
-      function worryListChangeBack7() {
+      function myAnswerListChangeBack7() {
         const total = "<%=total %>";
         const endPage = "<%=endPage %>";
         const startPage = "<%=startPage %>";
@@ -276,7 +282,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myWorryList";
+          input3.value = "myAnswerList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -301,7 +307,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myWorryList";
+          input3.value = "myAnswerList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -311,7 +317,7 @@
         }
       }
 
-      function worryListChangePrevious() {
+      function myAnswerListChangePrevious() {
         const total = "<%=total %>";
         const endPage = "<%=endPage %>";
         const startPage = "<%=startPage %>";
@@ -337,7 +343,7 @@
 
         input3.type = "text";
         input3.name = "tab";
-        input3.value = "myWorryList";
+        input3.value = "myAnswerList";
 
         form.appendChild(input);
         form.appendChild(input2);
@@ -346,7 +352,7 @@
         form.submit();
       }
 
-      function worryListChangeNext() {
+      function myAnswerListChangeNext() {
         const total = "<%=total %>";
         const endPage = "<%=endPage %>";
         const startPage = "<%=startPage %>";
@@ -377,7 +383,7 @@
 
         input3.type = "text";
         input3.name = "tab";
-        input3.value = "myWorryList";
+        input3.value = "myAnswerList";
 
         form.appendChild(input);
         form.appendChild(input2);
@@ -386,7 +392,7 @@
         form.submit();
       }
 
-      function worryListChangePage(page) {
+      function myAnswerListChangePage(page) {
         const form = document.createElement("form");
         form.method = "POST";
         form.action = "/mypage";
@@ -404,7 +410,7 @@
 
         input3.type = "text";
         input3.name = "tab";
-        input3.value = "myWorryList";
+        input3.value = "myAnswerList";
 
         form.appendChild(input);
         form.appendChild(input2);
@@ -427,7 +433,7 @@
         button.offsetHeight; // reflow
         button.style.animation = null;
 
-        if (button.className.includes("tab_receive_btn")) {
+        if (button.className.includes("tab_send_btn")) {
           console.log("여기");
           const form = document.createElement("form");
           form.method = "POST";
@@ -446,7 +452,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myAnswerList";
+          input3.value = "myWorryList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -456,14 +462,12 @@
         }
       }
 
-      function myWorryListContentPage(Id) {
+      function myAnswerListContentPage(Id) {
         const form = document.createElement("form");
-
         form.method = "POST";
-        form.action = "/myWorryList";
+        form.action = "/myAnswerList";
 
         const input = document.createElement("input");
-
         input.type = "text";
         input.name = "Id";
         input.value = Id;
@@ -475,7 +479,7 @@
 
       //////////////////////////////////////////////////////////
       document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector(".tab_send_btn").click();
+        document.querySelector(".tab_receive_btn").click();
         document.querySelectorAll(".gomin-link").forEach((link) => {
           link.addEventListener("click", function (e) {
             e.preventDefault();

@@ -13,7 +13,7 @@ window.addEventListener("load", () => {
   console.log("Login Status: ", loginStatus);
   console.log("Decoded Payload: ", decodedPayload);
   console.log("로그인회원 기본키 userId =  ", userId);
-  if (loginStatus === "true") {
+  if (loginStatus === "true" && jwt != null) {
     return;
   }
   modal.style.display = "flex";
@@ -137,7 +137,7 @@ async function receiveLetter() {
       },
     });
 
-    const { result, randomWorryList } = res.data;
+    const { result, randomWorryList, message } = res.data;
     console.log(result);
     if (result) {
       const title = document.querySelector(".replyTitle");
@@ -146,6 +146,8 @@ async function receiveLetter() {
       title.value = randomWorryList[0].title;
       msg.value = randomWorryList[0].senderContent;
       getId.value = randomWorryList[0].Id;
+    } else {
+      alert(message);
     }
   } catch (e) {
     console.error("Error send message:", e);
@@ -232,6 +234,8 @@ async function submitReply() {
     );
     const { result, message } = res.data;
     if (result) {
+      alert(message);
+    } else {
       alert(message);
     }
   } catch (e) {
