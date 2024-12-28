@@ -20,6 +20,7 @@ body {
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-left: calc(-50vw + 50%);
+  overflow: hidden;
 }
 
 .header {
@@ -27,6 +28,7 @@ body {
   height: 100px;
   max-width: 1200px;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .header-content {
@@ -40,6 +42,7 @@ body {
   align-items: center;
   padding: 0 10px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .container {
