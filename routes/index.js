@@ -21,8 +21,8 @@ router.post("/makeNewPw", UserController.makeNewPw);
 // router.post("/sendedMsg", UserController.sendedMsg);
 // router.get("/receivedMsg", UserController.receivedMsg);
 
-router.get("/myAnswerList", UserController.userReceviedMsg);
-router.get("/myWorryList", UserController.userSendedMsg);
+router.post("/myAnswerList", UserController.userReceviedMsg);
+router.post("/myWorryList", UserController.userSendedMsg);
 
 //고민봉 페이징 구현중
 router.post("/myWorryListPage", WorryListController.myWorryListPage);

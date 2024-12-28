@@ -13,7 +13,7 @@ window.addEventListener("load", () => {
   console.log("Login Status: ", loginStatus);
   console.log("Decoded Payload: ", decodedPayload);
   console.log("로그인회원 기본키 userId =  ", userId);
-  if (loginStatus === "true") {
+  if (loginStatus === "true" && jwt != null) {
     return;
   }
   modal.style.display = "flex";
@@ -232,6 +232,8 @@ async function submitReply() {
     );
     const { result, message } = res.data;
     if (result) {
+      alert(message);
+    } else {
       alert(message);
     }
   } catch (e) {

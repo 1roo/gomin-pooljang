@@ -11,13 +11,6 @@
     <link rel="stylesheet" href="../static/css/mypage.css" />
   </head>
   <body>
-    <div
-      id="data-container"
-      data-jwt="<%= jwt %>"
-      data-login-status="<%= loginStatus %>"
-      data-decoded-Payload="<%= decodedPayload %>"
-      data-userId="<%= userId %>"
-    ></div>
     <div class="header-full-width"><%- include('./include/header') %></div>
     <div class="index-container-wrap">
       <div class="index-container">
@@ -32,7 +25,7 @@
                   class="temp-icon"
                 />
                 <span class="temperatureText">나의 온도</span>
-                <span class="temperature">36.5°</span>
+                <span class="temperature"><%=user.temp %></span>
               </div>
             </div>
             <div class="main-table">
@@ -64,7 +57,10 @@
                 <% for(let i=0; i < myWorryList.length; i++) { %>
                 <div class="send-gomin-list">
                   <div class="send-gomin-list-row">
-                    <div class="send-gomin-list-col-1">
+                    <div
+                      class="send-gomin-list-col-1"
+                      onclick="myWorryListContentPage(`<%=myWorryList[i].Id %>`)"
+                    >
                       <li><%=myWorryList[i].title%></li>
                     </div>
                     <div class="send-gomin-list-col-2">
@@ -431,6 +427,23 @@
           document.body.appendChild(form);
           form.submit();
         }
+      }
+
+      function myWorryListContentPage(Id) {
+        const form = document.createElement("form");
+
+        form.method = "POST";
+        form.action = "/myWorryList";
+
+        const input = document.createElement("input");
+
+        input.type = "text";
+        input.name = "Id";
+        input.value = Id;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
       }
 
       //////////////////////////////////////////////////////////

@@ -243,6 +243,8 @@ exports.updateTempRateresponder = async (req, res) => {
     // 4: +0.1
     // 5: +0.2
     const { Id, tempScore } = req.body;
+    console.log("updateTemp에서 Id 값 = ", Id);
+    console.log("updateTemp에서 tempScore 값 = ", tempScore);
     let calulateTempScore = parseFloat(tempScore);
     if (calulateTempScore == 1) {
       calulateTempScore = -0.2;
@@ -263,15 +265,16 @@ exports.updateTempRateresponder = async (req, res) => {
     console.log("calulateTempScore===", calulateTempScore);
     const findWorryList = await WorryList.findOne({ where: { Id } });
 
+    console.log("findWorryList===222", findWorryList);
     if (findWorryList.checkReviewScore == "Y") {
       res.send({ result: false, message: "이미 평가한 고민입니다." });
       return;
+    } else {
+      await findWorryList.update({
+        tempRateResponder: tempScore,
+        checkReviewScore: "Y",
+      });
     }
-
-    findWorryList.update({
-      tempRateResponder: tempScore,
-      checkReviewScore: "Y",
-    });
 
     const findUser = await User.findOne({
       where: { userId: findWorryList.responder_Id },

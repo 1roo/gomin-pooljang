@@ -60,8 +60,10 @@
 
       // Navigate to My Page
       function menu2_1() {
-        const dataContainer = document.getElementById("data-container");
-        const userId = dataContainer?.getAttribute("data-userId");
+        const jwt = "<%= jwt %>";
+        const loginStatus = "<%= loginStatus %>";
+        const decodedPayload = "<%= decodedPayload %>";
+        const userId = "<%= userId %>";
 
         if (userId) {
           const form = document.createElement("form");

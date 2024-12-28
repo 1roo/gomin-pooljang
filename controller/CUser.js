@@ -40,6 +40,7 @@ exports.mypage2 = async (req, res) => {
     const payload = jwt.split(".")[1];
     const decodedPayload = atob(payload);
     let { userId, currentPage, tab } = req.body;
+    const user = await User.findOne({ where: { userId } });
 
     if (tab === "myAnswerList") {
       let limit = 6;
@@ -70,6 +71,7 @@ exports.mypage2 = async (req, res) => {
           endPage,
           currentPage,
           total,
+          user,
         });
         return;
       } else {
@@ -122,6 +124,7 @@ exports.mypage2 = async (req, res) => {
           endPage,
           currentPage,
           total,
+          user,
         });
       }
     }
@@ -155,6 +158,7 @@ exports.mypage2 = async (req, res) => {
           endPage,
           currentPage,
           total,
+          user,
         });
         return;
       } else {
@@ -207,6 +211,7 @@ exports.mypage2 = async (req, res) => {
           endPage,
           currentPage,
           total,
+          user,
         });
       }
     }
@@ -271,12 +276,82 @@ exports.mypage = async (req, res) => {
 };
 
 //고민봉
-exports.userReceviedMsg = (req, res) => {
-  res.render("myAnswerList");
+exports.userReceviedMsg = async (req, res) => {
+  const jwt = req.cookies.jwtToken;
+  const loginStatus = req.cookies.loginStatus;
+  console.log("jwt: ", jwt);
+  console.log("loginStatus: ", loginStatus);
+
+  const payload = jwt.split(".")[1];
+  const decodedPayload = atob(payload);
+  console.log("decodedPayload = ", decodedPayload);
+  const decodedPayload2 = JSON.parse(atob(payload));
+  const userId = decodedPayload2.id;
+
+  const { Id } = req.body;
+  console.log("내가 답장한 고민 Id: ", Id);
+  console.log("userId 값은? = ", userId);
+  const myAnswerList = await WorryList.findOne({
+    where: {
+      Id,
+    },
+  });
+  const user = await User.findOne({
+    where: {
+      userId,
+    },
+  });
+  console.log("myAnswerList: ", myAnswerList);
+  console.log("user: ", user);
+
+  res.render("myAnswerList", {
+    myAnswerList,
+    user,
+    jwt,
+    loginStatus,
+    userId,
+    decodedPayload,
+  });
 };
 
-exports.userSendedMsg = (req, res) => {
-  res.render("myWorryList");
+exports.userSendedMsg = async (req, res) => {
+  const jwt = req.cookies.jwtToken;
+  const loginStatus = req.cookies.loginStatus;
+  console.log("jwt: ", jwt);
+  console.log("loginStatus: ", loginStatus);
+
+  const payload = jwt.split(".")[1];
+  const decodedPayload = atob(payload);
+  console.log("decodedPayload = ", decodedPayload);
+  const decodedPayload2 = JSON.parse(atob(payload));
+  const userId = decodedPayload2.id;
+
+  const { Id } = req.body;
+  console.log("나의 고민리스트 Id: ", Id);
+  console.log("userId 값은? = ", userId);
+  const myWorryList = await WorryList.findOne({
+    where: {
+      Id,
+    },
+  });
+
+  const user = await User.findOne({
+    where: {
+      userId,
+    },
+  });
+
+  console.log("myWorryList: ", myWorryList);
+  console.log("user: ", user);
+
+  res.render("myWorryList", {
+    myWorryList,
+    user,
+    jwt,
+    loginStatus,
+    userId,
+    decodedPayload,
+  });
 };
 
 //고민봉

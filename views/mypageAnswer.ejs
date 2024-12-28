@@ -32,7 +32,7 @@
                   class="temp-icon"
                 />
                 <span class="temperatureText">나의 온도</span>
-                <span class="temperature">36.5°</span>
+                <span class="temperature"><%=user.temp %></span>
               </div>
             </div>
             <div class="main-table">
@@ -125,7 +125,10 @@
                 <% for(let i=0; i < myAnswerList.length; i++) { %>
                 <div class="receive-gomin-list">
                   <div class="receive-gomin-list-row">
-                    <div class="receive-gomin-list-col-1">
+                    <div
+                      class="receive-gomin-list-col-1"
+                      onclick="myAnswerListContentPage(`<%=myAnswerList[i].Id %>`)"
+                    >
                       <li><%=myAnswerList[i].title%></li>
                     </div>
                     <div class="receive-gomin-list-col-2">
@@ -141,14 +144,17 @@
                 </div>
                 <% } %>
                 <!-- 페이지 네비게이션 -->
-               <nav aria-label="Page navigation" class="pagination-container">
+                <nav aria-label="Page navigation" class="pagination-container">
                   <ul class="pagination justify-content-center">
                     <li class="page-item" onclick="myAnswerListChangeBack7()">
                       <a class="page-link" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    <li class="page-item" onclick="myAnswerListChangePrevious()">
+                    <li
+                      class="page-item"
+                      onclick="myAnswerListChangePrevious()"
+                    >
                       <a class="page-link" aria-label="Previous">
                         <span aria-hidden="true">&lt;</span>
                       </a>
@@ -174,8 +180,6 @@
                     </li>
                   </ul>
                 </nav>
-              </div>
-            </div>
               </div>
             </div>
           </div>
@@ -389,7 +393,6 @@
       }
 
       function toggleTab(button, tabSelector) {
-  
         console.log("현재 페이지 = ", "<%=currentPage %>");
         document.querySelectorAll(".tab, .tab-2").forEach((tab) => {
           tab.style.display = "none";
@@ -430,6 +433,21 @@
           document.body.appendChild(form);
           form.submit();
         }
+      }
+
+      function myAnswerListContentPage(Id) {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/myAnswerList";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = "Id";
+        input.value = Id;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
       }
 
       //////////////////////////////////////////////////////////

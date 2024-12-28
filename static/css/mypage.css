@@ -149,6 +149,15 @@ body {
   align-items: center;
   font-size: 14px;
 }
+.send-gomin-list-col-1:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.receive-gomin-list-col-1:hover {
+  cursor: pointer;
+  color: red;
+}
 
 .send-gomin-list-col-1,
 .send-gomin-list-col-2,
