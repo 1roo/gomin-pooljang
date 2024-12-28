@@ -53,10 +53,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
   submitBtn.onclick = function () {
     if (currentRating > 0) {
-      alert(`${currentRating}점이 제출되었습니다.`);
-      modal.style.display = "none";
-      currentRating = 0;
-      resetStars();
+      // 백엔드로 별점 전송
+      fetch("/update-temperature", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rating: currentRating }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            // 온도 표시 업데이트
+            document.querySelector(".temperature").textContent =
+              data.newTemperature + "°";
+            alert(
+              `${currentRating}점이 제출되었습니다. 새로운 온도: ${data.newTemperature}°`
+            );
+          } else {
+            alert("온도 업데이트에 실패했습니다.");
+          }
+          modal.style.display = "none";
+          currentRating = 0;
+          resetStars();
+        })
+        .catch((error) => {
+          console.error("오류:", error);
+          alert("오류가 발생했습니다.");
+        });
     } else {
       alert("별점을 선택해주세요.");
     }

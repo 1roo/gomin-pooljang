@@ -18,6 +18,10 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use(cors());
 
+// 온도
+const temperatureRoutes = require("./routes/temperatureRoutes");
+app.use(temperatureRoutes);
+
 app.get("*", (req, res) => {
   res.render("404");
 });
