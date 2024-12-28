@@ -137,7 +137,7 @@ async function receiveLetter() {
       },
     });
 
-    const { result, randomWorryList } = res.data;
+    const { result, randomWorryList, message } = res.data;
     console.log(result);
     if (result) {
       const title = document.querySelector(".replyTitle");
@@ -146,6 +146,8 @@ async function receiveLetter() {
       title.value = randomWorryList[0].title;
       msg.value = randomWorryList[0].senderContent;
       getId.value = randomWorryList[0].Id;
+    } else {
+      alert(message);
     }
   } catch (e) {
     console.error("Error send message:", e);

@@ -188,6 +188,7 @@
         const endPage = "<%=endPage %>";
         const startPage = parseInt("<%=startPage %>");
         const currentPage = "<%=currentPage %>";
+
         if (total === 0) {
           alert("다음 고민이 없습니다.");
           return;
@@ -213,6 +214,32 @@
           input2.type = "text";
           input2.name = "currentPage";
           input2.value = "<%=startPage +7 %>";
+
+          input3.type = "text";
+          input3.name = "tab";
+          input3.value = "myWorryList";
+
+          form.appendChild(input);
+          form.appendChild(input2);
+          form.appendChild(input3);
+          document.body.appendChild(form);
+          form.submit();
+        }
+        if (endPage == total) {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = "/mypage";
+
+          const input = document.createElement("input");
+          const input2 = document.createElement("input");
+          const input3 = document.createElement("input");
+          input.type = "text";
+          input.name = "userId";
+          input.value = "<%=userId %>";
+
+          input2.type = "text";
+          input2.name = "currentPage";
+          input2.value = endPage;
 
           input3.type = "text";
           input3.name = "tab";
