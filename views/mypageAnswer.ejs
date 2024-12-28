@@ -115,7 +115,6 @@
                 </nav>
               </div>
             </div>
-
             <!-- 내가 답장한 고민 탭 -->
             <div class="tab-2" style="display: none">
               <div class="tab-1-wrap">
@@ -142,17 +141,14 @@
                 </div>
                 <% } %>
                 <!-- 페이지 네비게이션 -->
-                <nav aria-label="Page navigation" class="pagination-container">
+               <nav aria-label="Page navigation" class="pagination-container">
                   <ul class="pagination justify-content-center">
                     <li class="page-item" onclick="myAnswerListChangeBack7()">
                       <a class="page-link" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    <li
-                      class="page-item"
-                      onclick="myAnswerListChangePrevious()"
-                    >
+                    <li class="page-item" onclick="myAnswerListChangePrevious()">
                       <a class="page-link" aria-label="Previous">
                         <span aria-hidden="true">&lt;</span>
                       </a>
@@ -180,6 +176,8 @@
                 </nav>
               </div>
             </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -187,7 +185,7 @@
     <!-- JavaScript 코드 -->
     <script>
       // 고민 보내기 탭
-      function worryListChangeNext7() {
+      function myAnswerListChangeNext7() {
         const total = parseInt("<%=total %>");
         const endPage = "<%=endPage %>";
         const startPage = parseInt("<%=startPage %>");
@@ -220,7 +218,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myWorryList";
+          input3.value = "myAnswerList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -229,7 +227,7 @@
           form.submit();
         }
       }
-      function worryListChangeBack7() {
+      function myAnswerListChangeBack7() {
         const total = "<%=total %>";
         const endPage = "<%=endPage %>";
         const startPage = "<%=startPage %>";
@@ -253,7 +251,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myWorryList";
+          input3.value = "myAnswerList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -278,7 +276,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myWorryList";
+          input3.value = "myAnswerList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -288,7 +286,7 @@
         }
       }
 
-      function worryListChangePrevious() {
+      function myAnswerListChangePrevious() {
         const total = "<%=total %>";
         const endPage = "<%=endPage %>";
         const startPage = "<%=startPage %>";
@@ -314,7 +312,7 @@
 
         input3.type = "text";
         input3.name = "tab";
-        input3.value = "myWorryList";
+        input3.value = "myAnswerList";
 
         form.appendChild(input);
         form.appendChild(input2);
@@ -323,7 +321,7 @@
         form.submit();
       }
 
-      function worryListChangeNext() {
+      function myAnswerListChangeNext() {
         const total = "<%=total %>";
         const endPage = "<%=endPage %>";
         const startPage = "<%=startPage %>";
@@ -354,7 +352,7 @@
 
         input3.type = "text";
         input3.name = "tab";
-        input3.value = "myWorryList";
+        input3.value = "myAnswerList";
 
         form.appendChild(input);
         form.appendChild(input2);
@@ -363,7 +361,7 @@
         form.submit();
       }
 
-      function worryListChangePage(page) {
+      function myAnswerListChangePage(page) {
         const form = document.createElement("form");
         form.method = "POST";
         form.action = "/mypage";
@@ -381,7 +379,7 @@
 
         input3.type = "text";
         input3.name = "tab";
-        input3.value = "myWorryList";
+        input3.value = "myAnswerList";
 
         form.appendChild(input);
         form.appendChild(input2);
@@ -391,6 +389,7 @@
       }
 
       function toggleTab(button, tabSelector) {
+  
         console.log("현재 페이지 = ", "<%=currentPage %>");
         document.querySelectorAll(".tab, .tab-2").forEach((tab) => {
           tab.style.display = "none";
@@ -404,7 +403,7 @@
         button.offsetHeight; // reflow
         button.style.animation = null;
 
-        if (button.className.includes("tab_receive_btn")) {
+        if (button.className.includes("tab_send_btn")) {
           console.log("여기");
           const form = document.createElement("form");
           form.method = "POST";
@@ -423,7 +422,7 @@
 
           input3.type = "text";
           input3.name = "tab";
-          input3.value = "myAnswerList";
+          input3.value = "myWorryList";
 
           form.appendChild(input);
           form.appendChild(input2);
@@ -435,7 +434,7 @@
 
       //////////////////////////////////////////////////////////
       document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector(".tab_send_btn").click();
+        document.querySelector(".tab_receive_btn").click();
         document.querySelectorAll(".gomin-link").forEach((link) => {
           link.addEventListener("click", function (e) {
             e.preventDefault();

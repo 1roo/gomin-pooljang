@@ -70,6 +70,7 @@
 
           const input = document.createElement("input");
           const input2 = document.createElement("input");
+          const input3 = document.createElement("input");
           input.type = "text";
           input.name = "userId";
           input.value = userId;
@@ -78,8 +79,13 @@
           input2.name = "currentPage";
           input2.value = 1;
 
+          input3.type = "text";
+          input3.name = "tab";
+          input3.value = "myWorryList";
+
           form.appendChild(input);
           form.appendChild(input2);
+          form.appendChild(input3);
           document.body.appendChild(form);
           form.submit();
         } else {

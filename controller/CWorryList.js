@@ -82,7 +82,6 @@ exports.myWorryListPage = async (req, res) => {
     res.status(500).send({ message: "서버 에러" });
   }
 };
-
 // 도메인 룰 테스트용 고민 10명의 유저 각각 10개씩 총 100개 생성성
 exports.testCreateWorryList = async (req, res) => {
   try {
