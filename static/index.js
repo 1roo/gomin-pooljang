@@ -328,8 +328,8 @@ async function duplCheck() {
       form.reset();
     } else {
       alert("사용 가능한 이메일입니다.");
-      const newPw = form.newPw.value;
-      form.newPw.focus();
+      const password = form.password;
+      password.focus();
     }
   } catch (e) {
     console.error("Error email duplication:", e);
@@ -392,10 +392,9 @@ async function joinFn() {
       url: "/regist",
       data: data,
     });
-    const { result } = res.data;
+    const { result, message } = res.data;
     if (result) {
-      const joinBtn = document.querySelector(".joinBtn");
-      joinBtn.focus();
+      alert(message);
     } else {
       alert("회원 가입 시 작성한 질문, 답과 일치하지 않습니다.");
     }
