@@ -16,6 +16,10 @@ window.addEventListener("load", () => {
   if (loginStatus === "true" && jwt != null) {
     return;
   }
+
+  document.querySelector(".id_error").style.display = "none";
+  document.querySelector(".pw_error").style.display = "none";
+
   modal.style.display = "flex";
 });
 
@@ -189,6 +193,7 @@ async function sendContent() {
     const { result, message } = res.data;
     if (result) {
       alert(message);
+      form.reset();
     }
   } catch (e) {
     console.error("Error send message:", e);
@@ -235,6 +240,7 @@ async function submitReply() {
     const { result, message } = res.data;
     if (result) {
       alert(message);
+      form.reset();
     } else {
       alert(message);
     }
