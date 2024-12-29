@@ -14,6 +14,7 @@ window.addEventListener("load", () => {
   console.log("Decoded Payload: ", decodedPayload);
   console.log("로그인회원 기본키 userId =  ", userId);
   if (loginStatus === "true" && jwt != null) {
+    closeModal(modal);
     return;
   }
 
