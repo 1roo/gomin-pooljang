@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { User, WorryList } = require("../models");
 const bcrypt = require("bcrypt");
+const { where } = require("sequelize");
+const { myAnswerList } = require("./CWorryList");
 const SALT = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
 console.log(User);
@@ -27,6 +29,193 @@ exports.main = (req, res) => {
       userId: "false",
     });
   }
+};
+
+exports.mypage2 = async (req, res) => {
+  try {
+    const jwt = req.cookies.jwtToken;
+    const loginStatus = req.cookies.loginStatus;
+    console.log("mypage 에서 jwt = ", jwt);
+    console.log("mypage 에서 loginStatus: ", loginStatus);
+    const payload = jwt.split(".")[1];
+    const decodedPayload = atob(payload);
+    let { userId, currentPage, tab } = req.body;
+    const user = await User.findOne({ where: { userId } });
+
+    if (tab === "myAnswerList") {
+      let limit = 6;
+      console.log("userId===", userId);
+      console.log("currentPage===", currentPage);
+      currentPage = parseInt(currentPage);
+
+      const totalMyAnswerList = await WorryList.findAll({
+        where: { responder_Id: userId },
+      });
+
+      console.log("totalMyAnswerList===", totalMyAnswerList.length);
+      let total = Math.ceil(totalMyAnswerList.length / limit);
+      console.log("total===", total);
+
+      if (totalMyAnswerList.length == 0 || total == 1) {
+        let startPage = 1;
+        let endPage = 1;
+        res.render("mypageAnswer", {
+          result: true,
+          jwt,
+          loginStatus,
+          decodedPayload,
+          userId,
+          myAnswerList: totalMyAnswerList,
+          myWorryList: 1,
+          startPage,
+          endPage,
+          currentPage,
+          total,
+          user,
+        });
+        return;
+      } else {
+        const myAnswerList = await WorryList.findAll({
+          attributes: [
+            "Id",
+            "sender_Id",
+            "title",
+            "senderContent",
+            "senderSwearWord",
+            "senderPostDateTime",
+            "responder_Id",
+            "responderContent",
+            "responderSwearWord",
+            "responderPostDateTime",
+            "tempRateresponder",
+            "checkReviewScore",
+          ],
+          where: { responder_Id: userId },
+          order: [["Id", "DESC"]],
+          limit,
+          offset: limit * (currentPage - 1),
+        });
+
+        let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
+        let endPage;
+        if (total < 7) {
+          console.log("첫번째");
+          endPage = total;
+        }
+        if (startPage < total) {
+          console.log("두번째");
+          endPage = startPage + 6;
+        }
+        if (startPage + 6 > total) {
+          console.log("세번째");
+          endPage = total;
+        }
+        console.log("startPage===", startPage);
+        console.log("endPage===", endPage);
+        res.render("mypageAnswer", {
+          result: true,
+          jwt,
+          loginStatus,
+          decodedPayload,
+          userId,
+          myAnswerList,
+          myWorryList: 1,
+          startPage,
+          endPage,
+          currentPage,
+          total,
+          user,
+        });
+      }
+    }
+
+    if (tab === "myWorryList") {
+      let limit = 6;
+      console.log("userId===", userId);
+      console.log("currentPage===", currentPage);
+      currentPage = parseInt(currentPage);
+
+      const totalMyWorryList = await WorryList.findAll({
+        where: { sender_Id: userId },
+      });
+
+      console.log("totalMyWorryList===", totalMyWorryList.length);
+      let total = Math.ceil(totalMyWorryList.length / limit);
+      console.log("total===", total);
+
+      if (totalMyWorryList.length == 0 || total == 1) {
+        let startPage = 1;
+        let endPage = 1;
+        res.render("mypage", {
+          result: true,
+          jwt,
+          loginStatus,
+          decodedPayload,
+          userId,
+          myWorryList: totalMyWorryList,
+          myAnswerList: 1,
+          startPage,
+          endPage,
+          currentPage,
+          total,
+          user,
+        });
+        return;
+      } else {
+        const myWorryList = await WorryList.findAll({
+          attributes: [
+            "Id",
+            "sender_Id",
+            "title",
+            "senderContent",
+            "senderSwearWord",
+            "senderPostDateTime",
+            "responder_Id",
+            "responderContent",
+            "responderSwearWord",
+            "responderPostDateTime",
+            "tempRateresponder",
+            "checkReviewScore",
+          ],
+          where: { sender_Id: userId },
+          order: [["Id", "DESC"]],
+          limit,
+          offset: limit * (currentPage - 1),
+        });
+
+        let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
+        let endPage;
+        if (total < 7) {
+          console.log("첫번째");
+          endPage = total;
+        }
+        if (startPage < total) {
+          console.log("두번째");
+          endPage = startPage + 6;
+        }
+        if (startPage + 6 > total) {
+          console.log("세번째");
+          endPage = total;
+        }
+        console.log("startPage===", startPage);
+        console.log("endPage===", endPage);
+        res.render("mypage", {
+          result: true,
+          jwt,
+          loginStatus,
+          decodedPayload,
+          userId,
+          myWorryList,
+          myAnswerList: 1,
+          startPage,
+          endPage,
+          currentPage,
+          total,
+          user,
+        });
+      }
+    }
+  } catch (error) {}
 };
 
 //고민봉
@@ -87,12 +276,82 @@ exports.mypage = async (req, res) => {
 };
 
 //고민봉
-exports.userReceviedMsg = (req, res) => {
-  res.render("myAnswerList");
+exports.userReceviedMsg = async (req, res) => {
+  const jwt = req.cookies.jwtToken;
+  const loginStatus = req.cookies.loginStatus;
+  console.log("jwt: ", jwt);
+  console.log("loginStatus: ", loginStatus);
+
+  const payload = jwt.split(".")[1];
+  const decodedPayload = atob(payload);
+  console.log("decodedPayload = ", decodedPayload);
+  const decodedPayload2 = JSON.parse(atob(payload));
+  const userId = decodedPayload2.id;
+
+  const { Id } = req.body;
+  console.log("내가 답장한 고민 Id: ", Id);
+  console.log("userId 값은? = ", userId);
+  const myAnswerList = await WorryList.findOne({
+    where: {
+      Id,
+    },
+  });
+  const user = await User.findOne({
+    where: {
+      userId,
+    },
+  });
+  console.log("myAnswerList: ", myAnswerList);
+  console.log("user: ", user);
+
+  res.render("myAnswerList", {
+    myAnswerList,
+    user,
+    jwt,
+    loginStatus,
+    userId,
+    decodedPayload,
+  });
 };
 
-exports.userSendedMsg = (req, res) => {
-  res.render("myWorryList");
+exports.userSendedMsg = async (req, res) => {
+  const jwt = req.cookies.jwtToken;
+  const loginStatus = req.cookies.loginStatus;
+  console.log("jwt: ", jwt);
+  console.log("loginStatus: ", loginStatus);
+
+  const payload = jwt.split(".")[1];
+  const decodedPayload = atob(payload);
+  console.log("decodedPayload = ", decodedPayload);
+  const decodedPayload2 = JSON.parse(atob(payload));
+  const userId = decodedPayload2.id;
+
+  const { Id } = req.body;
+  console.log("나의 고민리스트 Id: ", Id);
+  console.log("userId 값은? = ", userId);
+  const myWorryList = await WorryList.findOne({
+    where: {
+      Id,
+    },
+  });
+
+  const user = await User.findOne({
+    where: {
+      userId,
+    },
+  });
+
+  console.log("myWorryList: ", myWorryList);
+  console.log("user: ", user);
+
+  res.render("myWorryList", {
+    myWorryList,
+    user,
+    jwt,
+    loginStatus,
+    userId,
+    decodedPayload,
+  });
 };
 
 //고민봉
@@ -290,7 +549,7 @@ exports.loginUser = async (req, res) => {
         { id: user.userId, email: user.email },
         SECRET_KEY,
         {
-          expiresIn: "1h",
+          expiresIn: "1d",
         }
       );
       res.cookie("jwtToken", token, {

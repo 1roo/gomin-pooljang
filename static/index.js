@@ -13,9 +13,13 @@ window.addEventListener("load", () => {
   console.log("Login Status: ", loginStatus);
   console.log("Decoded Payload: ", decodedPayload);
   console.log("로그인회원 기본키 userId =  ", userId);
-  if (loginStatus === "true") {
+  if (loginStatus === "true" && jwt != null) {
     return;
   }
+
+  document.querySelector(".id_error").style.display = "none";
+  document.querySelector(".pw_error").style.display = "none";
+
   modal.style.display = "flex";
 });
 
@@ -137,7 +141,7 @@ async function receiveLetter() {
       },
     });
 
-    const { result, randomWorryList } = res.data;
+    const { result, randomWorryList, message } = res.data;
     console.log(result);
     if (result) {
       const title = document.querySelector(".replyTitle");
@@ -146,6 +150,8 @@ async function receiveLetter() {
       title.value = randomWorryList[0].title;
       msg.value = randomWorryList[0].senderContent;
       getId.value = randomWorryList[0].Id;
+    } else {
+      alert(message);
     }
   } catch (e) {
     console.error("Error send message:", e);
@@ -187,6 +193,7 @@ async function sendContent() {
     const { result, message } = res.data;
     if (result) {
       alert(message);
+      form.reset();
     }
   } catch (e) {
     console.error("Error send message:", e);
@@ -232,6 +239,9 @@ async function submitReply() {
     );
     const { result, message } = res.data;
     if (result) {
+      alert(message);
+      form.reset();
+    } else {
       alert(message);
     }
   } catch (e) {
@@ -317,8 +327,8 @@ async function duplCheck() {
       form.reset();
     } else {
       alert("사용 가능한 이메일입니다.");
-      const newPw = form.newPw.value;
-      form.newPw.focus();
+      const password = form.password;
+      password.focus();
     }
   } catch (e) {
     console.error("Error email duplication:", e);
@@ -381,10 +391,9 @@ async function joinFn() {
       url: "/regist",
       data: data,
     });
-    const { result } = res.data;
+    const { result, message } = res.data;
     if (result) {
-      const joinBtn = document.querySelector(".joinBtn");
-      joinBtn.focus();
+      alert(message);
     } else {
       alert("회원 가입 시 작성한 질문, 답과 일치하지 않습니다.");
     }

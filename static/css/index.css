@@ -21,7 +21,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 전체체 */
+/* 전체 */
 .index-container-wrap {
   display: flex;
   justify-content: center;
@@ -111,7 +111,10 @@ body {
   padding-right: 20px;
 }
 
-/* 메인 컨텐츠 */
+/**
+ * 메인
+ * 컨텐츠
+ */
 .input-title,
 .replyTitle {
   padding: 10px;
@@ -148,28 +151,6 @@ body {
   margin: 15px 0;
 }
 
-.submit-button,
-.skip-button,
-.reply-button {
-  padding: 10px 20px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.submit-button {
-  background-color: #28a745;
-}
-
-.skip-button {
-  background-color: #6c757d;
-}
-
-.reply-button {
-  background-color: #007bff;
-}
-
 .new-worry {
   margin-top: 20px;
   border-top: 1px solid #ddd;
@@ -188,16 +169,20 @@ body {
   min-height: 1em;
 }
 
-/* 모달 */
+/**
+ * 모달
+ */
 .modal {
-  position: absolute;
-  display: none;
+  position: fixed;
+  display: flex;
   justify-content: center;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.756);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal_body {
@@ -239,8 +224,10 @@ body {
   cursor: pointer;
 }
 
+/* forget password? 모달 */
+
 .forgot-pw-modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -255,7 +242,6 @@ body {
   position: absolute;
   background-color: rgb(205, 239, 245);
   padding: 10px;
-  margin-top: 100px;
   border-radius: 30px;
   width: 500px;
   height: 550px;
@@ -266,17 +252,47 @@ body {
   align-items: center;
 }
 
+.forgot-pw-modal .closeX {
+  position: absolute;
+  top: 10px;
+  left: 480px;
+  cursor: pointer;
+  font-weight: 700;
+  color: rgb(18, 214, 228);
+  font-size: 20px;
+}
+
+.forgot-pw-modal .closeBtn-pw {
+  width: 50px;
+  height: auto;
+  border-radius: 25px;
+  border: none;
+  background-color: #d9f3f3;
+  color: rgb(18, 214, 228);
+  font-size: 15px;
+  margin-left: 430px;
+}
+
 .pw_container {
   width: 70%;
-  height: 550px;
+  height: 540px;
   border-radius: 25px;
   background-color: rgb(253, 251, 251);
-  padding: 20px;
-  margin-top: 40px;
+  margin-top: 20px;
   box-sizing: border-box;
 }
 
-/* 로그인, 회원가입 */
+.pw_container .pw_btn {
+  width: 200px;
+  height: auto;
+}
+
+/**
+ * 로그인
+ * 회원가입
+ * 비밀번호 찾기기
+ * 공통
+ */
 .login,
 .join {
   width: 70%;
@@ -286,144 +302,18 @@ body {
   padding: 20px;
   box-sizing: border-box;
   margin-left: auto;
-}
-
-.login h2,
-.join h2 {
-  font-size: 24px;
-  color: #33dada;
-}
-
-.login input,
-.join input {
-  width: 200px;
-  border: none;
-  border-bottom: 1px solid rgb(199, 196, 196);
-  background: none;
-  margin-bottom: 20px;
-  color: #3888e4;
-  font-weight: 500;
-}
-
-.login button,
-.join button,
-.forgot-pw-modal button {
-  width: 250px;
-  height: 40px;
-  border-radius: 25px;
-  border: none;
-  background-color: #d9f3f3;
-  color: rgb(18, 214, 228);
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.login .join {
-  color: gray;
-  background: none;
-  border: none;
-  border-radius: 0px;
-  border-bottom: 1px solid gray;
-  padding: 2px 0px;
-  box-sizing: border-box;
-  width: 50px;
-  height: auto;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.login,
-.join {
-  text-align: left;
-}
-
-.login h2,
-.join h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.login span,
-.join span {
-  font-size: 15px;
-  color: gray;
-  font-weight: 500;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.login .left,
-.join .left {
-  text-align: left;
-  padding-left: 30px;
-  font-weight: 700;
-}
-
-.login .middle {
-  display: flex;
-  width: 150px;
-  flex-direction: row;
-  margin-right: 100px;
-}
-
-.join .left-re {
-  padding-left: 5px;
-}
-
-.join .bold {
-  font-weight: 700;
-}
-
-.login input,
-.join input {
-  width: 200px;
-  border: none;
-  border-bottom: 1px solid rgb(199, 196, 196);
-  background: none;
-  margin-bottom: 20px;
-  color: #3888e4;
-  font-weight: 500;
-}
-
-.checkbox {
-  font-size: 15px;
-  color: gray;
-  font-weight: 500;
-  width: 200px;
-}
-/* 
-.login button,
-.join button {
-  display: block;
-  margin: 20px auto;
-} */
-
-.user {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.join .flex {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.join .duplication {
-  margin-left: 10px;
-  padding: 5px;
-  font-size: 12px;
-}
-
-.join .form-select {
-  margin-left: 5px;
-}
-
-.login {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.login h2,
+.join h2,
+.pw_container h2 {
+  font-size: 24px;
+  color: #33dada;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .login label {
@@ -431,45 +321,211 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-bottom: 30px;
 }
 
-.login input {
+.login span,
+.join span,
+.pw_container span {
+  font-size: 15px;
+  color: gray;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.login .bold,
+.join .bold,
+.pw_container .bold {
+  font-weight: 700;
+}
+
+.login input,
+.join input,
+.pw_container input {
+  width: 200px;
+  border: none;
+  border-bottom: 1px solid rgb(199, 196, 196);
+  background: none;
+  margin-bottom: 20px;
+  color: #3888e4;
+  font-weight: 500;
   text-align: center;
 }
 
-.login div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.login button {
-  display: flex;
+.login button,
+.join button,
+.pw_container button {
+  width: 250px;
+  height: 40px;
+  border-radius: 25px;
+  border: none;
+  background-color: #d9f3f3;
+  color: rgb(18, 214, 228);
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 10px 20px;
   font-size: 16px;
+  cursor: pointer;
 }
 
-#join-btn {
-  display: inline-block;
-  text-align: center;
-  padding: 5px 10px;
-  font-size: 14px;
-}
+/**
+ * 로그인
+ */
 
+/* 체크박스, 자동로그인, forget password? */
 .login .checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  height: 50px;
+}
+
+.login .middle {
+  width: 130px;
+  display: flex;
+  margin-top: 5px;
+}
+
+.login .checkbox {
+  width: 30px;
+  margin-top: 3px;
+}
+
+.checkbox-container .forget,
+form .joinBtn {
+  color: gray;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  width: 150px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* 아직 회원이 아니신가요? 회원가입 */
+.user {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+  color: gray;
+}
+
+.login .flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.flex .joinBtn {
+  width: 90px;
+  margin-bottom: 5px;
+}
+
+/* 로그인 실패 span 태그 */
+form .id_error,
+form .pw_error {
+  color: red;
+  display: none;
+}
+
+/**
+ * 회원
+ * 가입
+ */
+
+/* email @ test.com 중복검사 */
+.join .flex {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
 }
 
-.login .forget {
-  /* display: inline-block; */
-  text-align: center;
+.flex .right {
+  margin-left: 50px;
+}
+
+.flex .emailId {
   width: 100px;
-  font-size: 14px;
+}
+
+.flex .duplication {
+  margin-left: 10px;
+  padding: 5px;
+  font-size: 12px;
+  width: 50px;
+}
+
+/* select box */
+.flex .form-select {
+  margin-left: 5px;
+}
+
+/**
+ * 고민 보내기
+ */
+.submitBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-image: linear-gradient(to right, #66b3ff, #3399ff);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: center;
+}
+
+.submitBtn:hover {
+  background-image: linear-gradient(to right, #3399ff, #66b3ff);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/**
+ * 건너
+ * 뛰기
+ */
+.skipBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-image: linear-gradient(to right, #f7bcec, #f299ce);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: center;
+}
+
+.skipBtn:hover {
+  background-image: linear-gradient(to right, #ef6ce2, #f779cb);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/**
+ * 답장
+ * 보내기
+ */
+.replyBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-image: linear-gradient(to right, #66b3ff, #3399ff);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: center;
+}
+
+.replyBtn:hover {
+  background-image: linear-gradient(to right, #3399ff, #66b3ff);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
 }

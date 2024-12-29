@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeBtn = document.getElementById("closeModal");
   const submitBtn = document.getElementById("submitRating");
   const stars = document.querySelectorAll(".star");
+  const dataContainer = document.getElementById("data-container");
+  const Id = dataContainer.getAttribute("data-myWorryList");
   let currentRating = 0;
 
   btn.onclick = function () {

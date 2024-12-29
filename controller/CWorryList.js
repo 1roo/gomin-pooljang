@@ -1,4 +1,4 @@
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
 
@@ -12,6 +12,76 @@ const {
 const { promisify } = require("util");
 const readFileAsync = promisify(fs.readFile);
 
+exports.myWorryListPage = async (req, res) => {
+  try {
+    let { userId, currentPage } = req.body;
+    let limit = 6;
+    console.log("userId===", userId);
+    console.log("currentPage===", currentPage);
+
+    currentPage = parseInt(currentPage);
+
+    const totalMyWorryList = await WorryList.findAll({
+      where: { sender_Id: userId },
+    });
+    console.log("totalMyWorryList===", totalMyWorryList.length);
+    let total = Math.ceil(totalMyWorryList.length / limit);
+    console.log("total===", total);
+
+    if (totalMyWorryList.length == 0) {
+      let startPage = 0;
+      let endPage = 0;
+      res.send({
+        result: true,
+        startPage,
+        endPage,
+        message: "고민이 없습니다.",
+      });
+      return;
+    }
+    if (total == 1) {
+      console.log("여여여기기22");
+      let startPage = 1;
+      let endPage = 1;
+      res.send({
+        result: true,
+        startPage,
+        endPage,
+        myWorryList: totalMyWorryList,
+      });
+      return;
+    }
+
+    const myWorryList = await WorryList.findAll({
+      attributes: [
+        "Id",
+        "sender_Id",
+        "title",
+        "senderContent",
+        "senderSwearWord",
+        "senderPostDateTime",
+        "responder_Id",
+        "responderContent",
+        "responderSwearWord",
+        "responderPostDateTime",
+        "tempRateresponder",
+        "checkReviewScore",
+      ],
+      where: { sender_Id: userId },
+      order: [["Id", "DESC"]],
+      limit,
+      offset: limit * (currentPage - 1),
+    });
+
+    let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
+    let endPage = startPage + 6;
+
+    res.send({ result: true, myWorryList, startPage, endPage });
+  } catch (error) {
+    console.log("post /myWorryList error", error);
+    res.status(500).send({ message: "서버 에러" });
+  }
+};
 // 도메인 룰 테스트용 고민 10명의 유저 각각 10개씩 총 100개 생성성
 exports.testCreateWorryList = async (req, res) => {
   try {
@@ -173,6 +243,8 @@ exports.updateTempRateresponder = async (req, res) => {
     // 4: +0.1
     // 5: +0.2
     const { Id, tempScore } = req.body;
+    console.log("updateTemp에서 Id 값 = ", Id);
+    console.log("updateTemp에서 tempScore 값 = ", tempScore);
     let calulateTempScore = parseFloat(tempScore);
     if (calulateTempScore == 1) {
       calulateTempScore = -0.2;
@@ -193,15 +265,16 @@ exports.updateTempRateresponder = async (req, res) => {
     console.log("calulateTempScore===", calulateTempScore);
     const findWorryList = await WorryList.findOne({ where: { Id } });
 
+    console.log("findWorryList===222", findWorryList);
     if (findWorryList.checkReviewScore == "Y") {
       res.send({ result: false, message: "이미 평가한 고민입니다." });
       return;
+    } else {
+      await findWorryList.update({
+        tempRateResponder: tempScore,
+        checkReviewScore: "Y",
+      });
     }
-
-    findWorryList.update({
-      tempRateResponder: tempScore,
-      checkReviewScore: "Y",
-    });
 
     const findUser = await User.findOne({
       where: { userId: findWorryList.responder_Id },
