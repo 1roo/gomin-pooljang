@@ -1,41 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>notification</title>
+    <title>Notification</title>
     <style>
-      .noti {
-        width: 850px;
-        background-image: linear-gradient(to left, #e4fafa, #bae4f3);
-        box-shadow: 0px 4px 10px rgbQa(0, 0, 0, 0.1);
-        margin: 50px auto 0;
-        height: 100px;
-        border-radius: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      .announcement-container {
+        width: 950px;
+        height: 50px;
+        overflow: hidden;
+        position: relative;
       }
 
-      .noti-content {
+      .announcement-box {
         display: flex;
         align-items: center;
-        color: rgb(66, 176, 240);
-        font-size: 24px;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        width: 100%;
+        bottom: -100%;
+        opacity: 0;
+        animation: slide-up 3s ease forwards;
+        z-index: 1;
       }
 
-      .noti img {
-        width: 50px;
+      .announcement-box > img {
+        width: 40px;
         margin-right: 10px;
+      }
+
+      @keyframes slide-up {
+        0% {
+          bottom: -100%;
+          opacity: 0;
+        }
+        100% {
+          bottom: 0;
+          opacity: 1;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="noti">
-      <div class="noti-content">
-        <img src="/static/images/speaker.png" alt="speaker" />
-        <p>공지 사항 : 욕설은 제한됩니다! 법적 조치를 받을 수 있습니다.</p>
-      </div>
-    </div>
+    <div class="announcement-container" id="announcement-container"></div>
+
+    <script>
+      const announcements = [
+        "시스템 점검 예정입니다.",
+        "새로운 기능이 업데이트되었습니다.",
+        "개인의 신상이 포함된 정보는 유의하여 작성하시기 바랍니다다.",
+        "보안 관련 공지입니다.",
+        "욕설은 제한됩니다! 법적 조치를 받을 수 있습니다.",
+        "고객센터 운영 시간이 변경되었습니다.",
+      ];
+
+      let currentIndex = 0;
+
+      function showAnnouncement() {
+        const container = document.getElementById("announcement-container");
+
+        const box = document.createElement("div");
+        box.classList.add("announcement-box");
+
+        const img = document.createElement("img");
+        img.src = "/static/images/speaker.png";
+        img.alt = "speaker";
+
+        const textContainer = document.createElement("div");
+        const span = document.createElement("span");
+        span.innerText = announcements[currentIndex];
+        textContainer.appendChild(span);
+
+        box.appendChild(img);
+        box.appendChild(textContainer);
+        container.appendChild(box);
+
+        currentIndex = (currentIndex + 1) % announcements.length;
+
+        setTimeout(showAnnouncement, 4000);
+      }
+
+      // 페이지가 로드되면 첫 번째 공지사항 표시 시작
+      window.onload = function () {
+        showAnnouncement();
+      };
+    </script>
   </body>
 </html>

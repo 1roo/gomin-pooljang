@@ -19,8 +19,18 @@ window.addEventListener("load", () => {
 
   document.querySelector(".id_error").style.display = "none";
   document.querySelector(".pw_error").style.display = "none";
+  document.querySelector(".toggle2").style.display = "none";
 
   modal.style.display = "flex";
+
+  // 로그인 하지 않았을 때 모달 닫기 불가능
+  const closeBtns = document.querySelectorAll(".closeX, .closeBtn");
+  closeBtns.forEach((btn) => {
+    btn.style.display = "none";
+  });
+
+  // 페이지 새로고침 시 firstClick을 true로 리셋
+  firstClick = true;
 });
 
 /* 회원 가입 모달 */
@@ -115,10 +125,14 @@ async function rejectLetter() {
  * 새로고침
  */
 
+let firstClick = true;
+
 async function receiveLetter() {
   const formLetter = document.querySelector('form[name="form-letter"]');
   const formReply = document.querySelector('form[name="form-reply"]');
   const getId = document.getElementById("getId");
+  const listener = document.querySelector(".toggle1");
+  const speaker = document.querySelector(".toggle2");
 
   if (formLetter && formReply) {
     // 'form-letter'는 숨기고, 'form-reply'는 보이게
@@ -127,34 +141,46 @@ async function receiveLetter() {
     formReply.style.display =
       formReply.style.display === "none" ? "block" : "none";
   }
-  const data = {
-    userId,
-  };
 
-  try {
-    const res = await axios({
-      method: "post",
-      url: "/worryList",
-      data: data,
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    });
+  if (listener && speaker) {
+    // form-letter에서는 예쁜 마음, form-reply에서는 나의 고민은요가 보이게 함
+    listener.style.display =
+      listener.style.display === "none" ? "block" : "none";
+    speaker.style.display = speaker.style.display === "none" ? "block" : "none";
+  }
 
-    const { result, randomWorryList, message } = res.data;
-    console.log(result);
-    if (result) {
-      const title = document.querySelector(".replyTitle");
-      console.log("title", title);
-      const msg = document.querySelector(".replyMessage");
-      title.value = randomWorryList[0].title;
-      msg.value = randomWorryList[0].senderContent;
-      getId.value = randomWorryList[0].Id;
-    } else {
-      alert(message);
+  if (firstClick) {
+    const data = {
+      userId,
+    };
+
+    try {
+      const res = await axios({
+        method: "post",
+        url: "/worryList",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+
+      const { result, randomWorryList, message } = res.data;
+      console.log(result);
+      if (result) {
+        const title = document.querySelector(".replyTitle");
+        console.log("title", title);
+        const msg = document.querySelector(".replyMessage");
+        title.value = randomWorryList[0].title;
+        msg.value = randomWorryList[0].senderContent;
+        getId.value = randomWorryList[0].Id;
+      } else {
+        alert(message);
+      }
+    } catch (e) {
+      console.error("Error send message:", e);
     }
-  } catch (e) {
-    console.error("Error send message:", e);
+
+    firstClick = false;
   }
 }
 
@@ -299,10 +325,11 @@ async function loginFn() {
  * 중복
  * 검사
  */
+let emailChecked = false;
+
 async function duplCheck() {
   const form = document.forms["form-join"];
   const email = form.email.value;
-  const token = localStorage.getItem("token");
   const domain = form.domain.value;
 
   if (!email) {
@@ -325,10 +352,12 @@ async function duplCheck() {
     if (result) {
       alert("이미 등록된 이메일입니다.");
       form.reset();
+      emailChecked = false;
     } else {
       alert("사용 가능한 이메일입니다.");
       const password = form.password;
       password.focus();
+      emailChecked = true;
     }
   } catch (e) {
     console.error("Error email duplication:", e);
@@ -347,7 +376,16 @@ async function joinFn() {
   const question = form.question.value;
   const answer = form.answer.value;
 
-  // 유효성 검사
+  if (!emailChecked) {
+    alert("이메일 중복 검사를 먼저 진행해주세요!");
+    return;
+  }
+
+  if (password.trim().length < 4) {
+    alert("비밀번호는 최소 4글자 이상이어야 합니다.");
+    form.password.focus();
+    return;
+  }
 
   if (password.trim() === "" || confirmPw.trim() === "") {
     alert("이메일, 비밀번호를 모두 입력하셔야 합니다!");
@@ -482,6 +520,12 @@ async function updatePw() {
   const password = form.password.value;
   const confirmPw = form.confirmPw.value;
   const token = localStorage.getItem("token");
+
+  if (password.trim().length < 4) {
+    alert("비밀번호는 최소 4글자 이상이어야 합니다.");
+    form.password.focus();
+    return;
+  }
 
   if (password.trim() !== confirmPw.trim()) {
     alert("비밀번호와 확인 비밀번호가 일치하지 않습니다.");

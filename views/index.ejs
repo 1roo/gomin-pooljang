@@ -203,9 +203,12 @@
               <img
                 src="/static/images/receive-letter.png"
                 alt="receive-letter"
-              />고민 듣는<br />예쁜 마음
+              /><span class="toggle1">고민 듣는<br />예쁜 마음</span>
+              <span class="toggle2" style="display: none"
+                >요즘 나의<br />고민은요!</span
+              >
             </div>
-            <div class="announcement-box">공지사항</div>
+            <div><%- include('include/notification') %></div>
           </div>
 
           <!-- 메인 컨텐츠 -->
