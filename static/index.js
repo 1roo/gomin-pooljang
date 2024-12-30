@@ -181,6 +181,14 @@ async function receiveLetter() {
     }
 
     firstClick = false;
+  } else {
+    const title = document.querySelector(".replyTitle");
+    const msg = document.querySelector(".replyMessage");
+    const getId = document.getElementById("getId");
+
+    title.value = "";
+    msg.value = "";
+    getId.value = "";
   }
 }
 
