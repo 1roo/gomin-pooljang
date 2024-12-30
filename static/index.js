@@ -182,7 +182,6 @@ async function receiveLetter() {
 
     firstClick = false;
   } else {
-    // 첫 클릭 이후에는 데이터 초기화 (보이지 않게 처리)
     const title = document.querySelector(".replyTitle");
     const msg = document.querySelector(".replyMessage");
     const getId = document.getElementById("getId");
