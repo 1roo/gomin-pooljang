@@ -12,7 +12,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: "Pretendard-Regular", Arial, sans-serif;
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 /* 헤더 */
@@ -169,7 +169,7 @@ body {
   background-color: rgba(0, 0, 0, 0.756);
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 50;
 }
 
 .modal_body {
@@ -223,6 +223,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .forgot-pw-modal-body {
