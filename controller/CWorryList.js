@@ -387,7 +387,7 @@ exports.findAllWorryList = async (req, res) => {
     //console.log("백엔드에서 userId===", userId);
     //console.log("백엔드에서 token===", token);
 
-    // 최근 50개 조회 (내가 쓴 글 제외 답변이 달린글 제외)
+    // 최근 50개 조회 (내가 쓴 글 제외 답변이 달린글 제외 읽었던 고민 제외)
     const findAllWorryList = await sequelize.query(
       `SELECT worrylist.*
      FROM worrylist
