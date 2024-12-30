@@ -48,15 +48,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* 공지사항 */
-.announcement-box {
-  flex-grow: 1;
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 /* 고민 받기 버튼 */
 .refreshBtn {
   background-image: linear-gradient(to right, #92f8f8, #bae4f3);
@@ -104,11 +95,6 @@ body {
   color: rgb(66, 176, 240);
   width: 500px;
   margin-left: 50px;
-}
-
-.announcement > img {
-  width: 120px;
-  padding-right: 20px;
 }
 
 /**
@@ -183,6 +169,7 @@ body {
   background-color: rgba(0, 0, 0, 0.756);
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .modal_body {
@@ -290,7 +277,7 @@ body {
 /**
  * 로그인
  * 회원가입
- * 비밀번호 찾기기
+ * 비밀번호 찾기
  * 공통
  */
 .login,
@@ -528,4 +515,18 @@ form .pw_error {
 .replyBtn:hover {
   background-image: linear-gradient(to right, #3399ff, #66b3ff);
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================== */
+
+h1,
+h2,
+p,
+span,
+.announcement-box,
+button,
+img {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
