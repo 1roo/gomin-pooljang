@@ -113,6 +113,7 @@ async function rejectLetter() {
       const msg = document.querySelector(".replyMessage");
       title.value = randomWorryList[0].title;
       msg.value = randomWorryList[0].senderContent;
+      getId.value = randomWorryList[0].Id;
     } else {
       alert(message);
     }
@@ -152,10 +153,11 @@ async function receiveLetter() {
   }
 
   if (firstClick) {
+    console.log("열림");
+
     const data = {
       userId,
     };
-
     try {
       const res = await axios({
         method: "post",
@@ -181,8 +183,10 @@ async function receiveLetter() {
     } catch (e) {
       console.error("Error send message:", e);
     }
-
     firstClick = false;
+  } else {
+    console.log("닫힘");
+    firstClick = true;
   }
 }
 
@@ -269,8 +273,10 @@ async function submitReply() {
     if (result) {
       alert(message);
       form.reset();
+      document.location.reload();
     } else {
       alert(message);
+      document.location.reload();
     }
   } catch (e) {
     console.error("Error submit reply:", e);
