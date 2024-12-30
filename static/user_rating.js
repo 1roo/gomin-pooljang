@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
           data: data,
         });
         const { result, message } = res.data;
-        alert(result);
         alert(message);
 
         modal.style.display = "none";
