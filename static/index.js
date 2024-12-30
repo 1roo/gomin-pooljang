@@ -283,6 +283,9 @@ async function loginFn() {
   const email = form.email.value;
   const password = form.password.value;
 
+  document.querySelector(".id_error").style.display = "none";
+  document.querySelector(".pw_error").style.display = "none";
+
   if (email.trim() === "" || password.trim() === "") {
     alert("이메일, 비밀번호를 모두 입력하셔야 합니다!");
     return;
