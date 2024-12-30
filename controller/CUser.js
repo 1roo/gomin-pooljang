@@ -7,7 +7,7 @@ const SALT = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
 console.log(User);
 
-/* '/' GET */
+/* '/' GET **/
 exports.main = (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
