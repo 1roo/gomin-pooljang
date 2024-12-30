@@ -18,8 +18,7 @@
                 class="logo"
                 src="../static/images/logo.png"
                 alt="logo"
-                onclick="location.href='/'"
-              />
+                onclick="location.href='/'" />
             </div>
             <div class="container menu-container"></div>
           </div>
@@ -38,13 +37,13 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        console.log("DOMContentLoaded event triggered!"); // DOMContentLoaded 확인
+        //console.log("DOMContentLoaded event triggered!"); // DOMContentLoaded 확인
         const menuContainer = document.querySelector(".menu-container");
 
         // Render menu based on jwtToken
         const jwtToken = getCookie("jwtToken");
-        console.log("znzlznzlznzlznzl", jwtToken); // 디버깅 로그
-        console.log("JWT Token:", jwtToken); // 쿠키 값 확인
+        //console.log("znzlznzlznzlznzl", jwtToken); // 디버깅 로그
+        //console.log("JWT Token:", jwtToken); // 쿠키 값 확인
 
         menuContainer.innerHTML = jwtToken
           ? `
@@ -109,7 +108,7 @@
             headers: { Authorization: `Bearer ${jwtToken}` },
           });
 
-          console.log("Logout Response:", res.data);
+          //console.log("Logout Response:", res.data);
           alert("로그아웃 되었습니다.");
           location.href = "/";
         } catch (error) {

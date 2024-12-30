@@ -9,10 +9,10 @@ const userId = dataContainer.getAttribute("data-userId");
 
 /* 첫 접속 시 화면 (로그인 모달) */
 window.addEventListener("load", () => {
-  console.log("JWT: ", jwt);
-  console.log("Login Status: ", loginStatus);
-  console.log("Decoded Payload: ", decodedPayload);
-  console.log("로그인회원 기본키 userId =  ", userId);
+  //console.log("JWT: ", jwt);
+  //console.log("Login Status: ", loginStatus);
+  //console.log("Decoded Payload: ", decodedPayload);
+  //console.log("로그인회원 기본키 userId =  ", userId);
   if (loginStatus === "true" && jwt != null) {
     return;
   }
@@ -165,10 +165,10 @@ async function receiveLetter() {
       });
 
       const { result, randomWorryList, message } = res.data;
-      console.log(result);
+      //console.log(result);
       if (result) {
         const title = document.querySelector(".replyTitle");
-        console.log("title", title);
+        //console.log("title", title);
         const msg = document.querySelector(".replyMessage");
         title.value = randomWorryList[0].title;
         msg.value = randomWorryList[0].senderContent;
@@ -244,7 +244,7 @@ async function submitReply() {
   const form = document.forms["form-reply"];
   const comment = form.comment.value;
   const getId = document.getElementById("getId").value;
-  console.log(getId);
+  //console.log(getId);
   // const token = localStorage.getItem("token");
 
   if (comment.trim() === "") {

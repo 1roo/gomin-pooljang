@@ -16,17 +16,17 @@ exports.myWorryListPage = async (req, res) => {
   try {
     let { userId, currentPage } = req.body;
     let limit = 6;
-    console.log("userId===", userId);
-    console.log("currentPage===", currentPage);
+    //console.log("userId===", userId);
+    //console.log("currentPage===", currentPage);
 
     currentPage = parseInt(currentPage);
 
     const totalMyWorryList = await WorryList.findAll({
       where: { sender_Id: userId },
     });
-    console.log("totalMyWorryList===", totalMyWorryList.length);
+    //console.log("totalMyWorryList===", totalMyWorryList.length);
     let total = Math.ceil(totalMyWorryList.length / limit);
-    console.log("total===", total);
+    //console.log("total===", total);
 
     if (totalMyWorryList.length == 0) {
       let startPage = 0;
@@ -40,7 +40,7 @@ exports.myWorryListPage = async (req, res) => {
       return;
     }
     if (total == 1) {
-      console.log("여여여기기22");
+      //console.log("여여여기기22");
       let startPage = 1;
       let endPage = 1;
       res.send({
@@ -78,7 +78,7 @@ exports.myWorryListPage = async (req, res) => {
 
     res.send({ result: true, myWorryList, startPage, endPage });
   } catch (error) {
-    console.log("post /myWorryList error", error);
+    //console.log("post /myWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -92,7 +92,7 @@ exports.testCreateWorryList = async (req, res) => {
 
     for (let i = 0; i < 10; i++) {
       let userId = findUserId[i].userId;
-      console.log("userId 확인 ===", userId);
+      //console.log("userId 확인 ===", userId);
       for (let j = 0; j < 10; j++) {
         const newWorryList = await WorryList.create({
           sender_Id: userId,
@@ -109,7 +109,7 @@ exports.testCreateWorryList = async (req, res) => {
         "성공적으로 10명의 유저 각각 10개씩 총 100개 고민 등록되었습니다.",
     });
   } catch (error) {
-    console.log("post /addWorryList100 error", error);
+    //console.log("post /addWorryList100 error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -132,13 +132,13 @@ exports.createWorryList = async (req, res) => {
     const containsBadWord = badwords.some((word) =>
       senderContent.includes(word)
     );
-    console.log("containsBadWord===", containsBadWord);
+    //console.log("containsBadWord===", containsBadWord);
     if (containsBadWord) {
       senderSwearWord = "Y";
     } else {
       senderSwearWord = "N";
     }
-    console.log("senderSwearWord===", senderSwearWord);
+    //console.log("senderSwearWord===", senderSwearWord);
     const newWorryList = await WorryList.create({
       sender_Id: userId,
       title,
@@ -147,7 +147,7 @@ exports.createWorryList = async (req, res) => {
     });
     res.send({ result: true, message: "성공적으로 고민이 등록되었습니다." });
   } catch (error) {
-    console.log("post /addWorryList error", error);
+    //console.log("post /addWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -180,7 +180,7 @@ exports.answerWorryList = async (req, res) => {
     const containsBadWord = badwords.some((word) =>
       responderContent.includes(word)
     );
-    console.log("containsBadWord===", containsBadWord);
+    //console.log("containsBadWord===", containsBadWord);
     if (containsBadWord) {
       responderSwearWord = "Y";
     } else {
@@ -200,7 +200,7 @@ exports.answerWorryList = async (req, res) => {
 
     res.send({ result: true, message: "성공적으로 답변을 했습니다." });
   } catch (error) {
-    console.log("post /addAnswer error", error);
+    //console.log("post /addAnswer error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -227,7 +227,7 @@ exports.myAnswerListContent = async (req, res) => {
     });
     res.send({ result: true, myAnswerListContent });
   } catch (error) {
-    console.log("post /myAnswerList/content error", error);
+    //console.log("post /myAnswerList/content error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -243,8 +243,8 @@ exports.updateTempRateresponder = async (req, res) => {
     // 4: +0.1
     // 5: +0.2
     const { Id, tempScore } = req.body;
-    console.log("updateTemp에서 Id 값 = ", Id);
-    console.log("updateTemp에서 tempScore 값 = ", tempScore);
+    //console.log("updateTemp에서 Id 값 = ", Id);
+    //console.log("updateTemp에서 tempScore 값 = ", tempScore);
     let calulateTempScore = parseFloat(tempScore);
     if (calulateTempScore == 1) {
       calulateTempScore = -0.2;
@@ -262,10 +262,10 @@ exports.updateTempRateresponder = async (req, res) => {
       calulateTempScore = 0.2;
     }
 
-    console.log("calulateTempScore===", calulateTempScore);
+    //console.log("calulateTempScore===", calulateTempScore);
     const findWorryList = await WorryList.findOne({ where: { Id } });
 
-    console.log("findWorryList===222", findWorryList);
+    //console.log("findWorryList===222", findWorryList);
     if (findWorryList.checkReviewScore == "Y") {
       res.send({ result: false, message: "이미 평가한 고민입니다." });
       return;
@@ -286,7 +286,7 @@ exports.updateTempRateresponder = async (req, res) => {
 
     res.send({ result: true, message: "성공적으로 평가했습니다." });
   } catch (error) {
-    console.log("patch /updateTempRateresponder error", error);
+    //console.log("patch /updateTempRateresponder error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -316,7 +316,7 @@ exports.myWorryListContent = async (req, res) => {
     });
     res.send({ result: true, myWorryListContent });
   } catch (error) {
-    console.log("post /myWorryList/content error", error);
+    //console.log("post /myWorryList/content error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -343,7 +343,7 @@ exports.myWorryList = async (req, res) => {
     });
     res.send({ result: true, myWorryList });
   } catch (error) {
-    console.log("post /myWorryList error", error);
+    //console.log("post /myWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -369,10 +369,10 @@ exports.myAnswerList = async (req, res) => {
       where: { responder_Id: userId },
     });
 
-    console.log("myAnswerList===", myAnswerList);
+    //console.log("myAnswerList===", myAnswerList);
     res.send({ result: true, myAnswerList });
   } catch (error) {
-    console.log("post /myAnswerList error", error);
+    //console.log("post /myAnswerList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -382,8 +382,8 @@ exports.findAllWorryList = async (req, res) => {
       req.headers.authorization && req.headers.authorization.split(" ")[1];
     const { userId } = req.body;
 
-    console.log("백엔드에서 userId===", userId);
-    console.log("백엔드에서 token===", token);
+    //console.log("백엔드에서 userId===", userId);
+    //console.log("백엔드에서 token===", token);
 
     // 최근 50개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
     const findAllWorryList = await sequelize.query(
@@ -395,16 +395,16 @@ exports.findAllWorryList = async (req, res) => {
 
     //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함
     if (findAllWorryList.length === 0) {
-      console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
+      //console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
       res.send({ result: false, message: "현재 고민이 없습니다." });
     } else {
       // 50개중 1개를 랜덤으로 보냄
       let randomWorryList = [];
       let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
-      console.log("randomIndex====", randomIndex);
+      //console.log("randomIndex====", randomIndex);
       randomWorryList.push(findAllWorryList[randomIndex]);
-      console.log("randomWorryList", randomWorryList[0]);
-      console.log("randomWorryList", randomWorryList[0].Id);
+      //console.log("randomWorryList", randomWorryList[0]);
+      //console.log("randomWorryList", randomWorryList[0].Id);
 
       //고민을 봤으면 readlist에 추가해야함
       const newReadList = await ReadList.create({
@@ -415,7 +415,7 @@ exports.findAllWorryList = async (req, res) => {
       res.send({ result: true, randomWorryList });
     }
   } catch (error) {
-    console.log("get /worryList error", error);
+    //console.log("get /worryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };

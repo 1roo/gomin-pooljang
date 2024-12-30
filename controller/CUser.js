@@ -5,19 +5,19 @@ const { where } = require("sequelize");
 const { myAnswerList } = require("./CWorryList");
 const SALT = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
-console.log(User);
+//console.log(User);
 
 /* '/' GET **/
 exports.main = (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
 
-  console.log("jwt: ", jwt);
-  console.log("loginStatus: ", loginStatus);
+  //console.log("jwt: ", jwt);
+  //console.log("loginStatus: ", loginStatus);
   if (jwt) {
     const payload = jwt.split(".")[1];
     const decodedPayload = atob(payload);
-    console.log("decodedPayload = ", decodedPayload);
+    //console.log("decodedPayload = ", decodedPayload);
     const decodedPayload2 = JSON.parse(atob(payload));
     const userId = decodedPayload2.id;
     res.render("index", { jwt, loginStatus, decodedPayload, userId });
@@ -35,8 +35,8 @@ exports.mypage2 = async (req, res) => {
   try {
     const jwt = req.cookies.jwtToken;
     const loginStatus = req.cookies.loginStatus;
-    console.log("mypage 에서 jwt = ", jwt);
-    console.log("mypage 에서 loginStatus: ", loginStatus);
+    //console.log("mypage 에서 jwt = ", jwt);
+    //console.log("mypage 에서 loginStatus: ", loginStatus);
     const payload = jwt.split(".")[1];
     const decodedPayload = atob(payload);
     let { userId, currentPage, tab } = req.body;
@@ -44,17 +44,17 @@ exports.mypage2 = async (req, res) => {
 
     if (tab === "myAnswerList") {
       let limit = 6;
-      console.log("userId===", userId);
-      console.log("currentPage===", currentPage);
+      //console.log("userId===", userId);
+      //console.log("currentPage===", currentPage);
       currentPage = parseInt(currentPage);
 
       const totalMyAnswerList = await WorryList.findAll({
         where: { responder_Id: userId },
       });
 
-      console.log("totalMyAnswerList===", totalMyAnswerList.length);
+      //console.log("totalMyAnswerList===", totalMyAnswerList.length);
       let total = Math.ceil(totalMyAnswerList.length / limit);
-      console.log("total===", total);
+      //console.log("total===", total);
 
       if (totalMyAnswerList.length == 0 || total == 1) {
         let startPage = 1;
@@ -99,19 +99,19 @@ exports.mypage2 = async (req, res) => {
         let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
         let endPage;
         if (total < 7) {
-          console.log("첫번째");
+          //console.log("첫번째");
           endPage = total;
         }
         if (startPage < total) {
-          console.log("두번째");
+          //console.log("두번째");
           endPage = startPage + 6;
         }
         if (startPage + 6 > total) {
-          console.log("세번째");
+          //console.log("세번째");
           endPage = total;
         }
-        console.log("startPage===", startPage);
-        console.log("endPage===", endPage);
+        //console.log("startPage===", startPage);
+        //console.log("endPage===", endPage);
         res.render("mypageAnswer", {
           result: true,
           jwt,
@@ -131,17 +131,17 @@ exports.mypage2 = async (req, res) => {
 
     if (tab === "myWorryList") {
       let limit = 6;
-      console.log("userId===", userId);
-      console.log("currentPage===", currentPage);
+      //console.log("userId===", userId);
+      //console.log("currentPage===", currentPage);
       currentPage = parseInt(currentPage);
 
       const totalMyWorryList = await WorryList.findAll({
         where: { sender_Id: userId },
       });
 
-      console.log("totalMyWorryList===", totalMyWorryList.length);
+      //console.log("totalMyWorryList===", totalMyWorryList.length);
       let total = Math.ceil(totalMyWorryList.length / limit);
-      console.log("total===", total);
+      //console.log("total===", total);
 
       if (totalMyWorryList.length == 0 || total == 1) {
         let startPage = 1;
@@ -186,19 +186,19 @@ exports.mypage2 = async (req, res) => {
         let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
         let endPage;
         if (total < 7) {
-          console.log("첫번째");
+          //console.log("첫번째");
           endPage = total;
         }
         if (startPage < total) {
-          console.log("두번째");
+          //console.log("두번째");
           endPage = startPage + 6;
         }
         if (startPage + 6 > total) {
-          console.log("세번째");
+          //console.log("세번째");
           endPage = total;
         }
-        console.log("startPage===", startPage);
-        console.log("endPage===", endPage);
+        //console.log("startPage===", startPage);
+        //console.log("endPage===", endPage);
         res.render("mypage", {
           result: true,
           jwt,
@@ -222,11 +222,11 @@ exports.mypage2 = async (req, res) => {
 exports.mypage = async (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
-  console.log("mypage 에서 jwt = ", jwt);
-  console.log("mypage 에서 loginStatus: ", loginStatus);
+  //console.log("mypage 에서 jwt = ", jwt);
+  //console.log("mypage 에서 loginStatus: ", loginStatus);
   const payload = jwt.split(".")[1];
   const decodedPayload = atob(payload);
-  console.log("decodedPayload = ", decodedPayload);
+  //console.log("decodedPayload = ", decodedPayload);
   const decodedPayload2 = JSON.parse(atob(payload));
   const userId = decodedPayload2.id;
 
@@ -279,18 +279,18 @@ exports.mypage = async (req, res) => {
 exports.userReceviedMsg = async (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
-  console.log("jwt: ", jwt);
-  console.log("loginStatus: ", loginStatus);
+  //console.log("jwt: ", jwt);
+  //console.log("loginStatus: ", loginStatus);
 
   const payload = jwt.split(".")[1];
   const decodedPayload = atob(payload);
-  console.log("decodedPayload = ", decodedPayload);
+  //console.log("decodedPayload = ", decodedPayload);
   const decodedPayload2 = JSON.parse(atob(payload));
   const userId = decodedPayload2.id;
 
   const { Id } = req.body;
-  console.log("내가 답장한 고민 Id: ", Id);
-  console.log("userId 값은? = ", userId);
+  //console.log("내가 답장한 고민 Id: ", Id);
+  //console.log("userId 값은? = ", userId);
   const myAnswerList = await WorryList.findOne({
     where: {
       Id,
@@ -301,8 +301,8 @@ exports.userReceviedMsg = async (req, res) => {
       userId,
     },
   });
-  console.log("myAnswerList: ", myAnswerList);
-  console.log("user: ", user);
+  //console.log("myAnswerList: ", myAnswerList);
+  //console.log("user: ", user);
 
   res.render("myAnswerList", {
     myAnswerList,
@@ -317,18 +317,18 @@ exports.userReceviedMsg = async (req, res) => {
 exports.userSendedMsg = async (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
-  console.log("jwt: ", jwt);
-  console.log("loginStatus: ", loginStatus);
+  //console.log("jwt: ", jwt);
+  //console.log("loginStatus: ", loginStatus);
 
   const payload = jwt.split(".")[1];
   const decodedPayload = atob(payload);
-  console.log("decodedPayload = ", decodedPayload);
+  //console.log("decodedPayload = ", decodedPayload);
   const decodedPayload2 = JSON.parse(atob(payload));
   const userId = decodedPayload2.id;
 
   const { Id } = req.body;
-  console.log("나의 고민리스트 Id: ", Id);
-  console.log("userId 값은? = ", userId);
+  //console.log("나의 고민리스트 Id: ", Id);
+  //console.log("userId 값은? = ", userId);
   const myWorryList = await WorryList.findOne({
     where: {
       Id,
@@ -341,8 +341,8 @@ exports.userSendedMsg = async (req, res) => {
     },
   });
 
-  console.log("myWorryList: ", myWorryList);
-  console.log("user: ", user);
+  //console.log("myWorryList: ", myWorryList);
+  //console.log("user: ", user);
 
   res.render("myWorryList", {
     myWorryList,
@@ -359,12 +359,12 @@ exports.index = (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
 
-  console.log("jwt: ", jwt);
-  console.log("loginStatus: ", loginStatus);
+  //console.log("jwt: ", jwt);
+  //console.log("loginStatus: ", loginStatus);
   if (jwt) {
     const payload = jwt.split(".")[1];
     const decodedPayload = atob(payload);
-    console.log("decodedPayload = ", decodedPayload);
+    //console.log("decodedPayload = ", decodedPayload);
     const decodedPayload2 = JSON.parse(atob(payload));
     const userId = decodedPayload2.id;
     res.render("index copy", { jwt, loginStatus, decodedPayload, userId });
@@ -419,7 +419,7 @@ exports.testUserCreate = async (req, res) => {
       message: "회원가입 10명 성공",
     });
   } catch (error) {
-    console.log("post /regist100 error", error);
+    //console.log("post /regist100 error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -451,7 +451,7 @@ exports.checkEmail = async (req, res) => {
       res.send({ result: true, message: "이미 있는 사용자입니다." });
     }
   } catch (error) {
-    console.log("post /checkEmail error", error);
+    //console.log("post /checkEmail error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -479,7 +479,7 @@ exports.registUser = async (req, res) => {
       message: "회원가입 성공",
     });
   } catch (error) {
-    console.log("post /regist error", error);
+    //console.log("post /regist error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -490,15 +490,15 @@ exports.loginUser2 = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ where: { email: email } });
 
-    console.log("user: ", user);
-    console.log("Request Body:", req.body);
+    //console.log("user: ", user);
+    //console.log("Request Body:", req.body);
 
     if (user === null) {
       return res.send({ result: false, message: "이메일이 틀렸습니다" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-      console.log("isMatch 조건문 안");
+      //console.log("isMatch 조건문 안");
       const token = jwt.sign(
         { id: user.userId, email: user.email },
         SECRET_KEY,
@@ -522,7 +522,7 @@ exports.loginUser2 = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("post /login error", error);
+    //console.log("post /login error", error);
     res.send({ result: false, message: "서버에러" });
   }
 };
@@ -536,8 +536,8 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email: email } });
-    console.log("user: ", user);
-    console.log("Request Body:", req.body);
+    //console.log("user: ", user);
+    //console.log("Request Body:", req.body);
 
     if (!user) {
       return res.send({ result: false, message: "invalid_email" });
@@ -568,7 +568,7 @@ exports.loginUser = async (req, res) => {
       return res.send({ result: false, message: "invalid_password" });
     }
   } catch (error) {
-    console.log("post /login error", error);
+    //console.log("post /login error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -597,7 +597,7 @@ exports.findAccount = async (req, res) => {
 
     res.send({ result: true, message: "정보가 일치합니다" });
   } catch (error) {
-    console.log("post /find-account error", error);
+    //console.log("post /find-account error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -648,7 +648,7 @@ exports.changePw = async (req, res) => {
   try {
     const user = await exports.validation(req);
     const newPw = req.body.password;
-    console.log("New Password:", newPw);
+    //console.log("New Password:", newPw);
     if (!newPw || newPw.length < 4) {
       return res.send({
         result: false,
@@ -679,7 +679,7 @@ exports.makeNewPw = async (req, res) => {
   //
   try {
     const { password, email } = req.body;
-    console.log("New Password:", password);
+    //console.log("New Password:", password);
     if (!password || password.length < 4) {
       return res.send({
         result: false,
@@ -702,15 +702,15 @@ exports.makeNewPw = async (req, res) => {
 //고민봉
 exports.logout2 = async (req, res) => {
   try {
-    console.log("logout2 호출됨");
+    //console.log("logout2 호출됨");
     const token =
       req.headers.authorization && req.headers.authorization.split(" ")[1];
 
-    console.log("logut2 token = ", token);
+    //console.log("logut2 token = ", token);
     const jwtCookie = req.cookies.jwtToken;
     const loginStatusCookie = req.cookies.loginStatus;
-    console.log("jwtCookie: ", jwtCookie);
-    console.log("loginStatusCookie: ", loginStatusCookie);
+    //console.log("jwtCookie: ", jwtCookie);
+    //console.log("loginStatusCookie: ", loginStatusCookie);
 
     res.clearCookie("jwtToken");
     res.clearCookie("loginStatus");
@@ -821,10 +821,10 @@ exports.deleteAccount = async (req, res) => {
 //  */
 // exports.sendedMsg = async (req, res) => {
 //   try {
-//     console.log("sendedMsg 호출됨");
+//     //console.log("sendedMsg 호출됨");
 
 //     const user = await exports.validation(req);
-//     console.log("user: ", user);
+//     //console.log("user: ", user);
 
 //     if (user) {
 //       const isReplied = await Message.findOne({

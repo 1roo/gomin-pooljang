@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
   submitBtn.onclick = async function () {
     try {
       if (currentRating > 0) {
-        console.log("내가준 점수 = ", currentRating);
-        console.log("고민봉 id = ", Id);
+        //console.log("내가준 점수 = ", currentRating);
+        //console.log("고민봉 id = ", Id);
         const data = {
           Id: Id,
           tempScore: currentRating,
