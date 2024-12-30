@@ -107,12 +107,14 @@ async function rejectLetter() {
       },
     });
 
-    const { result, randomWorryList } = res.data;
+    const { result, randomWorryList, message } = res.data;
     if (result) {
       const title = document.querySelector(".replyTitle");
       const msg = document.querySelector(".replyMessage");
       title.value = randomWorryList[0].title;
       msg.value = randomWorryList[0].senderContent;
+    } else {
+      alert(message);
     }
   } catch (e) {
     console.error("Error send message:", e);
@@ -181,14 +183,6 @@ async function receiveLetter() {
     }
 
     firstClick = false;
-    // } else {
-    //   const title = document.querySelector(".replyTitle");
-    //   const msg = document.querySelector(".replyMessage");
-    //   const getId = document.getElementById("getId");
-
-    //   title.value = "";
-    //   msg.value = "";
-    //   getId.value = "";
   }
 }
 
