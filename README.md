@@ -50,3 +50,19 @@
 <br>
 <hr>
 <br>
+
+## 🧑🏻‍💻👩🏻‍💻 팀원
+| **유혜리(팀장)** | **고민봉** | **임길미** | **하나래** |
+| :------: |  :------: |  :------: |  :------: |
+| [<img src="https://avatars.githubusercontent.com/u/186003925?v=4?s=400&u=621eb447ca2a6cfff4542f203245b89588f29d66&v=4" height=150 width=150> <br/> @haeriyou](https://github.com/haeriyou) | [<img src="https://avatars.githubusercontent.com/u/190364619?v=4" height=150 width=150> <br/> @Gominbong2](https://github.com/Gominbong2) |[<img src="https://avatars.githubusercontent.com/u/118340082?v=4" height=150 width=150> <br/> @kayleeha](https://github.com/kayleeha) |[<img src="https://avatars.githubusercontent.com/u/133945249?v=4" height=150 width=150> <br/> @1roo](https://github.com/1roo) |
+
+
+
+
+|&nbsp;&nbsp;이&nbsp;름&nbsp;&nbsp;| 역&nbsp;&nbsp;할 |
+| -------- | ------- |
+|유혜리| - 게시물 CRUD<br> - 댓글 CRUD<br> - 무한스크롤<br> - 주민추천/좋아요/북마크 기능<br> - 카카오 지도 API 연동 (커스텀 오버레이 / 폴리곤 / 키워드 장소검색 목록 표시 / 지도에 마커 찍기 / 내 위치로 이동)<br> - 장소 및 카테고리별 필터링<br> - 이미지 최적화 (webp, lazy loading)<br> - 스켈레톤 UI<br> - 최적화 (라이트하우스) |
+| 고민봉 | - 내가 받은 고민, 내가 답장한 고민 조회(페이지네이션) |
+| 임길미 | - 회원가입/로그인 화면 |
+| 하나래 | - 회원가입(유효성 검사 포함)/로그인(jwt, hash&salt 암호화)/비밀번호 수정 |
+
