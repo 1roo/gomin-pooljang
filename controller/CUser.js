@@ -50,6 +50,7 @@ exports.mypage2 = async (req, res) => {
 
       const totalMyAnswerList = await WorryList.findAll({
         where: { responder_Id: userId },
+        order: [["Id", "DESC"]],
       });
 
       //console.log("totalMyAnswerList===", totalMyAnswerList.length);
@@ -137,6 +138,7 @@ exports.mypage2 = async (req, res) => {
 
       const totalMyWorryList = await WorryList.findAll({
         where: { sender_Id: userId },
+        order: [["Id", "DESC"]],
       });
 
       //console.log("totalMyWorryList===", totalMyWorryList.length);

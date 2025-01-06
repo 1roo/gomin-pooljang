@@ -163,7 +163,9 @@ exports.answerWorryList = async (req, res) => {
     //같은고민을 2명이 답변하고있는경우 마지막으로 답변한사람꺼로 덮어쓰기가 됨.. 답변등록시
     //답변된건지 아닌지 조회를 먼저하고 답변이 된거면 예외처리로 이미답변됫다고 해야함
     const findWorryList = await WorryList.findOne({ where: { Id } });
+    console.log("findWorryList길이확인 ==", findWorryList.length);
     if (findWorryList.responder_Id != null) {
+      console.log("이미 답변 됬");
       res.send({ result: false, message: "이미 답변된 고민입니다." });
       return;
     }
@@ -385,35 +387,45 @@ exports.findAllWorryList = async (req, res) => {
     //console.log("백엔드에서 userId===", userId);
     //console.log("백엔드에서 token===", token);
 
-    // 최근 50개 조회,  (내가 등록한 고민목록 제외, 내가 본 고민목록 제외, 답변한목록 제외)
+    // 최근 50개 조회 (내가 쓴 글 제외 답변이 달린글 제외 읽었던 고민 제외)
     const findAllWorryList = await sequelize.query(
-      `select worrylist.*, readlist.user_Id, readlist.worryList_Id from worrylist 
-      left join readlist on worrylist.Id = readlist.worryList_Id where(user_Id is null or user_Id != :id)
-      and sender_Id != :id and responder_Id is null order by worrylist_Id desc limit 50`,
+      `SELECT worrylist.*
+     FROM worrylist
+     WHERE worrylist.sender_Id != :id
+     AND worrylist.Id NOT IN (
+     SELECT readlist.worryList_Id
+     FROM readlist
+     WHERE readlist.user_Id = :id
+     )
+      AND worrylist.Id NOT IN (
+     SELECT worrylist.Id
+      FROM worrylist
+      WHERE worrylist.responder_Id IS NOT NULL
+      )
+    ORDER BY worrylist.Id DESC
+    LIMIT 50;`,
       { replacements: { id: userId }, type: Sequelize.QueryTypes.SELECT }
     );
 
-    //고민등록된 리스트가 없을경우 현제고민이 없다고 해줘야함
-    if (findAllWorryList.length === 0) {
-      //console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
+    if (findAllWorryList.length == 0) {
       res.send({ result: false, message: "현재 고민이 없습니다." });
-    } else {
-      // 50개중 1개를 랜덤으로 보냄
-      let randomWorryList = [];
-      let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
-      //console.log("randomIndex====", randomIndex);
-      randomWorryList.push(findAllWorryList[randomIndex]);
-      //console.log("randomWorryList", randomWorryList[0]);
-      //console.log("randomWorryList", randomWorryList[0].Id);
-
-      //고민을 봤으면 readlist에 추가해야함
-      const newReadList = await ReadList.create({
-        user_Id: userId,
-        worryList_Id: randomWorryList[0].Id,
-      });
-
-      res.send({ result: true, randomWorryList });
+      return;
     }
+
+    let randomWorryList = [];
+    let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
+    console.log("randomIndex====", randomIndex);
+    randomWorryList.push(findAllWorryList[randomIndex]);
+    console.log("randomWorryList", randomWorryList[0]);
+    console.log("randomWorryList", randomWorryList[0].Id);
+
+    //고민을 읽었다면 readlist에 추가해야함
+    const newReadList = await ReadList.create({
+      user_Id: userId,
+      worryList_Id: randomWorryList[0].Id,
+    });
+
+    res.send({ result: true, randomWorryList });
   } catch (error) {
     //console.log("get /worryList error", error);
     res.status(500).send({ message: "서버 에러" });

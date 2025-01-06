@@ -3,7 +3,7 @@ exports.createReadList = async (req, res) => {
   try {
     const { userId, worryList_Id } = req.body;
     const newReadList = await ReadList.create({
-      userId,
+      user_Id: userId,
       worryList_Id,
     });
     res.send({ result: true, message: "성공적으로 내가 본 목록이 추가됨" });
