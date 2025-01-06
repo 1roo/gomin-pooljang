@@ -37,13 +37,10 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        //("DOMContentLoaded event triggered!"); // DOMContentLoaded 확인
         const menuContainer = document.querySelector(".menu-container");
 
         // Render menu based on jwtToken
         const jwtToken = getCookie("jwtToken");
-        //("znzlznzlznzlznzl", jwtToken); // 디버깅 로그
-        //("JWT Token:", jwtToken); // 쿠키 값 확인
 
         menuContainer.innerHTML = jwtToken
           ? `
@@ -102,7 +99,6 @@
             headers: { Authorization: `Bearer ${jwtToken}` },
           });
 
-          //("Logout Response:", res.data);
           alert("로그아웃 되었습니다.");
           location.href = "/";
         } catch (error) {

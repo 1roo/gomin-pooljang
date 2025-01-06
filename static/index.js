@@ -9,10 +9,6 @@ const userId = dataContainer.getAttribute("data-userId");
 
 /* 첫 접속 시 화면 (로그인 모달) */
 window.addEventListener("load", () => {
-  //("JWT: ", jwt);
-  //("Login Status: ", loginStatus);
-  //("Decoded Payload: ", decodedPayload);
-  //("로그인회원 기본키 userId =  ", userId);
   if (loginStatus === "true" && jwt != null) {
     return;
   }
@@ -175,10 +171,8 @@ async function receiveLetter() {
       });
 
       const { result, randomWorryList, message } = res.data;
-      //(result);
       if (result) {
         const title = document.querySelector(".replyTitle");
-        //("title", title);
         const msg = document.querySelector(".replyMessage");
         title.value = randomWorryList[0].title;
         msg.value = randomWorryList[0].senderContent;
@@ -206,7 +200,6 @@ async function sendContent() {
   const form = document.forms["form-letter"];
   const title = form.title.value;
   const senderContent = form.message.value;
-  // const token = localStorage.getItem("token");
 
   if (title.trim() === "" || senderContent.trim() === "") {
     alert("제목과 내용을 작성해주세요!");
@@ -248,8 +241,6 @@ async function submitReply() {
   const form = document.forms["form-reply"];
   const comment = form.comment.value;
   const getId = document.getElementById("getId").value;
-  //(getId);
-  // const token = localStorage.getItem("token");
 
   if (comment.trim() === "") {
     alert("답장을 입력해주세요!!");
@@ -319,8 +310,6 @@ async function loginFn() {
 
     const { token, result, message } = res.data;
     if (result) {
-      // localStorage에 저장
-      // localStorage.setItem("token", token);
       alert("로그인 성공!");
       closeModal(modal);
       document.location.href = "/";

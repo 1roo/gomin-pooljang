@@ -5,19 +5,15 @@ const { where } = require("sequelize");
 const { myAnswerList } = require("./CWorryList");
 const SALT = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
-//(User);
 
 /* '/' GET **/
 exports.main = (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
 
-  //("jwt: ", jwt);
-  //("loginStatus: ", loginStatus);
   if (jwt) {
     const payload = jwt.split(".")[1];
     const decodedPayload = atob(payload);
-    //("decodedPayload = ", decodedPayload);
     const decodedPayload2 = JSON.parse(atob(payload));
     const userId = decodedPayload2.id;
     res.render("index", { jwt, loginStatus, decodedPayload, userId });
@@ -35,8 +31,6 @@ exports.mypage2 = async (req, res) => {
   try {
     const jwt = req.cookies.jwtToken;
     const loginStatus = req.cookies.loginStatus;
-    //("mypage 에서 jwt = ", jwt);
-    //("mypage 에서 loginStatus: ", loginStatus);
     const payload = jwt.split(".")[1];
     const decodedPayload = atob(payload);
     let { userId, currentPage, tab } = req.body;
@@ -44,8 +38,6 @@ exports.mypage2 = async (req, res) => {
 
     if (tab === "myAnswerList") {
       let limit = 6;
-      //("userId===", userId);
-      //("currentPage===", currentPage);
       currentPage = parseInt(currentPage);
 
       const totalMyAnswerList = await WorryList.findAll({
@@ -53,9 +45,7 @@ exports.mypage2 = async (req, res) => {
         order: [["Id", "DESC"]],
       });
 
-      //("totalMyAnswerList===", totalMyAnswerList.length);
       let total = Math.ceil(totalMyAnswerList.length / limit);
-      //("total===", total);
 
       if (totalMyAnswerList.length == 0 || total == 1) {
         let startPage = 1;
@@ -100,19 +90,15 @@ exports.mypage2 = async (req, res) => {
         let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
         let endPage;
         if (total < 7) {
-          //("첫번째");
           endPage = total;
         }
         if (startPage < total) {
-          //("두번째");
           endPage = startPage + 6;
         }
         if (startPage + 6 > total) {
-          //("세번째");
           endPage = total;
         }
-        //("startPage===", startPage);
-        //("endPage===", endPage);
+
         res.render("mypageAnswer", {
           result: true,
           jwt,
@@ -132,8 +118,6 @@ exports.mypage2 = async (req, res) => {
 
     if (tab === "myWorryList") {
       let limit = 6;
-      //("userId===", userId);
-      //("currentPage===", currentPage);
       currentPage = parseInt(currentPage);
 
       const totalMyWorryList = await WorryList.findAll({
@@ -141,9 +125,7 @@ exports.mypage2 = async (req, res) => {
         order: [["Id", "DESC"]],
       });
 
-      //("totalMyWorryList===", totalMyWorryList.length);
       let total = Math.ceil(totalMyWorryList.length / limit);
-      //("total===", total);
 
       if (totalMyWorryList.length == 0 || total == 1) {
         let startPage = 1;
@@ -188,19 +170,14 @@ exports.mypage2 = async (req, res) => {
         let startPage = Math.floor((currentPage - 1) / 7) * 7 + 1;
         let endPage;
         if (total < 7) {
-          //("첫번째");
           endPage = total;
         }
         if (startPage < total) {
-          //("두번째");
           endPage = startPage + 6;
         }
         if (startPage + 6 > total) {
-          //("세번째");
           endPage = total;
         }
-        //("startPage===", startPage);
-        //("endPage===", endPage);
         res.render("mypage", {
           result: true,
           jwt,
@@ -224,11 +201,8 @@ exports.mypage2 = async (req, res) => {
 exports.mypage = async (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
-  //("mypage 에서 jwt = ", jwt);
-  //("mypage 에서 loginStatus: ", loginStatus);
   const payload = jwt.split(".")[1];
   const decodedPayload = atob(payload);
-  //("decodedPayload = ", decodedPayload);
   const decodedPayload2 = JSON.parse(atob(payload));
   const userId = decodedPayload2.id;
 
@@ -281,18 +255,13 @@ exports.mypage = async (req, res) => {
 exports.userReceviedMsg = async (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
-  //("jwt: ", jwt);
-  //("loginStatus: ", loginStatus);
 
   const payload = jwt.split(".")[1];
   const decodedPayload = atob(payload);
-  //("decodedPayload = ", decodedPayload);
   const decodedPayload2 = JSON.parse(atob(payload));
   const userId = decodedPayload2.id;
 
   const { Id } = req.body;
-  //("내가 답장한 고민 Id: ", Id);
-  //("userId 값은? = ", userId);
   const myAnswerList = await WorryList.findOne({
     where: {
       Id,
@@ -303,8 +272,6 @@ exports.userReceviedMsg = async (req, res) => {
       userId,
     },
   });
-  //("myAnswerList: ", myAnswerList);
-  //("user: ", user);
 
   res.render("myAnswerList", {
     myAnswerList,
@@ -319,18 +286,13 @@ exports.userReceviedMsg = async (req, res) => {
 exports.userSendedMsg = async (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
-  //("jwt: ", jwt);
-  //("loginStatus: ", loginStatus);
 
   const payload = jwt.split(".")[1];
   const decodedPayload = atob(payload);
-  //("decodedPayload = ", decodedPayload);
   const decodedPayload2 = JSON.parse(atob(payload));
   const userId = decodedPayload2.id;
 
   const { Id } = req.body;
-  //("나의 고민리스트 Id: ", Id);
-  //("userId 값은? = ", userId);
   const myWorryList = await WorryList.findOne({
     where: {
       Id,
@@ -342,9 +304,6 @@ exports.userSendedMsg = async (req, res) => {
       userId,
     },
   });
-
-  //("myWorryList: ", myWorryList);
-  //("user: ", user);
 
   res.render("myWorryList", {
     myWorryList,
@@ -361,12 +320,9 @@ exports.index = (req, res) => {
   const jwt = req.cookies.jwtToken;
   const loginStatus = req.cookies.loginStatus;
 
-  //("jwt: ", jwt);
-  //("loginStatus: ", loginStatus);
   if (jwt) {
     const payload = jwt.split(".")[1];
     const decodedPayload = atob(payload);
-    //("decodedPayload = ", decodedPayload);
     const decodedPayload2 = JSON.parse(atob(payload));
     const userId = decodedPayload2.id;
     res.render("index copy", { jwt, loginStatus, decodedPayload, userId });
@@ -421,7 +377,6 @@ exports.testUserCreate = async (req, res) => {
       message: "회원가입 10명 성공",
     });
   } catch (error) {
-    //("post /regist100 error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -481,7 +436,6 @@ exports.registUser = async (req, res) => {
       message: "회원가입 성공",
     });
   } catch (error) {
-    //("post /regist error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -492,15 +446,11 @@ exports.loginUser2 = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ where: { email: email } });
 
-    //("user: ", user);
-    //("Request Body:", req.body);
-
     if (user === null) {
       return res.send({ result: false, message: "이메일이 틀렸습니다" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-      //("isMatch 조건문 안");
       const token = jwt.sign(
         { id: user.userId, email: user.email },
         SECRET_KEY,
@@ -524,7 +474,6 @@ exports.loginUser2 = async (req, res) => {
       });
     }
   } catch (error) {
-    //("post /login error", error);
     res.send({ result: false, message: "서버에러" });
   }
 };
@@ -538,8 +487,6 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email: email } });
-    //("user: ", user);
-    //("Request Body:", req.body);
 
     if (!user) {
       return res.send({ result: false, message: "invalid_email" });
@@ -570,7 +517,6 @@ exports.loginUser = async (req, res) => {
       return res.send({ result: false, message: "invalid_password" });
     }
   } catch (error) {
-    //("post /login error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -599,7 +545,6 @@ exports.findAccount = async (req, res) => {
 
     res.send({ result: true, message: "정보가 일치합니다" });
   } catch (error) {
-    //("post /find-account error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -650,7 +595,6 @@ exports.changePw = async (req, res) => {
   try {
     const user = await exports.validation(req);
     const newPw = req.body.password;
-    //("New Password:", newPw);
     if (!newPw || newPw.length < 4) {
       return res.send({
         result: false,
@@ -681,7 +625,6 @@ exports.makeNewPw = async (req, res) => {
   //
   try {
     const { password, email } = req.body;
-    //("New Password:", password);
     if (!password || password.length < 4) {
       return res.send({
         result: false,
@@ -704,15 +647,11 @@ exports.makeNewPw = async (req, res) => {
 //고민봉
 exports.logout2 = async (req, res) => {
   try {
-    //("logout2 호출됨");
     const token =
       req.headers.authorization && req.headers.authorization.split(" ")[1];
 
-    //("logut2 token = ", token);
     const jwtCookie = req.cookies.jwtToken;
     const loginStatusCookie = req.cookies.loginStatus;
-    //("jwtCookie: ", jwtCookie);
-    //("loginStatusCookie: ", loginStatusCookie);
 
     res.clearCookie("jwtToken");
     res.clearCookie("loginStatus");
@@ -732,7 +671,6 @@ exports.logout2 = async (req, res) => {
 exports.logout = async (req, res) => {
   try {
     const token = req.cookies.token?.split(" ")[1];
-    // const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
       return res.send({ result: false, message: "토큰이 없습니다." });
@@ -816,86 +754,3 @@ exports.deleteAccount = async (req, res) => {
     });
   }
 };
-
-// /**
-//  * 내가 보낸 고민, 답장 가져오기
-//  * 작성자: 하나래
-//  */
-// exports.sendedMsg = async (req, res) => {
-//   try {
-//     //("sendedMsg 호출됨");
-
-//     const user = await exports.validation(req);
-//     //("user: ", user);
-
-//     if (user) {
-//       const isReplied = await Message.findOne({
-//         attributes: ["repliedOrNot"],
-//         where: { userId: user.userId },
-//       });
-//       let msg = null;
-//       if (isReplied?.repliedOrNot) {
-//         msg = await Message.findOne({
-//           attributes: [
-//             "title",
-//             "content",
-//             "createdAt",
-//             "repliedTitle",
-//             "repliedContent",
-//             "repliedDate",
-//           ],
-//           where: { userId: user.userId },
-//         });
-//       } else {
-//         msg = await Message.findOne({
-//           attributes: ["content", "createdAt"],
-//           where: { userId: user.userId },
-//         });
-//       }
-
-//       res.status(200).send({ result: msg });
-//     }
-//   } catch (error) {
-//     console.error("sended-msg error:", error.message);
-//     res.status(500).send({ result: false, message: "서버 에러" });
-//   }
-// };
-
-// /**
-//  * 내가 받은 고민, 답장 가져오기
-//  * 작성자: 하나래
-//  */
-// exports.receivedMsg = async (req, res) => {
-//   try {
-//     const user = await exports.validation(req);
-//     if (user) {
-//       const isReplied = await Message.findOne({
-//         attributes: ["repliedOrNot"],
-//         where: { receivedUserId: user.userId },
-//       });
-//       let msg = null;
-//       if (isReplied?.repliedOrNot) {
-//         msg = await Message.findOne({
-//           attributes: [
-//             "title",
-//             "content",
-//             "createdAt",
-//             "repliedTitle",
-//             "repliedContent",
-//             "repliedDate",
-//           ],
-//           where: { receivedUserId: user.userId },
-//         });
-//       } else {
-//         msg = await Message.findOne({
-//           attributes: ["content", "createdAt"],
-//           where: { receivedUserId: user.userId },
-//         });
-//       }
-//       res.status(200).send({ result: msg });
-//     }
-//   } catch (error) {
-//     console.error("received-msg error:", error.message);
-//     res.status(500).send({ result: false, message: "서버 에러" });
-//   }
-// };

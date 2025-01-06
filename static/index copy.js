@@ -9,10 +9,6 @@ const userId = dataContainer.getAttribute("data-userId");
 
 /* 첫 접속 시 화면 (로그인 모달) */
 window.addEventListener("load", () => {
-  //("JWT: ", jwt);
-  //("Login Status: ", loginStatus);
-  //("Decoded Payload: ", decodedPayload);
-  //("로그인회원 기본키 userId =  ", userId);
   if (loginStatus === "true") {
     return;
   }
@@ -70,7 +66,6 @@ closeForgetX.addEventListener("click", function () {
 
 async function receiveLetter() {
   try {
-    //("고민듣는 예쁜마음 클릭함");
     // 보내는 편지 폼 숨기기
     const formLetter = document.querySelector('form[name="form-letter"]');
     if (formLetter) {
@@ -102,7 +97,6 @@ async function receiveLetter() {
       `;
       formContainer.appendChild(newReplyForm);
     }
-    //("여기서 jwt 값 확인 = ", jwt);
 
     const config = { headers: { Authorization: `Bearer ${jwt}` } };
     const data = { userId };
@@ -113,8 +107,6 @@ async function receiveLetter() {
       headers: config.headers,
       data: data,
     });
-
-    //("res =정보  ", res.data);
   } catch (error) {}
 }
 
@@ -247,18 +239,11 @@ async function loginFn() {
     });
 
     const { token, result, message } = res.data;
-    //("token = ", token);
-    //("result = ", result);
     if (result) {
       closeModal(modal);
-      //("로그인 성공");
       //토큰 페이로드 값 확인하기
       const payload = token.split(".")[1];
       const decodedPayload = atob(payload);
-      //("decodedPayload = ", decodedPayload);
-
-      // document.querySelector(".modal").style.display = "none";
-      // document.querySelector(".index-container-wrap").style.display = "block";
     }
     if (!result) {
       alert(message);
