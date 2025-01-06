@@ -436,13 +436,6 @@ form .joinBtn {
   margin-bottom: 5px;
 }
 
-/* 로그인 실패 span 태그 */
-form .id_error,
-form .pw_error {
-  color: red;
-  display: none;
-}
-
 /**
  * 회원
  * 가입

@@ -13,8 +13,6 @@ window.addEventListener("load", () => {
     return;
   }
 
-  document.querySelector(".id_error").style.display = "none";
-  document.querySelector(".pw_error").style.display = "none";
   document.querySelector(".toggle2").style.display = "none";
 
   modal.style.display = "flex";
@@ -288,9 +286,6 @@ async function loginFn() {
   const email = form.email.value;
   const password = form.password.value;
 
-  document.querySelector(".id_error").style.display = "none";
-  document.querySelector(".pw_error").style.display = "none";
-
   if (email.trim() === "" || password.trim() === "") {
     alert("이메일, 비밀번호를 모두 입력하셔야 합니다!");
     return;
@@ -314,12 +309,7 @@ async function loginFn() {
       closeModal(modal);
       document.location.href = "/";
     } else {
-      if (message === "invalid_email") {
-        document.querySelector(".id_error").style.display = "inline";
-      } else if (message === "invalid_password") {
-        document.querySelector(".pw_error").style.display = "inline";
-      }
-      form.reset();
+      alert("아이디 또는 비밀번호가 틀렸습니다!");
     }
   } catch (e) {
     console.error("Error login:", e);
