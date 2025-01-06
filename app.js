@@ -4,9 +4,14 @@ const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT;
 const cors = require("cors");
+const favicon = require("serve-favicon");
+const path = require("path");
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
+
+app.use(favicon(path.join(__dirname, "static", "favicon.ico")));
+
 app.use("/static", express.static(__dirname + "/static"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
