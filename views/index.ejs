@@ -52,13 +52,7 @@
                 <span class="pw_error">비밀 번호가 틀렸습니다!</span>
               </label>
               <div class="checkbox-container">
-                <div class="middle">
-                  <input type="checkbox" class="checkbox" />
-                  <span>자동 로그인</span>
-                </div>
-                <button type="button" class="checkbox-container forget">
-                  Forget Password?
-                </button>
+                <button type="button" class="forget">Forget Password?</button>
               </div>
               <button type="button" onclick="loginFn()">로그인</button>
               <div class="flex">
@@ -125,6 +119,9 @@
                 />
               </label>
               <button type="button" onclick="joinFn()">회원 가입</button>
+              <button type="button" class="already" onclick="moveLogin()">
+                로그인
+              </button>
             </form>
           </div>
 

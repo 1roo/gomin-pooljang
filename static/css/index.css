@@ -269,6 +269,7 @@ input:focus {
   color: rgb(18, 214, 228);
   font-size: 15px;
   margin-left: 430px;
+  cursor: pointer;
 }
 
 .pw_container {
@@ -399,6 +400,18 @@ form .joinBtn {
   border: none;
   text-decoration: underline;
   width: 150px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.join .already {
+  width: 250px;
+  height: 40px;
+  border: none;
+  text-align: center;
+  color: gray;
+  background: none;
+  text-decoration: underline;
   font-size: 12px;
   cursor: pointer;
 }

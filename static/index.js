@@ -84,6 +84,12 @@ closeForgetX.addEventListener("click", function () {
   closeModal(forgetPwModal);
 });
 
+const moveLogin = document.querySelector(".already");
+moveLogin.addEventListener("click", function () {
+  document.getElementById("login-screen").style.display = "block";
+  document.getElementById("join-screen").style.display = "none";
+});
+
 /* axios */
 
 /**
