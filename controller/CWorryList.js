@@ -16,17 +16,17 @@ exports.myWorryListPage = async (req, res) => {
   try {
     let { userId, currentPage } = req.body;
     let limit = 6;
-    //console.log("userId===", userId);
-    //console.log("currentPage===", currentPage);
+    //("userId===", userId);
+    //("currentPage===", currentPage);
 
     currentPage = parseInt(currentPage);
 
     const totalMyWorryList = await WorryList.findAll({
       where: { sender_Id: userId },
     });
-    //console.log("totalMyWorryList===", totalMyWorryList.length);
+    //("totalMyWorryList===", totalMyWorryList.length);
     let total = Math.ceil(totalMyWorryList.length / limit);
-    //console.log("total===", total);
+    //("total===", total);
 
     if (totalMyWorryList.length == 0) {
       let startPage = 0;
@@ -40,7 +40,7 @@ exports.myWorryListPage = async (req, res) => {
       return;
     }
     if (total == 1) {
-      //console.log("여여여기기22");
+      //("여여여기기22");
       let startPage = 1;
       let endPage = 1;
       res.send({
@@ -78,7 +78,7 @@ exports.myWorryListPage = async (req, res) => {
 
     res.send({ result: true, myWorryList, startPage, endPage });
   } catch (error) {
-    //console.log("post /myWorryList error", error);
+    //("post /myWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -92,7 +92,7 @@ exports.testCreateWorryList = async (req, res) => {
 
     for (let i = 0; i < 10; i++) {
       let userId = findUserId[i].userId;
-      //console.log("userId 확인 ===", userId);
+      //("userId 확인 ===", userId);
       for (let j = 0; j < 10; j++) {
         const newWorryList = await WorryList.create({
           sender_Id: userId,
@@ -109,7 +109,7 @@ exports.testCreateWorryList = async (req, res) => {
         "성공적으로 10명의 유저 각각 10개씩 총 100개 고민 등록되었습니다.",
     });
   } catch (error) {
-    //console.log("post /addWorryList100 error", error);
+    //("post /addWorryList100 error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -132,13 +132,13 @@ exports.createWorryList = async (req, res) => {
     const containsBadWord = badwords.some((word) =>
       senderContent.includes(word)
     );
-    //console.log("containsBadWord===", containsBadWord);
+    //("containsBadWord===", containsBadWord);
     if (containsBadWord) {
       senderSwearWord = "Y";
     } else {
       senderSwearWord = "N";
     }
-    //console.log("senderSwearWord===", senderSwearWord);
+    //("senderSwearWord===", senderSwearWord);
     const newWorryList = await WorryList.create({
       sender_Id: userId,
       title,
@@ -147,7 +147,7 @@ exports.createWorryList = async (req, res) => {
     });
     res.send({ result: true, message: "성공적으로 고민이 등록되었습니다." });
   } catch (error) {
-    //console.log("post /addWorryList error", error);
+    //("post /addWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -163,9 +163,9 @@ exports.answerWorryList = async (req, res) => {
     //같은고민을 2명이 답변하고있는경우 마지막으로 답변한사람꺼로 덮어쓰기가 됨.. 답변등록시
     //답변된건지 아닌지 조회를 먼저하고 답변이 된거면 예외처리로 이미답변됫다고 해야함
     const findWorryList = await WorryList.findOne({ where: { Id } });
-    console.log("findWorryList길이확인 ==", findWorryList.length);
+    "findWorryList길이확인 ==", findWorryList.length;
     if (findWorryList.responder_Id != null) {
-      console.log("이미 답변 됬");
+      ("이미 답변 됬");
       res.send({ result: false, message: "이미 답변된 고민입니다." });
       return;
     }
@@ -182,7 +182,7 @@ exports.answerWorryList = async (req, res) => {
     const containsBadWord = badwords.some((word) =>
       responderContent.includes(word)
     );
-    //console.log("containsBadWord===", containsBadWord);
+    //("containsBadWord===", containsBadWord);
     if (containsBadWord) {
       responderSwearWord = "Y";
     } else {
@@ -202,7 +202,7 @@ exports.answerWorryList = async (req, res) => {
 
     res.send({ result: true, message: "성공적으로 답변을 했습니다." });
   } catch (error) {
-    //console.log("post /addAnswer error", error);
+    //("post /addAnswer error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -229,7 +229,7 @@ exports.myAnswerListContent = async (req, res) => {
     });
     res.send({ result: true, myAnswerListContent });
   } catch (error) {
-    //console.log("post /myAnswerList/content error", error);
+    //("post /myAnswerList/content error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -245,8 +245,8 @@ exports.updateTempRateresponder = async (req, res) => {
     // 4: +0.1
     // 5: +0.2
     const { Id, tempScore } = req.body;
-    //console.log("updateTemp에서 Id 값 = ", Id);
-    //console.log("updateTemp에서 tempScore 값 = ", tempScore);
+    //("updateTemp에서 Id 값 = ", Id);
+    //("updateTemp에서 tempScore 값 = ", tempScore);
     let calulateTempScore = parseFloat(tempScore);
     if (calulateTempScore == 1) {
       calulateTempScore = -0.2;
@@ -264,10 +264,10 @@ exports.updateTempRateresponder = async (req, res) => {
       calulateTempScore = 0.2;
     }
 
-    //console.log("calulateTempScore===", calulateTempScore);
+    //("calulateTempScore===", calulateTempScore);
     const findWorryList = await WorryList.findOne({ where: { Id } });
 
-    //console.log("findWorryList===222", findWorryList);
+    //("findWorryList===222", findWorryList);
     if (findWorryList.checkReviewScore == "Y") {
       res.send({ result: false, message: "이미 평가한 고민입니다." });
       return;
@@ -288,7 +288,7 @@ exports.updateTempRateresponder = async (req, res) => {
 
     res.send({ result: true, message: "성공적으로 평가했습니다." });
   } catch (error) {
-    //console.log("patch /updateTempRateresponder error", error);
+    //("patch /updateTempRateresponder error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -318,7 +318,7 @@ exports.myWorryListContent = async (req, res) => {
     });
     res.send({ result: true, myWorryListContent });
   } catch (error) {
-    //console.log("post /myWorryList/content error", error);
+    //("post /myWorryList/content error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -345,7 +345,7 @@ exports.myWorryList = async (req, res) => {
     });
     res.send({ result: true, myWorryList });
   } catch (error) {
-    //console.log("post /myWorryList error", error);
+    //("post /myWorryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -371,10 +371,10 @@ exports.myAnswerList = async (req, res) => {
       where: { responder_Id: userId },
     });
 
-    //console.log("myAnswerList===", myAnswerList);
+    //("myAnswerList===", myAnswerList);
     res.send({ result: true, myAnswerList });
   } catch (error) {
-    //console.log("post /myAnswerList error", error);
+    //("post /myAnswerList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };
@@ -384,8 +384,8 @@ exports.findAllWorryList = async (req, res) => {
       req.headers.authorization && req.headers.authorization.split(" ")[1];
     const { userId } = req.body;
 
-    //console.log("백엔드에서 userId===", userId);
-    //console.log("백엔드에서 token===", token);
+    //("백엔드에서 userId===", userId);
+    //("백엔드에서 token===", token);
 
     // 최근 50개 조회 (내가 쓴 글 제외 답변이 달린글 제외 읽었던 고민 제외)
     const findAllWorryList = await sequelize.query(
@@ -414,10 +414,10 @@ exports.findAllWorryList = async (req, res) => {
 
     let randomWorryList = [];
     let randomIndex = Math.floor(Math.random() * findAllWorryList.length);
-    console.log("randomIndex====", randomIndex);
+    "randomIndex====", randomIndex;
     randomWorryList.push(findAllWorryList[randomIndex]);
-    console.log("randomWorryList", randomWorryList[0]);
-    console.log("randomWorryList", randomWorryList[0].Id);
+    "randomWorryList", randomWorryList[0];
+    "randomWorryList", randomWorryList[0].Id;
 
     //고민을 읽었다면 readlist에 추가해야함
     const newReadList = await ReadList.create({
@@ -427,7 +427,7 @@ exports.findAllWorryList = async (req, res) => {
 
     res.send({ result: true, randomWorryList });
   } catch (error) {
-    //console.log("get /worryList error", error);
+    //("get /worryList error", error);
     res.status(500).send({ message: "서버 에러" });
   }
 };

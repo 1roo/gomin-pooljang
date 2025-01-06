@@ -28,9 +28,9 @@ app.get("*", (req, res) => {
 });
 
 db.sequelize.sync({ force: false, alter: false }).then((result) => {
-  //console.log("DB연결 성공");
-  //console.log("------------------------------");
+  //("DB연결 성공");
+  //("------------------------------");
   app.listen(PORT, () => {
-    //console.log(`http://localhost:${PORT}`);
+    //(`http://localhost:${PORT}`);
   });
 });

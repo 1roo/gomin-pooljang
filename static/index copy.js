@@ -9,10 +9,10 @@ const userId = dataContainer.getAttribute("data-userId");
 
 /* 첫 접속 시 화면 (로그인 모달) */
 window.addEventListener("load", () => {
-  //console.log("JWT: ", jwt);
-  //console.log("Login Status: ", loginStatus);
-  //console.log("Decoded Payload: ", decodedPayload);
-  //console.log("로그인회원 기본키 userId =  ", userId);
+  //("JWT: ", jwt);
+  //("Login Status: ", loginStatus);
+  //("Decoded Payload: ", decodedPayload);
+  //("로그인회원 기본키 userId =  ", userId);
   if (loginStatus === "true") {
     return;
   }
@@ -70,7 +70,7 @@ closeForgetX.addEventListener("click", function () {
 
 async function receiveLetter() {
   try {
-    //console.log("고민듣는 예쁜마음 클릭함");
+    //("고민듣는 예쁜마음 클릭함");
     // 보내는 편지 폼 숨기기
     const formLetter = document.querySelector('form[name="form-letter"]');
     if (formLetter) {
@@ -102,7 +102,7 @@ async function receiveLetter() {
       `;
       formContainer.appendChild(newReplyForm);
     }
-    //console.log("여기서 jwt 값 확인 = ", jwt);
+    //("여기서 jwt 값 확인 = ", jwt);
 
     const config = { headers: { Authorization: `Bearer ${jwt}` } };
     const data = { userId };
@@ -114,7 +114,7 @@ async function receiveLetter() {
       data: data,
     });
 
-    //console.log("res =정보  ", res.data);
+    //("res =정보  ", res.data);
   } catch (error) {}
 }
 
@@ -247,15 +247,15 @@ async function loginFn() {
     });
 
     const { token, result, message } = res.data;
-    //console.log("token = ", token);
-    //console.log("result = ", result);
+    //("token = ", token);
+    //("result = ", result);
     if (result) {
       closeModal(modal);
-      //console.log("로그인 성공");
+      //("로그인 성공");
       //토큰 페이로드 값 확인하기
       const payload = token.split(".")[1];
       const decodedPayload = atob(payload);
-      //console.log("decodedPayload = ", decodedPayload);
+      //("decodedPayload = ", decodedPayload);
 
       // document.querySelector(".modal").style.display = "none";
       // document.querySelector(".index-container-wrap").style.display = "block";

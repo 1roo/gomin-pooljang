@@ -190,7 +190,7 @@
           return;
         }
         if (startPage + 6 < total) {
-          //console.log("여깅ㅇㅇ");
+          //("여깅ㅇㅇ");
           const form = document.createElement("form");
           form.method = "POST";
           form.action = "/mypage";
@@ -351,7 +351,7 @@
           alert("마지막 페이지입니다.");
           return;
         }
-        //console.log("현제 토탈 값은 =", total);
+        //("현제 토탈 값은 =", total);
         const form = document.createElement("form");
         form.method = "POST";
         form.action = "/mypage";
@@ -406,7 +406,7 @@
       }
 
       function toggleTab(button, tabSelector) {
-        //console.log("현재 페이지 = ", "<%=currentPage %>");
+        //("현재 페이지 = ", "<%=currentPage %>");
         document.querySelectorAll(".tab, .tab-2").forEach((tab) => {
           tab.style.display = "none";
         });
@@ -420,7 +420,7 @@
         button.style.animation = null;
 
         if (button.className.includes("tab_receive_btn")) {
-          //console.log("여기");
+          //("여기");
           const form = document.createElement("form");
           form.method = "POST";
           form.action = "/mypage";
