@@ -50,6 +50,5 @@ db.WorryList = WorryListModel;
 db.ReadList = ReadListModel;
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-//(db.Message);
 
 module.exports = db;
