@@ -15,7 +15,9 @@
 <hr>
 <br>
 
+
 ## 🍀 기술 스택 분류
+![gomin-pooljang](/static/images/readme/3.png)
 
 ### 📚 1. 프론트엔드 (Frontend)
 
