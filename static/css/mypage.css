@@ -94,7 +94,7 @@ body {
   background: linear-gradient(
     90deg,
     rgba(189, 240, 249, 0) 0%,
-    rgba(189, 240, 249, 1) 50%,
+    rgb(255, 255, 255) 50%,
     rgba(189, 240, 249, 0) 100%
   );
   opacity: 0;
@@ -151,12 +151,12 @@ body {
 }
 .send-gomin-list-col-1:hover {
   cursor: pointer;
-  color: red;
+  color: #add5d8;
 }
 
 .receive-gomin-list-col-1:hover {
   cursor: pointer;
-  color: red;
+  color: #add5d8;
 }
 
 .send-gomin-list-col-1,
