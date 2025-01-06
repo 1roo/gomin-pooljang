@@ -1,6 +1,6 @@
 ## 🙌 안녕하세요. 고민POOLJANG입니다!
 
-![gomin-pooljang](/static/readme/1.png)  
+![gomin-pooljang](/static/images/readme/1.png)  
 <br>
 
 <hr>
@@ -8,7 +8,7 @@
 
 ## ❓ 고민POOLJANG이 뭐예요?
 
-![gomin-pooljang](/static/readme/2.png)
+![gomin-pooljang](/static/images/readme/2.png)
 
 - 📆 개발 기간: 2024.12.13 ~ 2024.12.30 (약 2주)
 <br>
