@@ -54,30 +54,13 @@ function closeModal(modalToClose) {
   modalToClose.style.display = "none";
 }
 
-// 로그인 모달 닫기 버튼
-const closeBtn = document.querySelector(".closeBtn");
-closeBtn.addEventListener("click", function () {
-  closeModal(modal);
-});
-
 // 비밀번호 찾기 모달 닫기 버튼
 const closePwBtn = document.querySelector(".closeBtn-pw");
 closePwBtn.addEventListener("click", function () {
   closeModal(forgetPwModal);
 });
 
-// 로그인 모달 닫기 (X)
-const closeX = document.querySelector(".modal_body .closeX");
-closeX.addEventListener("click", function () {
-  closeModal(modal);
-});
-
-// 비밀번호 찾기 모달 닫기 (X)
-const closeForgetX = document.querySelector(".forgot-pw-modal .closeX");
-closeForgetX.addEventListener("click", function () {
-  closeModal(forgetPwModal);
-});
-
+// 회원가입 -> 로그인
 const moveLogin = document.querySelector(".already");
 moveLogin.addEventListener("click", function () {
   document.getElementById("login-screen").style.display = "block";
